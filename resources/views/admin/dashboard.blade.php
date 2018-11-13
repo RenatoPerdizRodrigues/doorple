@@ -7,10 +7,10 @@
     <title>Document</title>
 </head>
 <body>
-    @if(Auth::guard('web')->check())
-        <p>Usuário está logado</p>
+    @if(Auth::guard('admin')->check())
+        <p>Admin está logado</p>
     @else
-        <p>Usuário não está logado</p>
+        <p>Admin não está logado</p>
     @endif
 </body>
 </html>
