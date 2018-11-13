@@ -25,6 +25,13 @@ Route::prefix('admin')->group(function(){
     Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
     Route::get('/logout', 'Auth\AdminLoginController@adminLogout')->name('admin.logout');
     Route::get('/', 'AdminController@getIndex')->name('admin.dashboard');
+
+    //Rotas para envio de e-mail de resetar a senha de administrador
+    Route::get('/password/reset', 'Auth\AdminForgotPasswordController@showLinkRequestForm')->name('admin.password.request');
+    Route::post('/password/email', 'Auth\AdminForgotPasswordController@sendResetLinkEmail')->name('admin.password.email');
+    //Rotas para a troca efetiva da senha de administrador
+    Route::get('/password/reset/{token}', 'Auth\AdminResetPasswordController@showResetForm')->name('admin.password.reset');
+    Route::post('/password/reset', 'Auth\AdminResetPasswordController@reset')->name('admin.password.update');
 });
 
 Route::get('/home', 'HomeController@index')->name('home');

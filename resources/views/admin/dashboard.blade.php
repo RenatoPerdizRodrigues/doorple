@@ -1,16 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
+<!-- Pàgina principal de administrador, a ser construída -->
+
+@extends('main')
+
+@section('title', '| Página Principal de Usuário')
+
+@section('content')
+    <h3>Bem-vindo, administrador</h3>
     @if(Auth::guard('admin')->check())
         <p>Admin está logado</p>
     @else
         <p>Admin não está logado</p>
     @endif
-</body>
-</html>
+    <a href="{{route('admin.logout')}}">Logout</a>
+@stop
