@@ -1,6 +1,6 @@
 @extends('main')
 
-@section('title', '| Login de Usuário')
+@section('title', '| Login de Administrador')
 
 @section('content')
     <h3>Login de Administrador</h3>

@@ -11,5 +11,10 @@
     @else
         <p>Admin não está logado</p>
     @endif
+    @if(empty($config[0]))
+        <p>Você tem configurações a fazer</p>
+    @else
+        <p>Seu sistema já está configurado!</p>
+    @endif
     <a href="{{route('admin.logout')}}">Logout</a>
 @stop

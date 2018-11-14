@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController@main')->name('main');
 
 //Rotas de autenticação de usuário
 Auth::routes();
@@ -32,6 +30,14 @@ Route::prefix('admin')->group(function(){
     //Rotas para a troca efetiva da senha de administrador
     Route::get('/password/reset/{token}', 'Auth\AdminResetPasswordController@showResetForm')->name('admin.password.reset');
     Route::post('/password/reset', 'Auth\AdminResetPasswordController@reset')->name('admin.password.update');
+
+    //Rotas para configuração do sistema
+    Route::get('/config', 'ConfigController@index')->name('admin.config');
+    Route::post('/config', 'ConfigController@startConfig')->name('admin.config.submit');
+    Route::get('/config/ap', 'ConfigController@apIndex')->name('admin.config.ap');
+    Route::get('/config/ap/2', 'ConfigController@apDetail')->name('admin.config.ap.detail');
+    Route::get('/config/ap/3', 'ConfigController@apDetail2')->name('admin.config.ap.detail2');
+    Route::post('/config/ap', 'ConfigController@finishConfig')->name('admin.config.finish');
 });
 
 Route::get('/home', 'HomeController@index')->name('home');

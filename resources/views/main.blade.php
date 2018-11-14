@@ -9,5 +9,6 @@
     <div class="wrapper">
         @yield('content')
     </div>
+    <a href="{{route('main')}}">Voltar à página inicial</a>
 </body>
 </html>
