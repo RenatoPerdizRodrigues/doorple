@@ -6,11 +6,6 @@ use App\Apartamento;
 
 class ConfigTablesSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
         //Insere 30 apartamentos, divididos em 5 blocos de 6 apartamentos

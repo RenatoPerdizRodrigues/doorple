@@ -6,11 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateApartamentosTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+    //Migration que cria a tabela de apartamentos
     public function up()
     {
         Schema::create('apartamentos', function (Blueprint $table) {
@@ -20,11 +16,6 @@ class CreateApartamentosTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('apartamentos');

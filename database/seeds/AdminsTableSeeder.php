@@ -5,11 +5,6 @@ use App\Admin;
 
 class AdminsTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
         //Insere um usuário administrador no banco de dados
