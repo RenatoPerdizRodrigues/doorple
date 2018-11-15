@@ -18,6 +18,6 @@
     @endif
 
     <a href="{{route('adm.create')}}">Criar Admin</a><br>
-    <a href="{{route('adm.search')}}">Consultar Admin</a><br>
+    <a href="{{route('adm.index')}}">Consultar Admin</a><br>
     <a href="{{route('admin.logout')}}">Logout</a>
 @stop

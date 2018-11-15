@@ -53,6 +53,7 @@ class Handler extends ExceptionHandler
         return parent::render($request, $exception);
     }
 
+    //Sobrescrição da função de redirecionamento para usuários não autenticados, para a tela de login correta
     public function unauthenticated($request, AuthenticationException $exception){
         //Checa qual guard fez a request de login
         $guard = array_get($exception->guards(), 0);

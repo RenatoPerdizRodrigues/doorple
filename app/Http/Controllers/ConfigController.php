@@ -10,7 +10,7 @@ class ConfigController extends Controller
 {
     //Retorna a view do formulário de configuração inicial
     public function index(){
-        return view('admin.config');
+        return view('admin.configuration.config');
     }
 
     //Valida e insere dados de configuração inicial
@@ -36,17 +36,17 @@ class ConfigController extends Controller
 
     //Retorna a view do formulário de configuração de apartamentos
     public function apIndex(){
-        return view('admin.config-ap');
+        return view('admin.configuration.config-ap');
     }
 
     //Retorna a view do formulário de configuração de apartamento, com o get passado
     public function apDetail(){
-        return view('admin.config-ap-2');
+        return view('admin.configuration.config-ap-2');
     }
 
         //Retorna a visualização dos apartamentos
         public function apDetail2(){
-            return view('admin.config-ap-3');
+            return view('admin.configuration.config-ap-3');
         }
 
     //Valida dados de configuração final
@@ -68,6 +68,11 @@ class ConfigController extends Controller
                 'apartamento' => $apartamento
             ]);
         }
+
+        //Método que salva o booleano de configuração como true
+            $config = Config::all();
+            $config[0]->configured = 1;
+            $config[0]->save();
         
         return redirect()->route('admin.dashboard');
     }

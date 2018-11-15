@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+//Modelo de Usuários, da tabela users
 class User extends Authenticatable
 {
     use Notifiable;

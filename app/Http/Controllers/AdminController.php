@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Config;
 use App\Admin;
+use Hash;
 
+//Classe de acesso à página inicial do administrador, assim como as funções de CRUD de criação de um novo admin
 class AdminController extends Controller
 {
     //Construct que permite acesso apenas a administradores logados
@@ -13,13 +15,19 @@ class AdminController extends Controller
         $this->middleware('auth:admin');
     }
 
-    //Função de acesso ao index do administrador
-    public function index(){
+    //Função de acesso a view inicial do administrador
+    public function home(){
         $config = Config::select('configured')->get();
         if (empty($config[0])){
-            return view('admin.config');
+            return view('admin.configuration.config');
         }
         return view('admin.dashboard')->withConfig($config);
+    }
+
+    //Função de acesso ao index de todos os admins cadastrados
+    public function index(){
+        $admins = Admin::all();
+        return view('admin.admin-creation.search')->withAdmins($admins);
     }
 
     //Mostra o formulário de criação de novos administradores
@@ -28,33 +36,25 @@ class AdminController extends Controller
         return view('admin.admin-creation.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    //Salva o novo admin no banco de dados
     public function store(Request $request)
     {
+        //Validação de dados do formulário
         $this->validate($request, array(
-            'name' => 'required|min:6|max:35',
+            'name' => 'required|min:3|max:35',
             'email' => 'required|email',
             'password' => 'required|min:6'
         ));
 
+        //Criação do modelo e salvamento das mudanças
         $admin = new Admin();
         $admin->name = $request->name;
         $admin->email = $request->email;
-        $admin->password = $request->password;
+        $admin->password = Hash::make($request->password);
         $admin->save();
 
+        //Redirecionamento
         return redirect()->route('admin.dashboard');
-    }
-
-    //Mostra o formulário de busca de admin
-    public function showSearchForm(){
-        $admins = Admin::all();
-        return view('admin.admin-creation.search')->withAdmins($admins);
     }
 
     //Busca um admin e redireciona para a página de show
@@ -64,37 +64,21 @@ class AdminController extends Controller
         return redirect()->route('adm.show', $admin[0]->id);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    //Mostra um admin
     public function show($id)
     {
         $admin = Admin::find($id);
         return view('admin.admin-creation.show')->withAdmin($admin);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    //Mostra formulário de edição
     public function edit($id)
     {
         $admin = Admin::find($id);
         return view('admin.admin-creation.edit')->withAdmin($admin);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    //Salva as alterações da edição
     public function update(Request $request, $id)
     {
         $admin = Admin::find($id);
@@ -118,12 +102,7 @@ class AdminController extends Controller
         return view('admin.admin-creation.delete')->withAdmin($admin);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    //Deleta o admin
     public function destroy($id)
     {
         $admin = Admin::find($id);

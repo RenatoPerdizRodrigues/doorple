@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+//Controller de páginas de usuário logado, a alterar
 class HomeController extends Controller
 {
     /**
