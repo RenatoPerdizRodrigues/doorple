@@ -65,5 +65,14 @@ Route::prefix('admin')->group(function(){
     Route::get('/morador/delete/{id}', 'MoradorController@delete')->name('morador.delete');
     //Rotas para criação de novos moradores
     Route::resource('morador', 'MoradorController');
+
+    //Rota para função de pesquisa que mostra um veículo de morador específico
+    Route::post('/veiculo_morador/search', 'Veiculo_MoradorController@search')->name('veiculo_morador.search.submit');
+    //Rota para a visualização do formulário de exclusão do veículo de morador
+    Route::get('/veiculo_morador/delete/{id}', 'Veiculo_MoradorController@delete')->name('veiculo_morador.delete');
+    //Rota para a criação de um veículo atrelado a um ID de morador
+    Route::get('/veiculo_morador/create/{id}', 'Veiculo_MoradorController@create')->name('veiculo_morador.create');
+    //Rotas para criação de novos veículos de moradores
+    Route::resource('veiculo_morador', 'Veiculo_MoradorController')->except(['create']);
     
 });
