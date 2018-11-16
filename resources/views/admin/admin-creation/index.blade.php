@@ -1,6 +1,6 @@
 @extends('main')
 
-@section('title', '| Cadastro de Administrador')
+@section('title', '| Index de Administrador')
 
 @section('content')
 <h3>Encontre um Admin</h3>

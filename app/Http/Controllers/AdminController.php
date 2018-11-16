@@ -27,7 +27,7 @@ class AdminController extends Controller
     //Função de acesso ao index de todos os admins cadastrados
     public function index(){
         $admins = Admin::all();
-        return view('admin.admin-creation.search')->withAdmins($admins);
+        return view('admin.admin-creation.index')->withAdmins($admins);
     }
 
     //Mostra o formulário de criação de novos administradores
@@ -84,14 +84,18 @@ class AdminController extends Controller
         $admin = Admin::find($id);
 
         $this->validate($request, array(
-            'name' => 'required|min:6|max:35',
+            'name' => 'required|min:5|max:35',
             'email' => 'required|email',
-            'password' => 'required|min:6'
+            'password' => 'nullable|min:6|same:password-confirmation',
+            'password-confirmation' => 'nullable|min:6|same:password'
         ));
 
         $admin->name = $request->name;
+        //Verifica se a senha foi alterada
         $admin->email = $request->email;
-        $admin->password = $request->password;
+        if (!empty($admin->password)){
+            $admin->password = Hash::make($request->password);
+        }
         $admin->save();
 
         return redirect()->route('admin.dashboard');

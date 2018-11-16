@@ -1,20 +1,19 @@
 @extends('main')
 
-@section('title', '| Edição de Administrador')
+@section('title', '| Cadastro de Usuário')
 
 @section('content')
-<h3>Edite um Administrador</h3>
-    <form method="POST" action="{{ route('adm.update', $admin->id) }}">
+<h3>Cadastre um novo Usuário</h3>
+    <form method="POST" action="{{ route('usr.store') }}">
         @csrf
         <label>Nome</label>
-        <input type="text" name="name" value="{{$admin->name}}"><br>
+        <input type="text" name="name"><br>
         <label>Email</label>
-        <input type="text" name="email" value="{{$admin->email}}"><br>
+        <input type="text" name="email"><br>
         <label>Senha</label>
         <input type="password" name="password"><br>
         <label>Confirme a senha</label>
         <input type="password" name="password-confirmation"><br>
-        <input hidden type="text" name="_method" value="PUT">
         <input type="submit" value="Cadastrar">
     </form>
 @stop

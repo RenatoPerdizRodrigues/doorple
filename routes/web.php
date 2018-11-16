@@ -50,6 +50,13 @@ Route::prefix('admin')->group(function(){
         Route::get('/adm/delete/{id}', 'AdminController@delete')->name('admin.delete');
         //Rotas gerais do CRUD de admin, através do resource
         Route::resource('/adm', 'AdminController');
+
+        //Rota para função de pesquisa que mostra um admin específico
+        Route::post('/usr/search', 'UserController@search')->name('usr.search.submit');
+        //Rota para a visualização do formulário de exclusão do usuário
+        Route::get('/usr/delete/{id}', 'UserController@delete')->name('usr.delete');
+        //Rotas gerais do CRUD de usuário, através do resource
+        Route::resource('/usr', 'UserController');
     });
     
 });
