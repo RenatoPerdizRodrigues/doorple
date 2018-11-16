@@ -24,5 +24,7 @@
     <a href="{{route('morador.create')}}">Criar Morador</a><br>
     <a href="{{route('morador.index')}}">Consultar Morador</a><br><br>
     <a href="{{route('veiculo_morador.index')}}">Consultar Veículos</a><br><br>
+    <a href="{{route('admin.config.index')}}">Consultar Apartamentos</a><br>
+    <a href="{{route('admin.config.edit')}}">Editar Configuração</a><br><br>
     <a href="{{route('admin.logout')}}">Logout</a>
 @stop

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Morador extends Model
 {  
-    //Indicação da tabela correta
+    //Indicação damas aí mas aí mas aí  tabela correta
     protected $table = 'moradores';
 
     //Relacionamento one to many com apartamentos

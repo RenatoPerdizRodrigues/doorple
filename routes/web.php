@@ -35,12 +35,15 @@ Route::prefix('admin')->group(function(){
     Route::post('/password/reset', 'Auth\AdminResetPasswordController@reset')->name('admin.password.update');
 
     //Rotas para configuração do sistema
-    Route::get('/config', 'ConfigController@index')->name('admin.config');
+    Route::get('/config/index', 'ConfigController@index')->name('admin.config.index');
+    Route::post('/config/index', 'ConfigController@search')->name('admin.config.search.submit');
+    Route::get('/config', 'ConfigController@config')->name('admin.config');
     Route::post('/config', 'ConfigController@startConfig')->name('admin.config.submit');
     Route::get('/config/ap', 'ConfigController@apIndex')->name('admin.config.ap');
     Route::get('/config/ap/2', 'ConfigController@apDetail')->name('admin.config.ap.detail');
     Route::get('/config/ap/3', 'ConfigController@apDetail2')->name('admin.config.ap.detail2');
     Route::post('/config/ap', 'ConfigController@finishConfig')->name('admin.config.finish');
+    Route::get('/config/edit', 'ConfigController@edit')->name('admin.config.edit');
 
     //Rotas para cadastro de novos administradores, usuários, moradores e veículos
     Route::prefix('register')->group(function(){

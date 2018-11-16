@@ -5,11 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Config;
 use App\Apartamento;
+use App\Morador;
 
 class ConfigController extends Controller
 {
     //Retorna a view do formulário de configuração inicial
     public function index(){
+        $apartamentos = Apartamento::with('moradores')->get();
+        return view('admin.configuration.index')->withApartamentos($apartamentos);
+    }
+
+    public function config(){
         return view('admin.configuration.config');
     }
 
@@ -75,5 +81,12 @@ class ConfigController extends Controller
             $config[0]->save();
         
         return redirect()->route('admin.dashboard');
+    }
+
+    //Função que retorna a edição de configuração e apartamentos
+    public function edit(){
+        $apartamentos = Apartamento::all();
+        $configs = Config::all();
+        return view('admin.configuration.edit')->withApartamentos($apartamentos)->withConfigs($configs);
     }
 }
