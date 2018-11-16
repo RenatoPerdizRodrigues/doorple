@@ -1,0 +1,3 @@
+Requisitos até agora:
+composer require...
+* intervertion/image

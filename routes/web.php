@@ -58,5 +58,12 @@ Route::prefix('admin')->group(function(){
         //Rotas gerais do CRUD de usuário, através do resource
         Route::resource('/usr', 'UserController');
     });
+
+    //Rota para função de pesquisa que mostra um morador específico
+    Route::post('/morador/search', 'MoradorController@search')->name('morador.search.submit');
+    //Rota para a visualização do formulário de exclusão do morador
+    Route::get('/morador/delete/{id}', 'MoradorController@delete')->name('morador.delete');
+    //Rotas para criação de novos moradores
+    Route::resource('morador', 'MoradorController');
     
 });

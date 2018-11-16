@@ -15,11 +15,11 @@ class CreateMoradoresTable extends Migration
     {
         Schema::create('moradores', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nome');
-            $table->string('sobrenome');
+            $table->string('name');
+            $table->string('surname');
             $table->string('rg');
-            $table->string('datanasc');
-            $table->binary('foto');
+            $table->string('birthdate');
+            $table->binary('picture')->nullable();
             $table->integer('apartamento_id')->unsigned()->nullable();
             $table->foreign('apartamento_id')->references('id')->on('apartamentos');
             $table->timestamps();

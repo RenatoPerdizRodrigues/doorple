@@ -15,7 +15,7 @@ class ConfigTablesSeeder extends Seeder
         for ($i = 1; $i <= 5; $i++){
             for ($i2 = 1; $i2 <= 6; $i2++){
                 Apartamento::insert([
-                    'apartamento' => chr($asci)."-".$i2
+                    'apartamento' => chr($ascii)."-".$i2
                 ]);
             }
             //Incrementa o ASCII do prefixo

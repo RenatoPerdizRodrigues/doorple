@@ -21,5 +21,7 @@
     <a href="{{route('adm.index')}}">Consultar Admin</a><br><br>
     <a href="{{route('usr.create')}}">Criar Usuário</a><br>
     <a href="{{route('usr.index')}}">Consultar Usuário</a><br><br>
+    <a href="{{route('morador.create')}}">Criar Morador</a><br>
+    <a href="{{route('morador.index')}}">Consultar Morador</a><br><br>
     <a href="{{route('admin.logout')}}">Logout</a>
 @stop
