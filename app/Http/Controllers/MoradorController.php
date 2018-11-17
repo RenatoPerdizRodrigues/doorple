@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Config;
 use App\Morador;
 use App\Apartamento;
+use App\Bloco;
 use Hash;
 use Image;
 use File;
@@ -27,7 +28,8 @@ class MoradorController extends Controller
     //Mostra o formulário de criação de novos moradores
     public function create()
     {
-        return view('admin.morador-creation.create');
+        $blocos = Bloco::with('apartamentos')->get();
+        return view('admin.morador-creation.create')->withBlocos($blocos);
     }
 
     //Salva o novo morador no banco de dados
@@ -39,7 +41,8 @@ class MoradorController extends Controller
             'surname' => 'required|min:3|max:35',
             'rg' => 'required|min:6',
             'birthdate' => 'required',
-            'ap' => 'exists:apartamentos,apartamento'
+            'ap' => 'exists:apartamentos,apartamento',
+            'bloco' => 'exists:blocos,id'
         ));
 
         //Criação do modelo e salvamento das mudanças
@@ -48,9 +51,10 @@ class MoradorController extends Controller
         $morador->surname = $request->surname;
         $morador->rg = $request->rg;
         $morador->birthdate = $request->birthdate;
+        $morador->bloco_id = $request->bloco;
         
-        //Encontra a id do apartamento
-        $apartamento = Apartamento::where('apartamento', $request->ap)->limit(1)->get();
+        //Encontra a id do apartamento com o bloco correto
+        $apartamento = Apartamento::where([['apartamento', $request->ap], ['bloco_id', $request->bloco]])->limit(1)->get();
         
         //Salva o id no objeto Morador
         $morador->apartamento_id = $apartamento[0]->id;
@@ -88,8 +92,9 @@ class MoradorController extends Controller
     //Mostra formulário de edição
     public function edit($id)
     {
+        $blocos = Bloco::with('apartamentos')->get();
         $morador = Morador::find($id);
-        return view('admin.morador-creation.edit')->withMorador($morador);
+        return view('admin.morador-creation.edit')->withMorador($morador)->withBlocos($blocos);
     }
 
     //Salva as alterações da edição
@@ -103,7 +108,8 @@ class MoradorController extends Controller
             'surname' => 'required|min:3|max:35',
             'rg' => 'required|min:6',
             'birthdate' => 'required',
-            'ap' => 'exists:apartamentos,apartamento'
+            'ap' => 'exists:apartamentos,apartamento',
+            'bloco' => 'exists:blocos,id'
         ));
 
         //Criação do modelo e save das mudanças
@@ -112,9 +118,10 @@ class MoradorController extends Controller
         $morador->surname = $request->surname;
         $morador->rg = $request->rg;
         $morador->birthdate = $request->birthdate;
+        $morador->bloco_id = $request->bloco;
         
-        //Encontra a id do apartamento
-        $apartamento = Apartamento::where('apartamento', $request->ap)->limit(1)->get();
+        //Encontra a id do apartamento com o bloco correto
+        $apartamento = Apartamento::where([['apartamento', $request->ap], ['bloco_id', $request->bloco]])->limit(1)->get();
         
         //Salva o id no objeto Morador
         $morador->apartamento_id = $apartamento[0]->id;

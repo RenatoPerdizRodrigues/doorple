@@ -19,5 +19,7 @@ class CreateApartamentosTable extends Migration
     public function down()
     {
         Schema::dropIfExists('apartamentos');
+        
+        Schema::dropIfExists('blocos');
     }
 }

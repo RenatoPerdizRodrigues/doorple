@@ -11,7 +11,7 @@
         <input type="submit" value="Procurar">
     </form><br><br>
     @foreach($moradores as $morador)
-        <p>{{$morador->name . " ". $morador->surname . "|" . $morador->apartamento->apartamento}}</p>
+        <p>{{$morador->name . " ". $morador->surname . "|" . $morador->bloco->prefix . "-" . $morador->apartamento->apartamento}}</p>
         <p><a href="{{route('morador.show', $morador->id)}}">Visualizar</a></p>
         <p><a href="{{route('veiculo_morador.create', $morador->id)}}">Cadastrar Veículo</a></p>
     @endforeach

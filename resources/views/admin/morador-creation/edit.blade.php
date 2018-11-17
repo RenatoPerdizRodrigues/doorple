@@ -14,8 +14,18 @@
         <input type="text" name="rg" value="{{$morador->rg}}"><br>
         <label>Data de Nascimento</label>
         <input type="date" name="birthdate" value="{{$morador->birthdate}}"><br>
+        <label>Bloco</label>
+        <select name="bloco">
+            @foreach($blocos as $bloco)
+                <option value="{{$bloco->id}}" {{ $morador->bloco_id == $bloco->id ? "selected" : ""}}>{{$bloco->prefix}}</option>
+            @endforeach
+        </select>
         <label>Apartamento</label>
-        <input type="text" name="ap" value="{{$morador->apartamento->apartamento}}"><br>
+        <select name="ap">
+            @foreach($bloco->apartamentos as $apartamento)
+                    <option value="{{$apartamento->apartamento}}" {{ $morador->apartamento->apartamento == $apartamento->apartamento ? "selected" : ""}}>{{$apartamento->apartamento}}</option>
+            @endforeach
+            </select>
         <input type="file" name="picture" ><br>
         <input hidden name="_method" value="PUT">
         <input type="submit" value="Cadastrar">

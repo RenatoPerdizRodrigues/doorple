@@ -6,13 +6,15 @@ use Illuminate\Http\Request;
 use App\Config;
 use App\Apartamento;
 use App\Morador;
+use App\Bloco;
 
 class ConfigController extends Controller
 {
     //Retorna a view do formulário de configuração inicial
     public function index(){
+        $blocos = Bloco::all();
         $apartamentos = Apartamento::with('moradores')->get();
-        return view('admin.configuration.index')->withApartamentos($apartamentos);
+        return view('admin.configuration.index')->withApartamentos($apartamentos)->withBlocos($blocos);
     }
 
     public function config(){
@@ -57,26 +59,36 @@ class ConfigController extends Controller
 
     //Valida dados de configuração final
     public function finishConfig(Request $request){
-        //Array dos apartamentos a serem inseridos
-        $apartamentos = array();
         //Um for que rode para cada bloco
         for ($i = 1; $i <= $request->howmanyblocks; $i++){
+            //Array dos apartamentos a serem inseridos
+            $apartamentos = array();
+
+            //Em cada bloco, insere o nome do prefixo na tabela blocos
+            $bloco = new Bloco();
+            $bloco->prefix = $request['prefix_'.$i];
+            $bloco->save();
+
+            //Recupera o ID do prefixo e bota junto do apartamento
             //Um for para cada apartamento a ser inserido, com o prefixo correto
             for ($i2 = 1; $i2 <= $request->howmanyblock; $i2++){
                 //insere prefix_$i-ap_$i2;
-                $apartamento = $request['prefix_'.$i]."-".$request['ap_'.$i2];
+                $apartamento = $request['ap_'.$i2];
                 array_push($apartamentos, $apartamento);
             }
-        }
-        
-        foreach($apartamentos as $apartamento){
-            Apartamento::create([
-                'apartamento' => $apartamento
-            ]);
+
+            //Insere os apartamentos com o ID de seu bloco
+            foreach($apartamentos as $apartamento){
+                Apartamento::create([
+                    'apartamento' => $apartamento,
+                    'bloco_id' => $bloco->id
+                ]);
+            }
         }
 
         //Método que salva o booleano de configuração como true
             $config = Config::all();
+            $config[0]->howmanyblocks = $request->howmanyblocks;
             $config[0]->configured = 1;
             $config[0]->save();
         
