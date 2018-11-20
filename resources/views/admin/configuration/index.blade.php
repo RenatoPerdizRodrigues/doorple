@@ -16,7 +16,7 @@
                 <p>Apartamento: {{$apartamento->bloco->prefix . "-" . $apartamento->apartamento}}</p>
                 <p>Moradores: </p>
                 @if(count($apartamento->moradores) == 0)
-                    <p>Apartamento {{$apartamento->bloco->prefix . "-" . $apartamento->apartamento}} Vazio</p>
+                    Vazio
                 @else
                     <ul>
                     @foreach($apartamento->moradores as $morador)

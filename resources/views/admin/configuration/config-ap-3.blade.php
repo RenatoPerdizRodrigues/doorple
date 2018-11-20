@@ -2,29 +2,48 @@
 
 @section('title', '| Configuração de Sistema')
 
+@section('js')
+<script>
+
+    function addElement(parentId, elementTag, elementId, html) {
+        // Adds an element to the document
+        var p = document.getElementById(parentId);
+        var newElement = document.createElement(elementTag);
+        newElement.setAttribute('id', elementId);
+        newElement.innerHTML = html;
+        p.appendChild(newElement);
+    }
+        fileId = 0;
+
+        function addFile(i) {
+        fileId++; // increment fileId to get a unique ID for the new element
+        var html = '<input type="text"  name="apartamento_' + i + '[]"><br>';
+        div = "files_" + i;
+        addElement(div, 'p', 'file-' + fileId, html);
+        }
+    
+</script>
+@stop
+
 @section('content')
+<h1>Terminamos de configurar as views das configurações! Agora precisamos trabalhar com o finishConfig para que ele trabalhe com o array de apartamentos!</h1>
     <h3>Conclua a configuração do sistema.</h3>
     <form method="POST" action="{{ route('admin.config.finish') }}">
         @csrf
-        <!-- Recebemos $ap_Y (onde I é $_GET['howmanyblock']), howmanytotal, howmanyblock, prefix, howmanyeachblock -->
-        <!-- Loop para cada bloco -->
-        <?php
-            for ($i = 1; $i <= $_GET['howmanyblocks']; $i++){
-                echo "Nome do bloco: <input type=\"text\" name=\"prefix_".$i."\"><br>";
-                
-                //Loop para cada apartamento de cada bloco
-                for ($i2 = 1; $i2 <= $_GET['howmanyblock']; $i2++){
-                    echo "<input type=\"number\" name=\"ap_".$i2."\" value=\"".$_GET['ap_'.$i2]."\"><br>";
-                }
-            }
-
-            //Irá passar dentro da $request howmanyblock para o loop
-            //Irá passar prefix_1 a prefix_y, onde Y é o valor de howmanyblock
-            //Irá passar o ap_X  
-        ?>
-        <!--Quantidade de fors para loop-->
-        <input hidden type="text" name="howmanyblock" value="{{ $_GET['howmanyblock'] }}">
-        <input hidden type="text" name="howmanyblocks" value="{{ $_GET['howmanyblocks'] }}">
+        <!-- Loop de cada bloco -->
+        @for($i = 1; $i <= $blocos; $i++)
+            <!-- Loop de cada apartamento por bloco -->
+            <label>Bloco</label>
+            <input type="text" name="{{"prefix" . $i}}"><br>
+                <div id="{{"files_" . $i}}">
+                @for($k = 0; $k < count($apartamentos); $k++)
+                    <input type="text" value="@if(array_key_exists($k, $apartamentos)){{$apartamentos[$k]}}@endif" name="{{"apartamento_" . $i . "[]"}}"><br>
+                @endfor
+                </div>
+            <button type="button" onclick="{{"addFile($i);"}}">Adicionar Apartamento para este bloco</button><br>
+            <br>
+        @endfor
+        <input hidden type="text" name="blocos" value="{{$blocos}}"><br>
         <input type="submit" value="Logar"><br><br>
     </form>
 @stop

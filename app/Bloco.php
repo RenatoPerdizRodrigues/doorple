@@ -18,4 +18,9 @@ class Bloco extends Model
         public function moradores(){
             return $this->hasMany('App\Morador');
         }
+
+    //Permite a criação de blocos em massa
+    protected $fillable = [
+        'prefix',
+    ];
 }

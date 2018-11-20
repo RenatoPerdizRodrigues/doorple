@@ -5,4 +5,5 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" type="text/css" href="{{ asset('/css/style.css') }}">
     @yield('css')
+    @yield('js')
     <title>Doorple @yield('title')</title>

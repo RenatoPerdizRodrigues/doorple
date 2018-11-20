@@ -40,10 +40,13 @@ Route::prefix('admin')->group(function(){
     Route::get('/config', 'ConfigController@config')->name('admin.config');
     Route::post('/config', 'ConfigController@startConfig')->name('admin.config.submit');
     Route::get('/config/ap', 'ConfigController@apIndex')->name('admin.config.ap');
-    Route::get('/config/ap/2', 'ConfigController@apDetail')->name('admin.config.ap.detail');
-    Route::get('/config/ap/3', 'ConfigController@apDetail2')->name('admin.config.ap.detail2');
+    Route::post('/config/ap/2', 'ConfigController@apDetail')->name('admin.config.ap.detail');
+    Route::post('/config/ap/3', 'ConfigController@apDetail2')->name('admin.config.ap.detail2');
     Route::post('/config/ap', 'ConfigController@finishConfig')->name('admin.config.finish');
     Route::get('/config/edit', 'ConfigController@edit')->name('admin.config.edit');
+    Route::put('/config/edit', 'ConfigController@update')->name('admin.config.update');
+    Route::get('/config/create', 'ConfigController@create')->name('admin.config.create');
+    Route::post('/config/create', 'ConfigController@store')->name('admin.config.store');
 
     //Rotas para cadastro de novos administradores, usuários, moradores e veículos
     Route::prefix('register')->group(function(){

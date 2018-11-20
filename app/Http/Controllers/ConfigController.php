@@ -42,47 +42,59 @@ class ConfigController extends Controller
         return redirect()->route('admin.config.ap');
     }
 
-    //Retorna a view do formulário de configuração de apartamentos
+    //Retorna a view do formulário de configuração inicial
     public function apIndex(){
         return view('admin.configuration.config-ap');
     }
 
-    //Retorna a view do formulário de configuração de apartamento, com o get passado
-    public function apDetail(){
-        return view('admin.configuration.config-ap-2');
+    //Retorna a a continuação do formulário de configuração
+    public function apDetail(Request $request){
+        $total = $request->total;
+        $blocos = $request->blocos;
+        //Descobre a quantidade de apartamentos por bloco, arredondando para cima
+        $pbloco = $total / $blocos;
+        $pbloco = ceil($pbloco);
+
+        return view('admin.configuration.config-ap-2')->withTotal($total)->withBlocos($blocos)->withPblocos($pbloco);
     }
 
         //Retorna a visualização dos apartamentos
-        public function apDetail2(){
-            return view('admin.configuration.config-ap-3');
+        public function apDetail2(Request $request){
+            $total = $request->total;
+            $blocos = $request->blocos;
+            $pblocos = $request->pblocos;
+
+            //Coloca apenas os apartamentos preenchidos
+            $apartamentos = array();
+            foreach($request->ap as $ap){
+                if($ap != ""){
+                    array_push($apartamentos, $ap);
+                }
+            }
+
+            return view('admin.configuration.config-ap-3')->withTotal($total)->withBlocos($blocos)->withPblocos($pblocos)->withApartamentos($apartamentos);
         }
 
     //Valida dados de configuração final
     public function finishConfig(Request $request){
-        //Um for que rode para cada bloco
-        for ($i = 1; $i <= $request->howmanyblocks; $i++){
-            //Array dos apartamentos a serem inseridos
-            $apartamentos = array();
+        //Insere todos os blocos e seus respectivos valores
+        for($i = 1; $i <= $request->blocos; $i++){
+            $bloco = new Bloco([
+                'prefix' => $request['prefix'.$i]
+            ]);
 
-            //Em cada bloco, insere o nome do prefixo na tabela blocos
-            $bloco = new Bloco();
-            $bloco->prefix = $request['prefix_'.$i];
             $bloco->save();
 
-            //Recupera o ID do prefixo e bota junto do apartamento
-            //Um for para cada apartamento a ser inserido, com o prefixo correto
-            for ($i2 = 1; $i2 <= $request->howmanyblock; $i2++){
-                //insere prefix_$i-ap_$i2;
-                $apartamento = $request['ap_'.$i2];
-                array_push($apartamentos, $apartamento);
-            }
-
-            //Insere os apartamentos com o ID de seu bloco
-            foreach($apartamentos as $apartamento){
-                Apartamento::create([
-                    'apartamento' => $apartamento,
-                    'bloco_id' => $bloco->id
-                ]);
+            //Insere os apartamentos deste prefix
+            foreach ($request['apartamento_'.$i] as $apartamento){
+                if(!empty($apartamento)){
+                    $ap = new Apartamento([
+                        'apartamento' => $apartamento,
+                        'bloco_id' => $bloco->id
+                    ]);
+    
+                    $ap->save();
+                }
             }
         }
 
@@ -95,10 +107,54 @@ class ConfigController extends Controller
         return redirect()->route('admin.dashboard');
     }
 
+    //Cria um apartamento individual
+    public function create(){
+        $blocos = Bloco::all();
+        return view('admin.configuration.create')->withBlocos($blocos);
+    }
+
+    //Armazena apartamento individual referindo o bloco correto
+    public function store(Request $request){
+
+        //Salva os dados no objeto Apartamento
+        $apartamento = new Apartamento();
+        $apartamento->apartamento = $request->apartamento;
+        $apartamento->bloco_id = $request->bloco_id;
+        $apartamento->save();
+
+        return redirect()->route('admin.dashboard');
+    }
+
     //Função que retorna a edição de configuração e apartamentos
     public function edit(){
-        $apartamentos = Apartamento::all();
-        $configs = Config::all();
-        return view('admin.configuration.edit')->withApartamentos($apartamentos)->withConfigs($configs);
+        $blocos = Bloco::all();
+        $configsAll = Config::all();
+        $configs = $configsAll[0];
+        return view('admin.configuration.edit')->withBlocos($blocos)->withConfigs($configs);
+    }
+
+    //Função que edita as configurações
+    public function update(Request $request){
+
+        //Valida os dados
+        $this->validate($request, array(
+            'visitor_car' => 'boolean',
+            'resident_registry' => 'boolean'
+        ));
+        //Edita os blocos
+        for($i = 1; $i <= $request->howmanyblocks; $i++){
+            $bloco = Bloco::find($i);
+            $bloco->prefix = $request['bloco_'.$i];
+            $bloco->save();
+        }
+
+        //Edita as configs
+        $configs = Config::find(1);
+        $configs->system_name = $request->system_name;
+        $configs->visitor_car = $request->visitor_car;
+        $configs->resident_registry = $request->resident_registry;
+        $configs->save();
+
+        return redirect()->route('admin.dashboard');
     }
 }
