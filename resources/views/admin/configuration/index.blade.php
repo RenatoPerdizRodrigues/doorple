@@ -26,6 +26,10 @@
                     @endforeach
                     </ul>
                 @endif
+                <br><a href="{{ route('admin.config.ap-edit', $apartamento->id) }}">Editar Apartamento</a><br>
+                @if(count($apartamento->moradores) == 0)
+                <a href="{{ route('admin.config.delete', $apartamento->id) }}">Deletar Apartamento</a><br>
+                @endif
             @endif
         @endforeach
     @endforeach

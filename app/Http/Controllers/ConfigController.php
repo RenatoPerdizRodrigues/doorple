@@ -10,13 +10,13 @@ use App\Bloco;
 
 class ConfigController extends Controller
 {
-    //Retorna a view do formulário de configuração inicial
+    //Retorna a view de todos os apartamentos
     public function index(){
         $blocos = Bloco::all();
         $apartamentos = Apartamento::with('moradores')->get();
         return view('admin.configuration.index')->withApartamentos($apartamentos)->withBlocos($blocos);
     }
-
+    
     public function config(){
         return view('admin.configuration.config');
     }
@@ -154,6 +154,36 @@ class ConfigController extends Controller
         $configs->visitor_car = $request->visitor_car;
         $configs->resident_registry = $request->resident_registry;
         $configs->save();
+
+        return redirect()->route('admin.dashboard');
+    }
+
+    //Função que deleta um apartamento
+    function delete($id){
+        $ap = Apartamento::find($id);
+        return view('admin.configuration.delete')->withAp($ap);
+    }
+
+    function destroy($id){
+        $ap = Apartamento::find($id);
+        $ap->delete();
+
+        return redirect()->route('admin.dashboard');
+    }
+
+    //Função que edita apartamento
+    function apEdit($id){
+        $blocos = Bloco::all();
+        $ap = Apartamento::find($id);
+        return view('admin.configuration.ap-edit')->withAp($ap)->withBlocos($blocos);
+    }
+
+    function apUpdate(Request $request, $id){
+        //Salva os dados de edição no objeto Apartamento
+        $apartamento = Apartamento::find($id);
+        $apartamento->apartamento = $request->apartamento;
+        $apartamento->bloco_id = $request->bloco_id;
+        $apartamento->save();
 
         return redirect()->route('admin.dashboard');
     }

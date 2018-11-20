@@ -47,6 +47,10 @@ Route::prefix('admin')->group(function(){
     Route::put('/config/edit', 'ConfigController@update')->name('admin.config.update');
     Route::get('/config/create', 'ConfigController@create')->name('admin.config.create');
     Route::post('/config/create', 'ConfigController@store')->name('admin.config.store');
+    Route::get('config/delete/{id}', 'ConfigController@delete')->name('admin.config.delete');
+    Route::delete('config/delete/{id}', 'ConfigController@destroy')->name('admin.config.destroy');
+    Route::get('/config/ap_edit/{id}', 'ConfigController@apEdit')->name('admin.config.ap-edit');
+    Route::put('/config/ap_edit/{id}', 'ConfigController@apUpdate')->name('admin.config.ap-update');
 
     //Rotas para cadastro de novos administradores, usuários, moradores e veículos
     Route::prefix('register')->group(function(){
