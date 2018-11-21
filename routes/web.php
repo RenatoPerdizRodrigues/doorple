@@ -86,3 +86,11 @@ Route::prefix('admin')->group(function(){
     Route::resource('veiculo_morador', 'Veiculo_MoradorController')->except(['create']);
     
 });
+
+    //Rotas de Usuário
+    //Rota para criação de visita
+    Route::get('/visitante/main', 'VisitanteController@main')->name('vst.main');
+    Route::post('/visitante/search', 'VisitanteController@search')->name('vst.search.submit');
+    Route::get('/visitante/show/{id}', 'VisitanteController@show')->name('vst.show');
+    Route::get('/visitante/create/{rg}', 'VisitanteController@create')->name('vst.create');
+    Route::resource('/visitante', 'VisitanteController')->except('create');
