@@ -17,7 +17,7 @@ Route::get('/', 'HomeController@main')->name('main');
 //Rotas de autenticação de usuário
 Auth::routes();
 Route::get('/logout', 'Auth\LoginController@userLogout')->name('user.logout');
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('user.dashboard');
 
 //Rotas relacionadas ao administrador, com prefix admin
 Route::prefix('admin')->group(function(){
@@ -88,9 +88,21 @@ Route::prefix('admin')->group(function(){
 });
 
     //Rotas de Usuário
-    //Rota para criação de visita
+    //Rota para criação de visitante
     Route::get('/visitante/main', 'VisitanteController@main')->name('vst.main');
     Route::post('/visitante/search', 'VisitanteController@search')->name('vst.search.submit');
     Route::get('/visitante/show/{id}', 'VisitanteController@show')->name('vst.show');
-    Route::get('/visitante/create/{rg}', 'VisitanteController@create')->name('vst.create');
-    Route::resource('/visitante', 'VisitanteController')->except('create');
+    Route::get('/visitante/create/{rg}/{blocovisita}/{apartamentovisita}', 'VisitanteController@create')->name('vst.create');
+    Route::resource('/visitante', 'VisitanteController', [
+        'names' => [
+            'store' => 'vst.store',
+            'index' => 'vst.index',
+            'update' => 'vst.update',
+            'destroy' => 'vst.destroy',
+            'edit' => 'vst.edit'
+        ]
+        ])->except('create');
+
+    //Rotas para criação de visita
+    Route::get('/visita/create/{id}/{apartamento}/{bloco}/{placa}/{modelo}', 'VisitaController@create')->name('visita.create');
+    Route::resource('/visita', 'VisitaController')->except('create');

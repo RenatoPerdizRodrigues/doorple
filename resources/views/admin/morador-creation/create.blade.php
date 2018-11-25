@@ -25,7 +25,8 @@
             @foreach($bloco->apartamentos as $apartamento)
                     <option value="{{$apartamento->apartamento}}">{{$apartamento->apartamento}}</option>
             @endforeach
-        </select>
+        </select><br>
+        <label>Foto</label>
         <input type="file" name="picture"><br>
         <input type="submit" value="Cadastrar">
     </form>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Visita;
 
 //Controller de páginas de usuário logado, a alterar
 class HomeController extends Controller
@@ -24,7 +25,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('user.home');
+        $visitas = Visita::whereDate('created_at', date('Y-m-d'))->get();
+        return view('user.home')->withVisitas($visitas);
     }
 
     public function main(){

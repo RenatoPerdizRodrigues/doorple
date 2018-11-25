@@ -20,8 +20,8 @@ class CreateVisitantesTable extends Migration
             $table->string('rg');
             $table->string('birthdate');
             $table->binary('picture')->nullable();
-            $table->integer('apartamento_id')->unsigned()->nullable();
-            $table->foreign('apartamento_id')->references('id')->on('apartamentos');
+            $table->string('vehicle_license_plate')->nullable();
+            $table->string('vehicle_model')->nullable();
             $table->timestamps();
         });
     }

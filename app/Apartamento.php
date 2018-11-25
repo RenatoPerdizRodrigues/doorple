@@ -12,10 +12,15 @@ class Apartamento extends Model
         return $this->hasMany('App\Morador');
     }
 
-        //Relação one to many com blocos;
-        public function bloco(){
-            return $this->belongsTo('App\Bloco');
-        }
+    //Relação one to many com blocos;
+    public function bloco(){
+        return $this->belongsTo('App\Bloco');
+    }
+
+    //Relacionamento one to many com visitas
+    public function visitas(){
+        return $this->hasMany('App\Visita');
+    }
 
     //Permite a criação de apartamentos em massa
     protected $fillable = [

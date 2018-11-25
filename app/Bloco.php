@@ -19,6 +19,11 @@ class Bloco extends Model
             return $this->hasMany('App\Morador');
         }
 
+    //Relacionamento one to many com visitas
+    public function visitas(){
+        return $this->hasMany('App\Visita');
+    }
+
     //Permite a criação de blocos em massa
     protected $fillable = [
         'prefix',
