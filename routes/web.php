@@ -110,3 +110,8 @@ Route::prefix('admin')->group(function(){
     //Rota de Index de visita
     Route::post('/visita/index', 'VisitaController@search')->name('visita.search.submit');
     Route::resource('/visita', 'VisitaController')->except('create');
+
+    //Rotas para criação de entrada de morador
+    Route::post('/entrada/confirm', 'EntradaMoradorController@confirm')->name('entrada.confirm');
+    Route::post('/entrada/index', 'EntradaMoradorController@search')->name('entrada.search.submit');
+    Route::resource('/entrada', 'EntradaMoradorController');

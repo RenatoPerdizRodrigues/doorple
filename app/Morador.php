@@ -23,4 +23,9 @@ class Morador extends Model
     public function veiculos(){
         return $this->hasMany('App\Veiculo');
     }
+
+    //Relacionamento one to many com entradaMorador
+    public function entradas(){
+        return $this->hasMany('App\EntradaMorador');
+    }
 }
