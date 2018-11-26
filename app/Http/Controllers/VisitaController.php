@@ -10,10 +10,11 @@ use App\Apartamento;
 
 class VisitaController extends Controller
 {
-    //Mostra todas as visitas
+    //Mostra todas as visitas do dia
     public function index()
     {
-        //
+        $visitas = Visita::whereDate('created_at', date('Y-m-d'))->get();
+        return view('user.visita-creation.index')->withVisitas($visitas);
     }
 
     //Mostra formulários da visita
@@ -61,6 +62,12 @@ class VisitaController extends Controller
         $visitante->save();
 
         return redirect()->route('user.dashboard');
+    }
+
+    //Seleciona um dia para mostrar pesquisas
+    public function search(Request $request){
+        $visitas = Visita::whereDate('created_at', $request->date)->get();
+        return view('user.visita-creation.index')->withVisitas($visitas);
     }
 
     //Mostra uma visita específica

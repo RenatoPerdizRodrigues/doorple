@@ -26,7 +26,7 @@ class VisitanteController extends Controller
     public function search(Request $request){
 
         $visitante = Visitante::where('rg', $request->rg)->get();
-        if(empty($visitante)){
+        if(!empty($visitante)){
             //Precisa redirecionar para a criação de visita
             return redirect()->route('visita.create', [$visitante[0]->id, $request->apartamento, $request->bloco, $visitante[0]->vehicle_license_plate, $visitante[0]->vehicle_model]);
         } else {

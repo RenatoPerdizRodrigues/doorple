@@ -107,4 +107,6 @@ Route::prefix('admin')->group(function(){
 
     //Rotas para criação de visita
     Route::get('/visita/create/{id}/{apartamento}/{bloco}/{placa?}/{modelo?}', 'VisitaController@create')->name('visita.create');
+    //Rota de Index de visita
+    Route::post('/visita/index', 'VisitaController@search')->name('visita.search.submit');
     Route::resource('/visita', 'VisitaController')->except('create');
