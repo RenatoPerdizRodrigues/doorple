@@ -12,6 +12,6 @@
 
     <br>Visitas:<br>
     @foreach($visitante->visitas as $visita)
-        Apartamento {{$visita->bloco->prefix . '-' . $visita->apartamento->apartamento}}
+        Apartamento {{$visita->bloco->prefix . '-' . $visita->apartamento->apartamento}} | Data {{$visita->created_at}}<br>
     @endforeach
 @stop

@@ -7,6 +7,7 @@ use App\Config;
 use App\Morador;
 use App\Apartamento;
 use App\Bloco;
+use App\EntradaMorador;
 use Hash;
 use Image;
 use File;
@@ -86,7 +87,8 @@ class MoradorController extends Controller
     public function show($id)
     {
         $morador = Morador::find($id);
-        return view('admin.morador-creation.show')->withMorador($morador);
+        $entradas = EntradaMorador::where('morador_id', $id)->get();
+        return view('admin.morador-creation.show')->withMorador($morador)->withEntradas($entradas);
     }
 
     //Mostra formulário de edição
