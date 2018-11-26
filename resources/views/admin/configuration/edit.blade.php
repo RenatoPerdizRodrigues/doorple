@@ -22,6 +22,9 @@
         <option value="1" {{$configs->visitor_car == 1 ? "selected" : ""}}>Sim</option>
         <option value="0" {{$configs->visitor_car == 0 ? "selected" : ""}}>Não</option>
     </select><br><br>
+    <label>Tempo que carro de visitante pode ficar no condomínio</label><br>
+    Horas: <input type="number" name="car_time_hours" value="{{$horas}}"><br>
+    Minutos: <input type="number" name="car_time_minutes" value="{{$minutos}}"><br>
     <label>Morador deve ter entrada registrada? </label><br>
     <select name="resident_registry">
         <option value="1" {{$configs->resident_registry == 1 ? "selected" : ""}}>Sim</option>

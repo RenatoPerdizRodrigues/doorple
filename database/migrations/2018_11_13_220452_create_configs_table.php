@@ -14,6 +14,7 @@ class CreateConfigsTable extends Migration
             $table->boolean('configured');
             $table->string('system_name');
             $table->boolean('visitor_car');
+            $table->integer('car_time')->nullable();
             $table->boolean('resident_registry');
             $table->timestamps();
         });

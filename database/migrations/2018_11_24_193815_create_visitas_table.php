@@ -21,8 +21,9 @@ class CreateVisitasTable extends Migration
             $table->foreign('apartamento_id')->references('id')->on('apartamentos');
             $table->integer('bloco_id')->unsigned();
             $table->foreign('bloco_id')->references('id')->on('blocos');
-            $table->string('vehicle_license_plate');
-            $table->string('vehicle_model');
+            $table->string('vehicle_license_plate')->nullable();
+            $table->string('vehicle_model')->nullable();
+            $table->boolean('vehicle_parked')->nullable();
             $table->timestamps();
         });
     }

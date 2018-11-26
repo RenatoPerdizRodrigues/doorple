@@ -13,6 +13,9 @@
             <option value="1" selected>Sim</option>
             <option value="0" selected>Não</option>
         </select><br>
+        <label>Caso sim, por quanto tempo o carro pode ficar no condomínio?</label><br>
+        Horas: <input type="number" name="car_time_hours"><br>
+        Minutos: <input type="number" name="car_time_minutes"><br>
         <label>O sistema requer que moradores registrem sua entrada no condomínio?</label>
         <select name="resident_registry">
                 <option value="1" selected>Sim</option>

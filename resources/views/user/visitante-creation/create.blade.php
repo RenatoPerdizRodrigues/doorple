@@ -4,7 +4,7 @@
 
 @section('content')
 <h3>Cadastre um novo Usuário</h3>
-    <form method="POST" action="{{ route('vst.store') }}">
+    <form method="POST" enctype="multipart/form-data" action="{{ route('vst.store') }}">
         @csrf
         <!-- Visitante -->
         <label>Nome</label>
@@ -17,7 +17,6 @@
         <input type="date" name="birthdate"><br>
         <label>Foto</label>
         <input type="file" name="picture"><br>
-        <input type="submit" value="Cadastrar">
 
         <!-- Apartamento a ser visitado -->
         <h3>Apartamento a ser Visitado</h3>

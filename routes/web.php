@@ -92,7 +92,9 @@ Route::prefix('admin')->group(function(){
     Route::get('/visitante/main', 'VisitanteController@main')->name('vst.main');
     Route::post('/visitante/search', 'VisitanteController@search')->name('vst.search.submit');
     Route::get('/visitante/show/{id}', 'VisitanteController@show')->name('vst.show');
+    Route::post('/visitante/find', 'VisitanteController@find')->name('vst.find.submit');
     Route::get('/visitante/create/{rg}/{blocovisita}/{apartamentovisita}', 'VisitanteController@create')->name('vst.create');
+    Route::get('/visitante/delete/{id}', 'VisitanteController@delete')->name('vst.delete');
     Route::resource('/visitante', 'VisitanteController', [
         'names' => [
             'store' => 'vst.store',
@@ -104,5 +106,5 @@ Route::prefix('admin')->group(function(){
         ])->except('create');
 
     //Rotas para criação de visita
-    Route::get('/visita/create/{id}/{apartamento}/{bloco}/{placa}/{modelo}', 'VisitaController@create')->name('visita.create');
+    Route::get('/visita/create/{id}/{apartamento}/{bloco}/{placa?}/{modelo?}', 'VisitaController@create')->name('visita.create');
     Route::resource('/visita', 'VisitaController')->except('create');

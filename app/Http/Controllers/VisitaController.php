@@ -10,22 +10,14 @@ use App\Apartamento;
 
 class VisitaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    //Mostra todas as visitas
     public function index()
     {
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create($id, $apartamento, $bloco, $placa, $modelo)
+    //Mostra formulários da visita
+    public function create($id, $apartamento, $bloco, $placa = null, $modelo = null)
     {
         $visitante = Visitante::find($id);
         $bloco = Bloco::find($bloco);
@@ -33,12 +25,7 @@ class VisitaController extends Controller
         return view('user.visita-creation.create')->withVisitante($visitante)->withApartamento($apartamento)->withBloco($bloco)->withPlaca($placa)->withModelo($modelo);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    //Salva dados da visita
     public function store(Request $request)
     {
         $this->validate($request, array(
@@ -51,8 +38,14 @@ class VisitaController extends Controller
         $visita->visitante_id = $request->visitante_id;
         $visita->apartamento_id = $request->apartamento;
         $visita->bloco_id = $request->bloco;
-        $visita->vehicle_license_plate = $request->vehicle_license_plate;
-        $visita->vehicle_model = $request->vehicle_model;
+
+        //Checa se está com veículo
+        if ($request->vehicle_license_plate && $request->vehicle_model){
+            $visita->vehicle_license_plate = $request->vehicle_license_plate;
+            $visita->vehicle_model = $request->vehicle_model;
+            $visita->vehicle_parked = 1;
+        }
+
         $visita->save();
 
         //Edita o último veículo utilizado pelo visitante
@@ -70,46 +63,25 @@ class VisitaController extends Controller
         return redirect()->route('user.dashboard');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    //Mostra uma visita específica
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    //Mostra formulário de edição de visita
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    //Salva a alteração da edição
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    //Deleta visita
     public function destroy($id)
     {
         //

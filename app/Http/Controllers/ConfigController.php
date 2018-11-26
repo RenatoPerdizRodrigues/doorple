@@ -35,6 +35,16 @@ class ConfigController extends Controller
         $config->configured = 0;
         $config->system_name = $request->system_name;
         $config->visitor_car = $request->visitor_car;
+
+        //Cálculo de tempo que o carro pode ficar no condomínio
+        if ($request->minutes || $request->car_time_hours){
+            if ($request->car_time_hours){
+                $time = ($request->car_time_hours * 60) + $request->car_time_minutes;
+                $config->car_time = $time;
+            } elseif($request->car_time_minutes) {
+                $config->car_time = $request->car_time_minutes;
+            }
+        }
         $config->resident_registry = $request->resident_registry;
         $config->save();
 
@@ -130,7 +140,14 @@ class ConfigController extends Controller
         $blocos = Bloco::all();
         $configsAll = Config::all();
         $configs = $configsAll[0];
-        return view('admin.configuration.edit')->withBlocos($blocos)->withConfigs($configs);
+
+        //Retorna as horas e minutos permitidas pelo carro
+        $decimal = $configs->car_time / 60;
+        $horas = floor($decimal);
+        $resto = $decimal - $horas;
+        $minutos = $resto * 60;
+
+        return view('admin.configuration.edit')->withBlocos($blocos)->withConfigs($configs)->withHoras($horas)->withMinutos($minutos);
     }
 
     //Função que edita as configurações
@@ -152,6 +169,16 @@ class ConfigController extends Controller
         $configs = Config::find(1);
         $configs->system_name = $request->system_name;
         $configs->visitor_car = $request->visitor_car;
+
+        if ($request->minutes || $request->car_time_hours){
+            if ($request->car_time_hours){
+                $time = ($request->car_time_hours * 60) + $request->car_time_minutes;
+                $configs->car_time = $time;
+            } elseif($request->car_time_minutes) {
+                $configs->car_time = $request->car_time_minutes;
+            }
+        }
+
         $configs->resident_registry = $request->resident_registry;
         $configs->save();
 
