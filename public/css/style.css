@@ -1,5 +1,17 @@
-.wrapper {
-    position: absolute;
-    left: 50%;
-    top: 50%;
+.body {
+    background-color: #f4f4f4;
+    color: white;
+}
+
+/*Configuração da navbar*/
+.navbar {
+    background-color: #4e338c;
+}
+
+.navbar-light .navbar-brand{
+    color: white;
+}
+
+.logo{
+    border-radius: 10px;
 }
