@@ -1,6 +1,5 @@
-.body {
+html body {
     background-color: #f4f4f4;
-    color: white;
 }
 
 /*Configuração da navbar*/
@@ -14,4 +13,29 @@
 
 .logo{
     border-radius: 10px;
+}
+
+/*Customização de formulários */
+.forms{
+    margin: 1rem;
+    margin-top: 3rem;
+    padding:1rem;
+    background-color: white;
+}
+
+/*Customização de listas para index */
+.indexes{
+    margin: 1rem;
+    margin-top: 3rem;
+    padding:1rem;
+    background-color: white;
+}
+
+/*Customização de botões*/
+.btn a{
+    color:white;
+}
+
+.botoes{
+    @include float-right;
 }
