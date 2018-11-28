@@ -6,11 +6,13 @@
 <div class="row">
         <div class="col-md-6 offset-md-3">
             <div class="forms border">
-                <h2>{{$admin->name}}</h2>
-                <h4>{{$admin->email}}</h4>
+                <h3 align="center">Informações de Administrador</h3>
+                <hr>
+                <h4>{{$admin->name}}</h4>
+                <h5>{{$admin->email}}</h5>
                 <div class="text-right">
-                    <button class="btn btn-success"><a href="{{route('adm.edit', $admin->id)}}">Editar</a></button>
-                    <button class="btn btn-danger"><a href="{{route('admin.delete', $admin->id)}}">Excluir</a></button>
+                    <a href="{{route('adm.edit', $admin->id)}}" class="btn btn-success">Editar</a>
+                    <a href="{{route('admin.delete', $admin->id)}}" class="btn btn-danger">Excluir</a>
                 </div>
             </div>
         </div>

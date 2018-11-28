@@ -30,15 +30,17 @@
                             <th>Email</th>
                             <th>Ações</th>
                         </thead>
-                        @foreach($admins as $admin)
-                        <tr>
-                            <td>{{$admin->id}}</td> 
-                            <td>{{$admin->name}}</td>
-                            <td>{{$admin->email}}</td>
-                            <td><a href="{{route('adm.show', $admin->id)}}">Visualizar</a></td>
-                         <p></p> </li>
-                        </tr>
-                        @endforeach
+                        <tbody >
+                            @foreach($admins as $admin)
+                                <tr>
+                                    <td>{{$admin->id}}</td> 
+                                    <td>{{$admin->name}}</td>
+                                    <td>{{$admin->email}}</td>
+                                    <td><a href="{{route('adm.show', $admin->id)}}" class="btn btn-warning">Visualizar</a></td>
+                                <p></p> </li>
+                                </tr>
+                            @endforeach
+                        </body>
                     </table>
             </div>
         </div>

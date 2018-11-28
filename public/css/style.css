@@ -32,10 +32,30 @@ html body {
 }
 
 /*Customização de botões*/
-.btn a{
+a .btn {
     color:white;
 }
 
-.botoes{
-    @include float-right;
+.btn-warning{
+    color: white;
+}
+
+.btn-warning:hover{
+    color: white;
+}
+
+.btn a:hover{
+    color:white;
+    text-decoration: none;
+}
+
+/*Customização de mensagens*/
+.mensagens{
+    padding-top:1rem;
+    padding-bottom:0rem;
+}
+
+/*Customizaçaõ de tabela*/
+.table td{
+    vertical-align: middle;
 }
