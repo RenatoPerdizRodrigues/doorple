@@ -6,7 +6,7 @@
 <div class="row">
         <div class="col-md-6 offset-md-3">
             <div class="forms border">
-                <h3 align="center">Informações de Administrador</h3>
+                <h3 class="text-center">Informações de Administrador</h3>
                 <hr>
                 <h4>{{$admin->name}}</h4>
                 <h5>{{$admin->email}}</h5>

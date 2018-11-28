@@ -7,7 +7,7 @@
 ?>
 
 <nav class="navbar navbar-expand-lg navbar-dark">
-  <a class="navbar-brand" href="{{route('admin.dashboard')}}">
+  <a class="navbar-brand" href="{{route('main')}}">
         <img src="/images/logo.png" height="30" class="logo d-inline-block align-top" alt="">
     {{$configs[0]->system_name ? " | " . $configs[0]->system_name : ""}}</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -71,8 +71,12 @@
 
         <!--Logout-->
         <li class="nav-item active">
-                <a class="nav-link" href="#">Logout <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="{{route('admin.logout')}}">Logout de Admin <span class="sr-only">(current)</span></a>
         </li>
+
+        <li class="nav-item active">
+          <a class="nav-link" href="{{route('user.logout')}}">Logout de Usuário <span class="sr-only">(current)</span></a>
+      </li>
     </ul>
   </div>
 </nav>

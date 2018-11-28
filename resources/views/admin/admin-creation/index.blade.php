@@ -6,7 +6,7 @@
 <div class="row">
         <div class="col-md-6 offset-md-3">
             <div class="forms border">
-                <h3 align="center">Encontre um Admin</h3>
+                <h3 class="text-center">Encontre um Admin</h3>
                     <form method="POST" action="{{ route('adm.search.submit') }}">
                         @csrf
                         <div class="form-group">
@@ -20,7 +20,6 @@
             </div>
         </div>
         <div class="col-md-10 offset-md-1">
-            <!--Lista de Index de Admins-->
             <div class="indexes">
                     <h3>Lista de Admins</h3>
                     <table class="table">

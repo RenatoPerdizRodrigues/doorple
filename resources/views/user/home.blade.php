@@ -13,7 +13,7 @@
 @stop
 
 @section('content')
-    <h3>Bem-vindo, administrador</h3>
+    <h3>Bem-vindo!</h3>
     @if(Auth::guard('web')->check())
         <p>Usuário está logado</p>
     @else

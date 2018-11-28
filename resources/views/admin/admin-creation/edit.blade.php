@@ -4,9 +4,9 @@
 
 @section('content')
 <div class="row">
-        <div class="col-md-6 offset-md-3">
+        <div class="col-md-8 offset-md-2">
             <div class="forms border">
-                <h3 align="center">Editar Administrador</h3>
+                <h3 class="text-center">Editar Administrador</h3>
                 <form method="POST" action="{{ route('adm.update', $admin->id) }}">
                 @csrf
                 <div class="form-group">

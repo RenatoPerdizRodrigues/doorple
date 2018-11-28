@@ -17,7 +17,8 @@ class AdminController extends Controller
         $this->middleware('auth:admin');
     }
 
-    //Função de acesso a view inicial do administrador
+    /*Função de acesso a view inicial do administrador, que pode redirecionar para a configuração do sistema
+    caso o mesmo ainda não tenha sido configurado*/
     public function home(){
         $config = Config::select('configured')->get();
         if (empty($config[0])){
@@ -55,6 +56,7 @@ class AdminController extends Controller
         $admin->password = Hash::make($request->password);
         $admin->save();
 
+        //Mensagem de sucesso
         Session::flash('success', 'Administrador cadastrado com sucesso!');
 
         //Redirecionamento para o index de admins
@@ -62,14 +64,14 @@ class AdminController extends Controller
         return redirect()->route('adm.index')->withAdmins($admins);;
     }
 
-    //Busca um admin e redireciona para a página de show
+    //Busca um admin na página de index e redireciona para a página de show
     public function search(Request $request)
     {   
         $admin = Admin::where('email', $request->email)->get();
         return redirect()->route('adm.show', $admin[0]->id);
     }
 
-    //Mostra um admin
+    //Mostra um admin com opções de deletar ou editar
     public function show($id)
     {
         $admin = Admin::find($id);
@@ -103,17 +105,20 @@ class AdminController extends Controller
         }
         $admin->save();
 
+        //Criação de mensagem de sucesso
         Session::flash('success', 'Administrador editado com sucesso!');
 
         //Redirecionamento para a página do administrador modificado
         return redirect()->route('adm.show', $admin->id);
     }
 
+    //Mostra o formulário de delete de administrador
     public function delete($id){
         $admin = Admin::find($id);
 
         //Caso o administrador esteja logado, não deve permitir o delete
         if(Auth::id() == $admin->id){
+            //Cria mensagem de aviso
             Session::flash('warning', 'Não é possível deletar o administrador logado!');
             return redirect()->route('adm.show', $admin->id);
         } else {
@@ -121,12 +126,13 @@ class AdminController extends Controller
         }
     }
 
-    //Deleta o admin
+    //Deleta o admin escolhido
     public function destroy($id)
     {
         $admin = Admin::find($id);
         $admin->delete();
 
+        //Cria mensagem de sucesso
         Session::flash('success', 'Administrador deletado com sucesso!');
 
        //Redirecionamento para o index de admins

@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use Hash;
+use Session;
 
 //Classe de funções de CRUD de criação de um novo usuário
 class UserController extends Controller
 {
-    //Construct que permite acesso apenas a usuários logados
+    //Construct que permite acesso apenas a administradores logados
     public function __construct(){
         $this->middleware('auth:admin');
     }
@@ -33,7 +34,7 @@ class UserController extends Controller
         $this->validate($request, array(
             'name' => 'required|min:3|max:35',
             'email' => 'required|email',
-            'password' => 'required|min:6'
+            'password' => 'required|min:6|same:password-confirmation'
         ));
 
         //Criação do modelo e save das mudanças
@@ -43,8 +44,11 @@ class UserController extends Controller
         $user->password = Hash::make($request->password);
         $user->save();
 
+        //Criação de mensagem de sucesso
+        Session::flash('success', 'Usuário cadastrado com sucesso!');
+
         //Redirecionamento
-        return redirect()->route('admin.dashboard');
+        return redirect()->route('usr.index');
     }
 
     //Busca um usuário e redireciona para a página de show
@@ -89,7 +93,10 @@ class UserController extends Controller
         }
         $user->save();
 
-        return redirect()->route('admin.dashboard');
+        //Criação de mensagem de sucesso
+        Session::flash('success', 'Usuário editado com sucesso!');
+
+        return redirect()->route('usr.show', $user->id);
     }
 
     public function delete($id){
@@ -103,6 +110,9 @@ class UserController extends Controller
         $user = User::find($id);
         $user->delete();
 
-        return redirect()->route('admin.dashboard');
+        //Criação de mensagem de sucesso
+        Session::flash('success', 'Usuário deletado com sucesso!');
+
+        return redirect()->route('usr.index');
     }
 }
