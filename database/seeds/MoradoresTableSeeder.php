@@ -13,7 +13,7 @@ class MoradoresTableSeeder extends Seeder
             'name' => 'Fulano',
             'surname' => 'De Tal',
             'rg' => '12345678',
-            'birthdate' => 07/06/1995,
+            'birthdate' => '07/06/1995',
             'picture' => '1.jpg',
             'apartamento_id' => 1,
             'bloco_id' => 1

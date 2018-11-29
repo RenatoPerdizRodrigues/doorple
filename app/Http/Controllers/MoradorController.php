@@ -11,6 +11,7 @@ use App\EntradaMorador;
 use Hash;
 use Image;
 use File;
+use Session;
 
 //Classe de acesso às funções de CRUD moradores
 class MoradorController extends Controller
@@ -46,7 +47,7 @@ class MoradorController extends Controller
             'bloco' => 'exists:blocos,id'
         ));
 
-        //Criação do modelo e salvamento das mudanças
+        //Criação do modelo e save das mudanças
         $morador = new Morador();
         $morador->name = $request->name;
         $morador->surname = $request->surname;
@@ -72,6 +73,9 @@ class MoradorController extends Controller
 
         $morador->save();
 
+        //Criação de mensagem de sucesso
+        Session::flash('success', 'Morador cadastrado com sucesso!');
+
         //Redirecionamento
         return redirect()->route('admin.dashboard');
     }
@@ -83,7 +87,7 @@ class MoradorController extends Controller
         return redirect()->route('morador.show', $morador[0]->id);
     }
 
-    //Mostra um admin
+    //Mostra um morador específico
     public function show($id)
     {
         $morador = Morador::find($id);
@@ -91,7 +95,7 @@ class MoradorController extends Controller
         return view('admin.morador-creation.show')->withMorador($morador)->withEntradas($entradas);
     }
 
-    //Mostra formulário de edição
+    //Mostra formulário de edição de morador
     public function edit($id)
     {
         $blocos = Bloco::with('apartamentos')->get();
@@ -134,7 +138,7 @@ class MoradorController extends Controller
             $picture = $request->file('picture');
             $filename = time() . '.' . $picture->getClientOriginalExtension();
             $location = public_path('images/morador/' . $filename);
-            Image::make($picture)->resize(300, 400)->save($location);
+            Image::make($picture)->resize(240, 320)->save($location);
             
             //Deleta a foto original
             File::delete(public_path('images/morador/'.$morador->picture));
@@ -145,8 +149,11 @@ class MoradorController extends Controller
 
         $morador->save();
 
+        //Criação de mensagem de sucesso
+        Session::flash('success', 'Morador editado com sucesso!');
+
         //Redirecionamento
-        return redirect()->route('admin.dashboard');
+        return redirect()->route('morador.show', $morador->id);
     }
 
     public function delete($id){
@@ -160,6 +167,9 @@ class MoradorController extends Controller
         $morador = Morador::find($id);
         File::delete(public_path('images/morador/'.$morador->picture));
         $morador->delete();
+
+        //Criação de mensagem de sucesso
+        Session::flash('success', 'Morador deletado com sucesso!');
 
         return redirect()->route('admin.dashboard');
     }

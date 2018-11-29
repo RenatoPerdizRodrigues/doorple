@@ -17,7 +17,7 @@ class CreateEntradaMoradorsTable extends Migration
             $table->increments('id');
             $table->integer('morador_id')->unsigned();
             $table->foreign('morador_id')->references('id')->on('moradores');
-            $table->integer('veiculo_id')->unsigned();
+            $table->integer('veiculo_id')->unsigned()->nullable();
             $table->foreign('veiculo_id')->references('id')->on('veiculos_morador');
             $table->timestamps();
         });
