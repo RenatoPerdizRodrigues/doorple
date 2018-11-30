@@ -8,6 +8,7 @@ use App\Veiculo;
 use Hash;
 use Image;
 use File;
+use Session;
 
 //Classe de acesso às funções de CRUD de veículos de moradores
 class Veiculo_MoradorController extends Controller
@@ -41,7 +42,7 @@ class Veiculo_MoradorController extends Controller
             'morador_id' => 'exists:moradores,id'
         ));
 
-        //Criação do modelo e salvamento das mudanças
+        //Criação do modelo e save das mudanças
         $veiculo_morador = new Veiculo();
         $veiculo_morador->type = $request->type;
         $veiculo_morador->license_plate = $request->license_plate;
@@ -49,8 +50,11 @@ class Veiculo_MoradorController extends Controller
         $veiculo_morador->morador_id = $request->morador_id;
         $veiculo_morador->save();
 
+        //Mensagem de sucesso
+        Session::flash('success', 'Veículo cadastrado com sucesso');
+
         //Redirecionamento
-        return redirect()->route('admin.dashboard');
+        return redirect()->route('veiculo_morador.index');
     }
 
     //Busca um veículo e redireciona para a página de show
@@ -93,8 +97,11 @@ class Veiculo_MoradorController extends Controller
         $veiculo_morador->morador_id = $request->morador_id;
         $veiculo_morador->save();
 
+        //Mensagem de sucesso
+        Session::flash('success', 'Veículo editado com sucesso');
+
         //Redirecionamento
-        return redirect()->route('admin.dashboard');
+        return redirect()->route('veiculo_morador.show', $veiculo_morador->id);
     }
 
     public function delete($id){
@@ -108,6 +115,9 @@ class Veiculo_MoradorController extends Controller
         $veiculo_morador = Veiculo::find($id);
         $veiculo_morador->delete();
 
-        return redirect()->route('admin.dashboard');
+        //Mensagem de sucesso
+        Session::flash('success', 'Veículo deletado com sucesso');
+
+        return redirect()->route('veiculo_morador.index');
     }
 }

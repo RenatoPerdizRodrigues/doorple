@@ -3,15 +3,45 @@
 @section('title', '| Index de Veículo')
 
 @section('content')
-<h3>Encontre um Usuário</h3>
-    <form method="POST" action="{{ route('veiculo_morador.search.submit') }}">
-        @csrf
-        <label>Placa do Motorista</label>
-        <input type="text" name="license_plate"><br>
-        <input type="submit" value="Procurar">
-    </form><br><br>
-    @foreach($veiculos_morador as $veiculo)
-        <p>{{$veiculo->license_plate . " | " . $veiculo->morador->name . " do " . $veiculo->morador->apartamento->apartamento}}</p>
-        <p><a href="{{route('veiculo_morador.show', $veiculo->id)}}">Visualizar</a></p>
-    @endforeach
+<div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="forms border">
+                <h3 class="text-center">Encontre um Usuário</h3>
+                <form method="POST" action="{{ route('veiculo_morador.search.submit') }}">
+                        @csrf
+                        <label>Placa do Motorista</label>
+                        <input type="text" name="license_plate" class="form-control"><br>
+                        <input type="submit" value="Procurar" class="btn btn-success">
+                    </form><br><br>
+            </div>
+        </div>
+</div>
+
+<div class="col-md-10 offset-md-1">
+        <div class="indexes">
+                <h3>Lista de Moradores</h3>
+                <table class="table">
+                    <thead>
+                        <th>#</th>
+                        <th>Placa</th>
+                        <th>Modelo</th>
+                        <th>Dono</th>
+                        <th>Apartamento do Dono</th>
+                    </thead>
+                    <tbody >
+                        @foreach($veiculos_morador as $veiculo)
+                            <tr>
+                                <td>{{$veiculo->id}}</td> 
+                                <td>{{$veiculo->license_plate}}</td>
+                                <td>{{$veiculo->model}}</td>
+                                <td>{{$veiculo->morador->name . ' ' . $veiculo->morador->surname}}</td>
+                                <td>{{$veiculo->morador->bloco->prefix . '-' . $veiculo->morador->apartamento->apartamento}}</td>
+                                <td><a href="{{route('veiculo_morador.show', $veiculo->id)}}" class="btn btn-warning">Visualizar</a></td>
+                            <p></p> </li>
+                            </tr>
+                        @endforeach
+                    </body>
+                </table>
+        </div>
+    </div>
 @stop

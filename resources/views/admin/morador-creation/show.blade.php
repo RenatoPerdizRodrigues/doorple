@@ -20,12 +20,35 @@
                     </div>
                             <div class="form-group text-right mt-md-3 mr-md-3">
                                     <div class="text-right">
-                                            <a href="{{route('morador.edit', $morador->id)}}" class="btn btn-success">Editar</a>
-                                            <a href="{{route('morador.delete', $morador->id)}}" class="btn btn-danger">Excluir</a>
+                                        <a href="{{route('veiculo_morador.create', $morador->id)}}" class="btn btn-warning">Adicionar Veículo</a>
+                                        <a href="{{route('morador.edit', $morador->id)}}" class="btn btn-success">Editar</a>
+                                        <a href="{{route('morador.delete', $morador->id)}}" class="btn btn-danger">Excluir</a>
                                     </div>
                             </div>
                 </div>
         </div>
+        <div class="col-md-10 offset-md-1">
+                        <div class="indexes">
+                                <h3>Veículos</h3>
+                                <table class="table">
+                                    <thead>
+                                        <th>#</th>
+                                        <th>Modelo</th>
+                                        <th>Placa</th>
+                                    </thead>
+                                    <tbody >
+                                        @foreach($morador->veiculos as $veiculo)
+                                            <tr>
+                                                <td>{{$veiculo->id}}</td> 
+                                                <td>{{$veiculo->type}}</td>
+                                                <td><a href="{{route('veiculo_morador.show', $veiculo->id)}}">{{$veiculo->license_plate}}</a></td>
+                                            <p></p>
+                                            </tr>
+                                        @endforeach
+                                    </body>
+                                </table>
+                        </div>
+                </div>
         <div class="col-md-10 offset-md-1">
                 <div class="indexes">
                         <h3>Registro de Entradas</h3>
@@ -47,6 +70,6 @@
                             </body>
                         </table>
                 </div>
-            </div>
+        </div>
 </div>
 @stop
