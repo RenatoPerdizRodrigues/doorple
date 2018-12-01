@@ -41,6 +41,7 @@
                             @endforeach
                         </body>
                     </table>
+                    {!! $admins->links(); !!}
             </div>
         </div>
 </div>

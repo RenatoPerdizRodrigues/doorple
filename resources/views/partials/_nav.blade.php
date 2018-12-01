@@ -22,7 +22,7 @@
 
       <!--Dropdown de Usuários-->
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link dropdown-toggle {{Route::currentRouteName() == 'adm.create' || Route::currentRouteName() == 'adm.index' || Route::currentRouteName() == 'adm.show' || Route::currentRouteName() == 'adm.edit' || Route::currentRouteName() == 'admin.delete' || Route::currentRouteName() == 'usr.create' || Route::currentRouteName() == 'usr.index'  ? "active" : ""}}" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Usuários
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -36,29 +36,17 @@
 
       <!--Dropdown de Moradores-->
       <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link dropdown-toggle {{Route::currentRouteName() == 'morador.create' || Route::currentRouteName() == 'morador.index' || Route::currentRouteName() == 'morador.show' || Route::currentRouteName() == 'morador.delete' || Route::currentRouteName() == 'morador.edit' || Route::currentRouteName() == 'veiculo_morador.index' || Route::currentRouteName() == 'veiculo_morador.create' || Route::currentRouteName() == 'veiculo_morador.show' || Route::currentRouteName() == 'veiculo_morador.delete' || Route::currentRouteName() == 'veiculo_morador.edit' ? "active" : ""}}" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Moradores
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="{{route('morador.create')}}">Criar Morador</a>
               <a class="dropdown-item" href="{{route('morador.index')}}">Consultar Morador</a>
               <a class="dropdown-item" href="{{route('veiculo_morador.index')}}">Consultar Veículos</a>
-              <a class="dropdown-item" href="#">Consultar Visitantes</a>
             </div>
         </li>
 
-        <!--Dropdown de Registros-->
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Registros
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Registro de Visitas</a>
-              <a class="dropdown-item" href="#">Registro de Entradas</a>
-            </div>
-        </li>
-
-        <!--Dropdown de Moradores-->
+        <!--Dropdown de Configuração-->
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Configuração e Apartamentos
@@ -70,13 +58,9 @@
         </li>
 
         <!--Logout-->
-        <li class="nav-item active">
-            <a class="nav-link" href="{{route('admin.logout')}}">Logout de Admin <span class="sr-only">(current)</span></a>
+        <li class="nav-item">
+            <a class="nav-link" href="{{route('admin.logout')}}">Logout<span class="sr-only">(current)</span></a>
         </li>
-
-        <li class="nav-item active">
-          <a class="nav-link" href="{{route('user.logout')}}">Logout de Usuário <span class="sr-only">(current)</span></a>
-      </li>
     </ul>
   </div>
 </nav>

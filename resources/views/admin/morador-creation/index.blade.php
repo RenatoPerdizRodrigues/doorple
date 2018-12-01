@@ -48,6 +48,7 @@
                     @endforeach
                 </body>
             </table>
+            {!! $moradores->links(); !!}
     </div>
 </div>
 @stop

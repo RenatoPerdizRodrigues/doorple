@@ -51,10 +51,10 @@ class VisitanteController extends Controller
         }
     }
 
-    //Retorna todos os visitantes cadastrados
+    //Retorna todos os visitantes cadastrados, paginados em 10
     public function index()
     {
-        $visitantes = Visitante::all();
+        $visitantes = Visitante::paginate(10);
         return view('user.visitante-creation.index')->withVisitantes($visitantes);
     }
 

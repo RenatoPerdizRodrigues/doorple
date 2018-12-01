@@ -18,9 +18,9 @@ class Veiculo_MoradorController extends Controller
         $this->middleware('auth:admin');
     }
 
-    //Função de acesso ao index de todos os veículos cadastrados
+    //Função de acesso ao index de todos os veículos cadastrados, paginados em 10
     public function index(){
-        $veiculos_morador = Veiculo::all();
+        $veiculos_morador = Veiculo::paginate(10);
         return view('admin.veiculo_morador-creation.index')->with('veiculos_morador',$veiculos_morador);
     }
 

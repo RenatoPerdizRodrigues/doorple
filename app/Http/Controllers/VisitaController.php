@@ -12,10 +12,10 @@ use Session;
 
 class VisitaController extends Controller
 {
-    //Mostra todas as visitas do dia
+    //Mostra todas as visitas do dia, paginadas em 10
     public function index()
     {
-        $visitas = Visita::whereDate('created_at', date('Y-m-d'))->paginate(2);
+        $visitas = Visita::whereDate('created_at', date('Y-m-d'))->paginate(10);
         return view('user.visita-creation.index')->withVisitas($visitas);
     }
 

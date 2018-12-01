@@ -42,6 +42,7 @@
                         @endforeach
                     </body>
                 </table>
+                {!! $veiculos_morador->links(); !!}
         </div>
     </div>
 @stop

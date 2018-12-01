@@ -9,10 +9,10 @@ use App\EntradaMorador;
 //Controller de entrada de morador no condomínio
 class EntradaMoradorController extends Controller
 {
-    //Retorna todas as entradas registradas
+    //Retorna todas as entradas registradas, paginadas em 10
     public function index()
     {
-        $entradas = EntradaMorador::whereDate('created_at', date('Y-m-d'))->get();
+        $entradas = EntradaMorador::whereDate('created_at', date('Y-m-d'))->paginate(10);
         return view('user.entrada-creation.index')->withEntradas($entradas);
 
     }

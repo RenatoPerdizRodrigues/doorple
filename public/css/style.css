@@ -59,11 +59,8 @@ a .btn {
 .table td{
     vertical-align: middle;
 }
-.pagination ul {
-    float: none;
-    display: inline-block;
-    overflow: hidden;
- }
- .pagination.center {
-    text-align: center;
- }
+
+.pagination{
+    display: flex;
+    justify-content: center;  
+}

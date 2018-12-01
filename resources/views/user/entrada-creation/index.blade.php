@@ -40,7 +40,7 @@
                             <tr>
                                 <td>{{$entrada->id}}</td> 
                                 <td>{{$entrada->morador->name . ' ' . $entrada->morador->surname}}</td>
-                                <td>{{$entrada->veiculo->type . '-' . $entrada->veiculo->license_plate}}</td>
+                                <td>{{$entrada->veiculo ? $entrada->veiculo->type . '-' . $entrada->veiculo->license_plate : "Sem veículo"}}</td>
                                 <td>{{$entrada->created_at}}</td>
                             <p></p> </li>
                             </tr>
@@ -48,6 +48,7 @@
                     </body>
                 </table>
                 @endif
+                {!! $entradas->links(); !!}
     </div>
 </div>
 @stop

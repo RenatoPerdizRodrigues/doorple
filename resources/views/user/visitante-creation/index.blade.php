@@ -48,6 +48,7 @@
                         @endforeach
                     </body>
                 </table>
+                {!! $visitantes->links(); !!}
         </div>
     </div>
 @stop

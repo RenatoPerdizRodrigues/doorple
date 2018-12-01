@@ -50,9 +50,7 @@
                     </body>
                 </table>
                 @endif
-                <div class="text-center">
-                        {{ $visitas->links() }}
-                </div>
+                {!! $visitas->links(); !!}
     </div>
 </div>
 @stop

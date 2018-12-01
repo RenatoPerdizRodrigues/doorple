@@ -29,9 +29,9 @@ class AdminController extends Controller
         return view('admin.dashboard')->withConfig($config)->withVisitas($visitas);
     }
 
-    //Função de acesso ao index de todos os admins cadastrados
+    //Função de acesso ao index de todos os admins cadastrados, paginados em 10
     public function index(){
-        $admins = Admin::all();
+        $admins = Admin::paginate(10);
         return view('admin.admin-creation.index')->withAdmins($admins);
     }
 

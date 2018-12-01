@@ -21,9 +21,9 @@ class MoradorController extends Controller
         $this->middleware('auth:admin');
     }
 
-    //Função de acesso ao index de todos os moradores cadastrados
+    //Função de acesso ao index de todos os moradores cadastrados, paginados em 10
     public function index(){
-        $moradores = Morador::all();
+        $moradores = Morador::paginate(10);
         return view('admin.morador-creation.index')->withMoradores($moradores);
     }
 

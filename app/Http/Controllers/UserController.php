@@ -15,9 +15,9 @@ class UserController extends Controller
         $this->middleware('auth:admin');
     }
 
-    //Função de acesso ao index de todos os usuários cadastrados
+    //Função de acesso ao index de todos os usuários cadastrados, paginados em 10
     public function index(){
-        $users = User::all();
+        $users = User::paginate(10);
         return view('admin.user-creation.index')->withUsers($users);
     }
 
