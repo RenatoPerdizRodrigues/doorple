@@ -5,18 +5,48 @@
 @section('title', '| Página Principal de Usuário')
 
 @section('content')
-    <h3>Bem-vindo, administrador</h3>
-    @if(Auth::guard('admin')->check())
-        <p>Admin está logado</p>
-    @else
-        <p>Admin não está logado</p>
-    @endif
-    @if(empty($config[0]))
-        <p>Você tem configurações a fazer</p>
-    @else
-        <p>Seu sistema já está configurado!</p>
-    @endif
+@section('content')
+<div class="row">
+        @if(empty($config[0]))
+            <p>Você tem configurações a fazer</p>
+        @else
+            <!--Caso hajam visitantes no dia, mostrar tabela de visitantes -->
+            <div class="col-md-10 offset-md-1">
+                    <div class="indexes">
+                            <h4 class="text-left">Últimas visitas do Dia</h4>
+                            @if(empty($visitas[0]))
+                                Não houveram visitas no condomínio hoje
+                            @else            
+                                <table class="table">
+                                    <thead>
+                                        <th>#</th>
+                                        <th>Visitante</th>
+                                        <th>Apartamento</th>
+                                        <th>Veículo</th>
+                                        <th>Horário de Entrada</th>
 
+                                    </thead>
+                                    <tbody >
+                                        @foreach($visitas as $visita)
+                                            <tr>
+                                                <td>{{$visita->id}}</td> 
+                                                <td>{{$visita->visitante->name . ' ' . $visita->visitante->surname}}</td>
+                                                <td>{{$visita->bloco->prefix . '-' . $visita->apartamento->apartamento}}</td>
+                                                <td>@if($visita->vehicle_license_plate && $visita->vehicle_model) {{$visita->vehicle_model . ' - ' . $visita->vehicle_license_plate}} @else Sem veículo @endif</td>
+                                                <td>{{$visita->created_at}}</td>
+                                            </tr>
+                                        @endforeach
+                                    </body>
+                                </table>
+                                <div class="text-right">
+                                        <a href="{{route('vst.index')}}" class="btn btn-success">Ver todas as visitas do dia</a>
+                                </div>
+                                @endif
+                            </div>
+                    </div>
+            </div>
+        @endif
+@stop
     <a href="{{route('adm.create')}}">Criar Admin</a><br>
     <a href="{{route('adm.index')}}">Consultar Admin</a><br><br>
     <a href="{{route('usr.create')}}">Criar Usuário</a><br>

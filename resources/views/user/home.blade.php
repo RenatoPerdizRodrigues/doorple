@@ -13,26 +13,79 @@
 @stop
 
 @section('content')
-    <h3>Bem-vindo!</h3>
-    @if(Auth::guard('web')->check())
-        <p>Usuário está logado</p>
-    @else
-        <p>Usuário não está logado</p>
-    @endif
+<div class="row">
+        <!-- Caso hajam visitantes com veículos no condomínio, mostrar tabela de carros de visitantes -->
+        <div class="col-md-10 offset-md-1">
+            <div class="indexes">
+                    <h4 class="text-left">Visitantes com veículo</h4>
+                    @if(empty($carros[0]))
+                        Não há visitantes com veículo no condomínio
+                    @else
+        
+                        <table class="table">
+                            <thead>
+                                <th>#</th>
+                                <th>Visitante</th>
+                                <th>Apartamento</th>
+                                <th>Veículo</th>
+                                <th>Horário</th>
+                                <th>Ações</th>
+                            </thead>
+                            <tbody >
+                                @foreach($carros as $carro)
+                                    <tr>
+                                        <td>{{$carro->id}}</td> 
+                                        <td>{{$carro->visitante->name . ' ' . $carro->visitante->surname}}</td>
+                                        <td>{{$carro->bloco->prefix . '-' . $carro->apartamento->apartamento}}</td>
+                                        <td>{{$carro->vehicle_model . ' - ' . $carro->vehicle_license_plate}}</td>
+                                        <td>{{$carro->created_at}}</td>
+                                        <td></td>
+                                    </tr>
+                                @endforeach
+                            </body>
+                        </table>
+                        @endif
+            </div>
+        </div>
+        <!--Caso hajam visitantes no dia, mostrar tabela de visitantes -->
+        <div class="col-md-10 offset-md-1">
+                <div class="indexes">
+                        <h4 class="text-left">Últimas visitas do Dia</h4>
+                        @if(empty($visitas[0]))
+                            Não houveram visitas no condomínio hoje
+                        @else            
+                            <table class="table">
+                                <thead>
+                                    <th>#</th>
+                                    <th>Visitante</th>
+                                    <th>Apartamento</th>
+                                    <th>Veículo</th>
+                                    <th>Horário de Entrada</th>
 
-    <a href="{{route('vst.main')}}">Nova Visita</a><br>
-    <a href="{{route('visita.index')}}">Buscar Visitas</a><br>
-    <a href="{{route('vst.index')}}">Buscar Visitantes</a><br><br>
-    <a href="{{route('entrada.create')}}">Nova Entrada de Morador</a><br>
-    <a href="{{route('entrada.index')}}">Buscar Entradas</a><br>
-    
+                                </thead>
+                                <tbody >
+                                    @foreach($visitas as $visita)
+                                        <tr>
+                                            <td>{{$visita->id}}</td> 
+                                            <td>{{$visita->visitante->name . ' ' . $visita->visitante->surname}}</td>
+                                            <td>{{$visita->bloco->prefix . '-' . $visita->apartamento->apartamento}}</td>
+                                            <td>@if($visita->vehicle_license_plate && $visita->vehicle_model) {{$visita->vehicle_model . ' - ' . $visita->vehicle_license_plate}} @else Sem veículo @endif</td>
+                                            <td>{{$visita->created_at}}</td>
+                                        </tr>
+                                    @endforeach
+                                </body>
+                            </table>
+                            <div class="text-right">
+                                    <a href="{{route('visita.index')}}" class="btn btn-success">Ver todas as visitas do dia</a>
+                            </div>
+                            @endif
+                </div>
+        </div>
+</div>
 
-    <h2>Carros de visitantes no condomínio</h2>
-    @foreach($carros as $carro)    
-        Visitante: {{$carro->visitante->name . ' ' . $carro->visitante->surname}} | Apartamento {{$carro->bloco->prefix . '-' . $carro->apartamento->apartamento}} | @if($carro->vehicle_license_plate && $carro->vehicle_model) {{$carro->vehicle_model . ' - ' . $carro->vehicle_license_plate}} @endif Horário de entrada: {{$carro->created_at}} <br>
-    @endforeach<br>
-    <h2>Visitas do Dia</h2>
-    @foreach($visitas as $visita)    
-        Visitante: {{$visita->visitante->name . ' ' . $visita->visitante->surname}} | Apartamento {{$visita->bloco->prefix . '-' . $visita->apartamento->apartamento}} | @if($visita->vehicle_license_plate && $visita->vehicle_model) {{$visita->vehicle_model . ' - ' . $visita->vehicle_license_plate}} @else Sem veículo @endif <br>
-    @endforeach
+<a href="{{route('vst.main')}}">Nova Visita</a><br>
+<a href="{{route('visita.index')}}">Buscar Visitas</a><br>
+<a href="{{route('vst.index')}}">Buscar Visitantes</a><br><br>
+<a href="{{route('entrada.create')}}">Nova Entrada de Morador</a><br>
+<a href="{{route('entrada.index')}}">Buscar Entradas</a><br>
 @stop

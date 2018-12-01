@@ -15,7 +15,7 @@ class VisitaController extends Controller
     //Mostra todas as visitas do dia
     public function index()
     {
-        $visitas = Visita::whereDate('created_at', date('Y-m-d'))->get();
+        $visitas = Visita::whereDate('created_at', date('Y-m-d'))->paginate(2);
         return view('user.visita-creation.index')->withVisitas($visitas);
     }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Config;
 use App\Admin;
+use App\Visita;
 use Hash;
 use Session;
 use Auth;
@@ -21,10 +22,11 @@ class AdminController extends Controller
     caso o mesmo ainda não tenha sido configurado*/
     public function home(){
         $config = Config::select('configured')->get();
+        $visitas = Visita::whereDate('created_at', date('Y-m-d'))->limit(5)->get();
         if (empty($config[0])){
             return view('admin.configuration.config');
         }
-        return view('admin.dashboard')->withConfig($config);
+        return view('admin.dashboard')->withConfig($config)->withVisitas($visitas);
     }
 
     //Função de acesso ao index de todos os admins cadastrados

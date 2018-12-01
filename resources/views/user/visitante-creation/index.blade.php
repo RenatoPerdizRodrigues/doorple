@@ -14,7 +14,9 @@
                         <input type="text" name="rg" class="form-control">
                     </div>
                     
-                    <input type="submit" class="btn btn-success" value="Procurar">
+                    <div class="text-center">
+                            <input type="submit" class="btn btn-success" value="Procurar">
+                    </div>
                 </form>
             </div>
         </div>
