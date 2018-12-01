@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Visitante;
+use App\Morador;
 use App\Visita;
 use App\Bloco;
 use App\Apartamento;
 use Image;
 use File;
+use Session;
 
 class VisitanteController extends Controller
 {
@@ -22,15 +24,30 @@ class VisitanteController extends Controller
         $blocos = Bloco::with('apartamentos')->get();
         return view('user.visitante-creation.search')->withBlocos($blocos);
     }
-    //Método que busca visitantes já existentes para encaminhar para show ou create
+    /*Método que checa se apartamento possui morador e
+     busca visitantes já existentes para encaminhar para show ou create*/
     public function search(Request $request){
+        //Checa se apartamento possui morador e pode ser visitado
+        //Encontra o ID do apartamento
+        $apartamento = Apartamento::where([['apartamento', $request->apartamento],['bloco_id', $request->bloco]])->first();
+        //Verifica se existe morador
+        $morador = Morador::where([['apartamento_id' , $apartamento->id],['bloco_id', $request->bloco]])->get();
+        if($morador->isEmpty()){
+            Session::flash('success', 'Apartamento selecionado não possui morador!');
+            return redirect()->route('vst.main');
+        }
 
         $visitante = Visitante::where('rg', $request->rg)->get();
-        if(!empty($visitante)){
-            //Precisa redirecionar para a criação de visita
-            return redirect()->route('visita.create', [$visitante[0]->id, $request->apartamento, $request->bloco, $visitante[0]->vehicle_license_plate, $visitante[0]->vehicle_model]);
+        if($visitante->isEmpty()){
+            //Precisa redirecionar para a criação de visitante
+
+            Session::flash('success', 'Visitante não encontrado!');
+            return view('user.visitante-creation.next')->withRg($request->rg)->withBlocovisita($request->bloco)->withApartamentovisita($apartamento->id);
         } else {
-            return view('user.visitante-creation.next')->withRg($request->rg)->withBlocovisita($request->bloco)->withApartamentovisita($request->apartamento);
+            //Precisa redirecionar para a criação de visita
+
+            Session::flash('success', 'Visitante encontrado!');
+            return redirect()->route('visita.create', [$visitante[0]->id, $apartamento->id, $request->bloco, $visitante[0]->vehicle_license_plate, $visitante[0]->vehicle_model]);
         }
     }
 
@@ -41,6 +58,7 @@ class VisitanteController extends Controller
         return view('user.visitante-creation.index')->withVisitantes($visitantes);
     }
 
+    //Encontra visitante específico no índex
     public function find(Request $request){
         $visitante = Visitante::where('rg', $request->rg)->get();
         return redirect()->route('vst.show', $visitante[0]);
@@ -91,6 +109,9 @@ class VisitanteController extends Controller
 
         $visitante->save();
 
+        //Mensagem de sucesso
+        Session::flash('success', 'Visitante cadastrado!');
+
         //Deve redirecionar para a criação de visita, com ID do visitante, apartamento e bloco e informações do carro
         return redirect()->route('visita.create', [$visitante->id, $request->apartamento, $request->bloco, $request->vehicle_license_plate, $request->vehicle_model]);
 
@@ -99,8 +120,9 @@ class VisitanteController extends Controller
     //Mostra o perfil do visitante
     public function show($id)
     {
+        $visitas = Visita::where('visitante_id', $id)->get();
         $visitante = Visitante::find($id);
-        return view('user.visitante-creation.show')->withVisitante($visitante);
+        return view('user.visitante-creation.show')->withVisitante($visitante)->withVisitas($visitas);
     }
 
     //Mostra formulário de edição de visitante
@@ -149,6 +171,9 @@ class VisitanteController extends Controller
             $visitante->vehicle_model = $request->vehicle_model;
         }
 
+        //Mensagem de sucesso
+        Session::flash('success', 'Visitante editado!');
+
         $visitante->save();
 
         return redirect()->route('vst.show', $visitante->id);
@@ -172,6 +197,9 @@ class VisitanteController extends Controller
 
         $visitas->delete();
         $visitante->delete();
+
+        //Mensagem de sucesso
+        Session::flash('success', 'Visitante excluído!');
 
         return redirect()->route('user.dashboard');
     }

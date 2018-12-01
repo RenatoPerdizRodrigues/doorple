@@ -7,6 +7,8 @@ use App\Visita;
 use App\Visitante;
 use App\Bloco;
 use App\Apartamento;
+use App\Morador;
+use Session;
 
 class VisitaController extends Controller
 {
@@ -21,9 +23,9 @@ class VisitaController extends Controller
     public function create($id, $apartamento, $bloco, $placa = null, $modelo = null)
     {
         $visitante = Visitante::find($id);
-        $bloco = Bloco::find($bloco);
-        $apartamento = Apartamento::find($apartamento);
-        return view('user.visita-creation.create')->withVisitante($visitante)->withApartamento($apartamento)->withBloco($bloco)->withPlaca($placa)->withModelo($modelo);
+        $blocos = Bloco::all();
+        $apartamentos = Apartamento::all();
+        return view('user.visita-creation.create')->withVisitante($visitante)->withApartamento($apartamento)->withBloco($bloco)->withPlaca($placa)->withModelo($modelo)->withBlocos($blocos)->withApartamentos($apartamentos);
     }
 
     //Salva dados da visita
@@ -34,6 +36,16 @@ class VisitaController extends Controller
             'apartamento_id', 'exists:apartamento, id',
             'bloco_id', 'exists:bloco, id'
         ));
+
+        //Checa se apartamento possui morador e pode ser visitado
+        //Encontra o ID do apartamento
+        $apartamento = Apartamento::where('id', $request->apartamento)->first();
+        //Verifica se existe morador
+        $morador = Morador::where([['apartamento_id' , $apartamento->id],['bloco_id', $request->bloco]])->get();
+        if($morador->isEmpty()){
+            Session::flash('success', 'Apartamento selecionado não possui morador!');
+            return redirect()->back()->withInput();
+        }
 
         $visita = new Visita();
         $visita->visitante_id = $request->visitante_id;
@@ -60,6 +72,9 @@ class VisitaController extends Controller
         }
 
         $visitante->save();
+
+        //Mensagem de sucesso
+        Session::flash('success', 'Visita cadastrada com sucesso!');
 
         return redirect()->route('user.dashboard');
     }

@@ -3,32 +3,48 @@
 @section('title', '| Cadastro de Usuário')
 
 @section('content')
-<h3>Dados da Visita</h3>
-    <form method="POST" action="{{ route('visita.store') }}">
-        @csrf
-        <h2>Visitante</h2>
-        <!-- Visitante -->
-        <label>Nome</label>
-        <input type="text" name="name" disabled value="{{$visitante->name}}"><br>
-        <label>Sobrenome</label>
-        <input type="text" name="surname" disabled value="{{$visitante->surname}}"><br>
-        <input hidden name="visitante_id" value="{{$visitante->id}}">
-
-        <!-- Apartamento a ser visitado -->
-        <h2>Apartamento a ser Visitado</h2>
-        <label>Bloco</label>
-        <input name="blocoview" disabled value="{{$bloco->prefix}}"><br>
-        <input name="bloco" hidden value="{{$bloco->id}}"><br>
-        <label>Apartamento</label>
-        <input name="apartamentoview" disabled value="{{$apartamento->apartamento}}">
-        <input name="apartamento" hidden value="{{$apartamento->id}}">
-
-        <!-- Carro -->
-        <h2>Carro</h2>
-        <label>Modelo do Veículo</label>
-        <input type="text" name="vehicle_model" value="{{$modelo}}"><br>
-        <label>Placa do Veículo</label>
-        <input type="text" name="vehicle_license_plate" value="{{$placa}}"><br><br>
-        <input type="submit" value="Cadastrar visita">
-    </form>
+<div class="row">
+        <div class="col-md-6 offset-md-3">
+                <div class="forms border">
+                        <form method="POST" action="{{ route('visita.store') }}">
+                                @csrf
+                                
+                    <h3 class="text-center">Dados da Visita</h3>
+                    <div class="form-group">
+                            <h2>Visitante</h2>
+                            <!-- Visitante -->
+                            <label>Nome</label>
+                            <input type="text" name="name" disabled value="{{$visitante->name}}" class="form-control">
+                            <label>Sobrenome</label>
+                            <input type="text" name="surname" disabled value="{{$visitante->surname}}" class="form-control">
+                            <input hidden name="visitante_id" value="{{$visitante->id}}">
+                    </div>
+                    <div class="form-group">
+                            <!-- Apartamento a ser visitado -->
+                            <label>Qual apartamento o visitante deseja visitar?</label>
+                        <label>Bloco</label>
+                        <select name="blocoview" disabled class="form-control">
+                            @foreach($blocos as $blocos)
+                                <option value="{{$blocos->id}}" class="form-control" @if($bloco == $blocos->id) selected @endif>{{$blocos->prefix}}</option>
+                            @endforeach
+                        </select>
+                        <label>Apartamento</label>
+                        <select name="apartamentoview" disabled class="form-control">
+                            @foreach($apartamentos as $apartamentos)
+                                    <option value="{{$apartamentos->apartamento}}" class="form-control" @if($apartamento == $apartamentos->id) selected @endif>{{$apartamentos->apartamento}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                            <!-- Carro -->
+                            <h2>Carro</h2>
+                            <label>Modelo do Veículo</label>
+                            <input type="text" name="vehicle_model" value="{{$modelo}}" class="form-control">
+                            <label>Placa do Veículo</label>
+                            <input type="text" name="vehicle_license_plate" value="{{$placa}}" class="form-control">
+                    </div>
+                    <input type="text" hidden name="bloco" value="{{$bloco}}">
+                    <input type="text" hidden name="apartamento" value="{{$apartamento}}">
+                            <input type="submit" value="Cadastrar visita" class="form-control btn btn-success">
+                            </form>
 @stop

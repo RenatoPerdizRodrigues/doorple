@@ -36,7 +36,7 @@
                     <div class="form-group">
                         <label>Apartamento</label>
                         <select name="ap" class="form-control">
-                            @foreach($bloco->apartamentos as $apartamento)
+                            @foreach($bloco->apartamentos as $apartamentos)
                                     <option value="{{$apartamento->apartamento}}" {{ $morador->apartamento->apartamento == $apartamento->apartamento ? "selected" : ""}} class="form-control">{{$apartamento->apartamento}}</option>
                             @endforeach
                         </select>
