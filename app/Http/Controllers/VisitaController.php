@@ -81,7 +81,7 @@ class VisitaController extends Controller
 
     //Seleciona um dia para mostrar pesquisas
     public function search(Request $request){
-        $visitas = Visita::whereDate('created_at', $request->date)->get();
+        $visitas = Visita::whereDate('created_at', $request->date)->paginate(10);
         return view('user.visita-creation.index')->withVisitas($visitas);
     }
 

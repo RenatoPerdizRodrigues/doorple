@@ -82,10 +82,4 @@
                 </div>
         </div>
 </div>
-
-<a href="{{route('vst.main')}}">Nova Visita</a><br>
-<a href="{{route('visita.index')}}">Buscar Visitas</a><br>
-<a href="{{route('vst.index')}}">Buscar Visitantes</a><br><br>
-<a href="{{route('entrada.create')}}">Nova Entrada de Morador</a><br>
-<a href="{{route('entrada.index')}}">Buscar Entradas</a><br>
 @stop

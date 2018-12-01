@@ -18,7 +18,7 @@ class EntradaMoradorController extends Controller
     }
 
     public function search(Request $request){
-        $entradas = EntradaMorador::whereDate('created_at', $request->date)->get();
+        $entradas = EntradaMorador::whereDate('created_at', $request->date)->paginate(1);
         return view('user.entrada-creation.index')->withEntradas($entradas);
     }
 
