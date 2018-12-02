@@ -32,6 +32,8 @@
                         </div>
                         <input type="text" hidden name="bloco" value="{{$blocovisita}}">
                         <input type="text" hidden name="apartamento" value="{{$apartamentovisita}}">
+                        
+                        @if($configs[0]->visitor_car == 1)
                         <div class="form-group">
                             <!-- Carro -->
                             <h3>Visitante está visitando de carro?</h3>
@@ -39,7 +41,9 @@
                             <input type="text" name="vehicle_model" class="form-control">
                             <label>Placa do Veículo</label>
                             <input type="text" name="vehicle_license_plate" class="form-control">
-                        </div>            
+                        </div>          
+                        @endif
+
                         <input type="submit" value="Continuar visita" class="form-control btn btn-success">
                     </form>
                 </div>

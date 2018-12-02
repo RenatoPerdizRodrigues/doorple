@@ -87,12 +87,13 @@ class MoradorController extends Controller
         return redirect()->route('morador.show', $morador[0]->id);
     }
 
-    //Mostra um morador específico
+    //Mostra um morador específico. Deve retornar as configurações para ver se deve permitir o cadastro de veículos
     public function show($id)
     {
         $morador = Morador::find($id);
         $entradas = EntradaMorador::where('morador_id', $id)->get();
-        return view('admin.morador-creation.show')->withMorador($morador)->withEntradas($entradas);
+        $configs = Config::all();
+        return view('admin.morador-creation.show')->withMorador($morador)->withEntradas($entradas)->withConfigs($configs);
     }
 
     //Mostra formulário de edição de morador

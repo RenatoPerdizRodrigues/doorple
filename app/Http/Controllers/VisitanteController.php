@@ -8,6 +8,7 @@ use App\Morador;
 use App\Visita;
 use App\Bloco;
 use App\Apartamento;
+use App\Config;
 use Image;
 use File;
 use Session;
@@ -64,11 +65,12 @@ class VisitanteController extends Controller
         return redirect()->route('vst.show', $visitante[0]);
     }
 
-    //Mostra o formulário de criação de novo visitante
+    //Mostra o formulário de criação de novo visitante, com as configurações para definir se o cadastro de veículos está ativado para visitante
     public function create($rg, $bloco, $apartamento)
     {
+        $configs = Config::all();
         $blocos = Bloco::with('apartamentos')->get();
-        return view('user.visitante-creation.create')->withRg($rg)->withBlocovisita($bloco)->withApartamentovisita($apartamento)->withBlocos($blocos);
+        return view('user.visitante-creation.create')->withRg($rg)->withBlocovisita($bloco)->withApartamentovisita($apartamento)->withBlocos($blocos)->withConfigs($configs);
     }
 
     //Salva o novo visitante no banco de dados
@@ -117,19 +119,21 @@ class VisitanteController extends Controller
 
     }
 
-    //Mostra o perfil do visitante
+    //Mostra o perfil do visitante, com configurações para verificar se o condomínio permite o cadastro de veículos de visitante
     public function show($id)
     {
+        $configs = Config::all();
         $visitas = Visita::where('visitante_id', $id)->get();
         $visitante = Visitante::find($id);
-        return view('user.visitante-creation.show')->withVisitante($visitante)->withVisitas($visitas);
+        return view('user.visitante-creation.show')->withVisitante($visitante)->withVisitas($visitas)->withConfigs($configs);
     }
 
-    //Mostra formulário de edição de visitante
+    //Mostra formulário de edição de visitante, com configs para verificar se o condomínio permite cadastro de veículos
     public function edit($id)
     {
+        $configs = Config::all();
         $visitante = Visitante::find($id);
-        return view('user.visitante-creation.edit')->withVisitante($visitante);
+        return view('user.visitante-creation.edit')->withVisitante($visitante)->withConfigs($configs);
     }
 
     //Salva as alterações feitas no visitante

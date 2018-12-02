@@ -20,7 +20,9 @@
                     </div>
                             <div class="form-group text-right mt-md-3 mr-md-3">
                                     <div class="text-right">
-                                        <a href="{{route('veiculo_morador.create', $morador->id)}}" class="btn btn-warning">Adicionar Veículo</a>
+                                        @if($configs[0]->resident_registry == 1)
+                                            <a href="{{route('veiculo_morador.create', $morador->id)}}" class="btn btn-warning">Adicionar Veículo</a>
+                                        @endif
                                         <a href="{{route('morador.edit', $morador->id)}}" class="btn btn-success">Editar</a>
                                         <a href="{{route('morador.delete', $morador->id)}}" class="btn btn-danger">Excluir</a>
                                     </div>

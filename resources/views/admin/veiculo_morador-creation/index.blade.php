@@ -6,20 +6,24 @@
 <div class="row">
         <div class="col-md-6 offset-md-3">
             <div class="forms border">
-                <h3 class="text-center">Encontre um Usuário</h3>
+                <h3 class="text-center">Encontre um Veículo</h3>
                 <form method="POST" action="{{ route('veiculo_morador.search.submit') }}">
                         @csrf
-                        <label>Placa do Motorista</label>
-                        <input type="text" name="license_plate" class="form-control"><br>
-                        <input type="submit" value="Procurar" class="btn btn-success">
-                    </form><br><br>
+                        <div class="form-group">
+                            <label>Placa do Motorista</label>
+                            <input type="text" name="license_plate" class="form-control">
+                        </div>
+                        <div class="text-center">
+                            <input type="submit" value="Procurar" class="btn btn-success">
+                        </div>
+                    </form>
             </div>
         </div>
 </div>
 
 <div class="col-md-10 offset-md-1">
         <div class="indexes">
-                <h3>Lista de Moradores</h3>
+                <h3>Lista de Veìculos</h3>
                 <table class="table">
                     <thead>
                         <th>#</th>

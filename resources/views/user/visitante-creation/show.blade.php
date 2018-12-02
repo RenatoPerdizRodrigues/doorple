@@ -33,7 +33,9 @@
                                         <th>#</th>
                                         <th>Bloco</th>
                                         <th>Apartamento</th>
+                                        @if($configs[0]->visitor_car == 1)
                                         <th>Veículo</th>
+                                        @endif
                                         <th>Data</th>
                                     </thead>
                                     <tbody >
@@ -42,7 +44,9 @@
                                                 <td>{{$visita->id}}</td>
                                                 <td>{{$visita->bloco->prefix}}</td> 
                                                 <td>{{$visita->apartamento->apartamento}}</td>
+                                                @if($configs[0]->visitor_car == 1)
                                                 <td>{{$visita->vehicle_license_plate && $visita->vehicle_model ? $visita->visitante->vehicle_license_plate . ' ' . $visita->vehicle_model : "Sem veículo"}}</td>
+                                                @endif
                                                 <td>{{$visita->created_at}}</td>
                                             <p></p>
                                             </tr>

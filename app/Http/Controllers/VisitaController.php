@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Visita;
+use App\Config;
 use App\Visitante;
 use App\Bloco;
 use App\Apartamento;
@@ -12,25 +13,27 @@ use Session;
 
 class VisitaController extends Controller
 {
-    //Mostra todas as visitas do dia, paginadas em 10
+    //Mostra todas as visitas do dia, paginadas em 10, junto das configurações para verificar se o condomínio permite o registro de carros para visitantes
     public function index($date = null)
     {
+        $configs = Config::all();
         if ($date){
             $visitas = Visita::whereDate('created_at', $date)->paginate(10);
         } else {
             $visitas = Visita::whereDate('created_at', date('Y-m-d'))->paginate(10);
         }
         
-        return view('user.visita-creation.index')->withVisitas($visitas);
+        return view('user.visita-creation.index')->withVisitas($visitas)->withConfigs($configs);
     }
 
-    //Mostra formulários da visita
+    //Mostra formulários da visita, deve passar as configs para definir se é possível cadastrar veículo de visitante
     public function create($id, $apartamento, $bloco, $placa = null, $modelo = null)
     {
+        $configs = Config::all();
         $visitante = Visitante::find($id);
         $blocos = Bloco::all();
         $apartamentos = Apartamento::all();
-        return view('user.visita-creation.create')->withVisitante($visitante)->withApartamento($apartamento)->withBloco($bloco)->withPlaca($placa)->withModelo($modelo)->withBlocos($blocos)->withApartamentos($apartamentos);
+        return view('user.visita-creation.create')->withVisitante($visitante)->withApartamento($apartamento)->withBloco($bloco)->withPlaca($placa)->withModelo($modelo)->withBlocos($blocos)->withApartamentos($apartamentos)->withConfigs($configs);
     }
 
     //Salva dados da visita

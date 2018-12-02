@@ -35,6 +35,7 @@
                             @endforeach
                         </select>
                     </div>
+                    @if($configs[0]->visitor_car == 1)
                     <div class="form-group">
                             <!-- Carro -->
                             <h2>Carro</h2>
@@ -43,6 +44,7 @@
                             <label>Placa do Veículo</label>
                             <input type="text" name="vehicle_license_plate" value="{{$placa}}" class="form-control">
                     </div>
+                    @endif
                     <input type="text" hidden name="bloco" value="{{$bloco}}">
                     <input type="text" hidden name="apartamento" value="{{$apartamento}}">
                             <input type="submit" value="Cadastrar visita" class="form-control btn btn-success">

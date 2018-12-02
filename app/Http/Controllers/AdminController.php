@@ -26,7 +26,8 @@ class AdminController extends Controller
         if (empty($config[0])){
             return view('admin.configuration.config');
         }
-        return view('admin.dashboard')->withConfig($config)->withVisitas($visitas);
+        $configs = Config::all();
+        return view('admin.dashboard')->withConfig($config)->withVisitas($visitas)->withConfigs($configs);
     }
 
     //Função de acesso ao index de todos os admins cadastrados, paginados em 10

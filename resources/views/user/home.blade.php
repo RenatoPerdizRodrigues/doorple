@@ -14,6 +14,7 @@
 
 @section('content')
 <div class="row">
+    @if($configs[0]->visitor_car == 1)
         <!-- Caso hajam visitantes com veículos no condomínio, mostrar tabela de carros de visitantes -->
         <div class="col-md-10 offset-md-1">
             <div class="indexes">
@@ -47,6 +48,7 @@
                         @endif
             </div>
         </div>
+    @endif
         <!--Caso hajam visitantes no dia, mostrar tabela de visitantes -->
         <div class="col-md-10 offset-md-1">
                 <div class="indexes">
@@ -59,7 +61,9 @@
                                     <th>#</th>
                                     <th>Visitante</th>
                                     <th>Apartamento</th>
+                                    @if($configs[0]->visitor_car == 1)
                                     <th>Veículo</th>
+                                    @endif
                                     <th>Horário de Entrada</th>
 
                                 </thead>
@@ -69,7 +73,9 @@
                                             <td>{{$visita->id}}</td> 
                                             <td>{{$visita->visitante->name . ' ' . $visita->visitante->surname}}</td>
                                             <td>{{$visita->bloco->prefix . '-' . $visita->apartamento->apartamento}}</td>
+                                            @if($configs[0]->visitor_car == 1)
                                             <td>@if($visita->vehicle_license_plate && $visita->vehicle_model) {{$visita->vehicle_model . ' - ' . $visita->vehicle_license_plate}} @else Sem veículo @endif</td>
+                                            @endif
                                             <td>{{$visita->created_at}}</td>
                                         </tr>
                                     @endforeach

@@ -46,7 +46,9 @@
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="{{route('morador.create')}}">Criar Morador</a>
                 <a class="dropdown-item" href="{{route('morador.index')}}">Consultar Morador</a>
-                <a class="dropdown-item" href="{{route('veiculo_morador.index')}}">Consultar Veículos</a>
+                @if($configs[0]->resident_registry == 1)
+                    <a class="dropdown-item" href="{{route('veiculo_morador.index')}}">Consultar Veículos</a>
+                @endif
               </div>
           </li>
   
@@ -98,6 +100,7 @@
           </div>
         </li>
   
+        @if($configs[0]->resident_registry == 1)
         <!--Dropdown de Moradores-->
         <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle {{Route::currentRouteName() == 'entrada.create' || Route::currentRouteName() == 'entrada.index' || Route::currentRouteName() == 'entrada.show' || Route::currentRouteName() == 'entrada.confirm' ? "active" : ""}}" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -107,7 +110,8 @@
                 <a class="dropdown-item" href="{{route('entrada.create')}}">Nova Entrada</a>
                 <a class="dropdown-item" href="{{route('entrada.index')}}">Buscar Entradas</a>
               </div>
-          </li>
+        </li>
+        @endif
   
           <!--Logout-->
           <li class="nav-item">

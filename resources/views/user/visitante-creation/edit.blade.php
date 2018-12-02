@@ -30,6 +30,7 @@
                                 <label>Foto</label>
                                 <input type="file" name="picture" class="form-control-file">
                         </div>
+                        @if($configs[0]->visitor_car == 1)
                         <div class="form-group">
                             <!-- Carro -->
                             <h3>Visitante está visitando de carro?</h3>
@@ -38,6 +39,7 @@
                             <label>Placa do Veículo</label>
                             <input type="text" name="vehicle_license_plate" class="form-control" value="{{$visitante->vehicle_license_plate ? $visitante->vehicle_license_plate : "" }}">
                         </div>            
+                        @endif
                         <input hidden name="_method" value="PUT">
                         <input type="submit" value="Editar Visitante" class="form-control btn btn-success">
                     </form>
