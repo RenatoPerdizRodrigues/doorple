@@ -10,16 +10,19 @@ use App\EntradaMorador;
 class EntradaMoradorController extends Controller
 {
     //Retorna todas as entradas registradas, paginadas em 10
-    public function index()
+    public function index($date = null)
     {
-        $entradas = EntradaMorador::whereDate('created_at', date('Y-m-d'))->paginate(10);
+        if ($date){
+            $entradas = EntradaMorador::whereDate('created_at', $date)->paginate(10);
+        } else {
+            $entradas = EntradaMorador::whereDate('created_at', date('Y-m-d'))->paginate(10);
+        }
         return view('user.entrada-creation.index')->withEntradas($entradas);
 
     }
 
     public function search(Request $request){
-        $entradas = EntradaMorador::whereDate('created_at', $request->date)->paginate(1);
-        return view('user.entrada-creation.index')->withEntradas($entradas);
+        return redirect()->route('entrada.index', $request->date);
     }
 
     //Confirma o usuário a ter sua entrada registrada

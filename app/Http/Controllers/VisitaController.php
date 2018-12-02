@@ -13,9 +13,14 @@ use Session;
 class VisitaController extends Controller
 {
     //Mostra todas as visitas do dia, paginadas em 10
-    public function index()
+    public function index($date = null)
     {
-        $visitas = Visita::whereDate('created_at', date('Y-m-d'))->paginate(10);
+        if ($date){
+            $visitas = Visita::whereDate('created_at', $date)->paginate(10);
+        } else {
+            $visitas = Visita::whereDate('created_at', date('Y-m-d'))->paginate(10);
+        }
+        
         return view('user.visita-creation.index')->withVisitas($visitas);
     }
 
@@ -81,8 +86,7 @@ class VisitaController extends Controller
 
     //Seleciona um dia para mostrar pesquisas
     public function search(Request $request){
-        $visitas = Visita::whereDate('created_at', $request->date)->paginate(10);
-        return view('user.visita-creation.index')->withVisitas($visitas);
+        return redirect()->route('visita.index', $request->date);
     }
 
     //Mostra uma visita específica

@@ -109,9 +109,11 @@ Route::prefix('admin')->group(function(){
     Route::get('/visita/create/{id}/{apartamento}/{bloco}/{placa?}/{modelo?}', 'VisitaController@create')->name('visita.create');
     //Rota de Index de visita
     Route::post('/visita/index', 'VisitaController@search')->name('visita.search.submit');
-    Route::resource('/visita', 'VisitaController')->except('create');
+    Route::get('visita/index/{date?}', 'VisitaController@index')->name('visita.index');
+    Route::resource('/visita', 'VisitaController')->except('create', 'index');
 
     //Rotas para criação de entrada de morador
     Route::post('/entrada/confirm', 'EntradaMoradorController@confirm')->name('entrada.confirm');
     Route::post('/entrada/index', 'EntradaMoradorController@search')->name('entrada.search.submit');
-    Route::resource('/entrada', 'EntradaMoradorController');
+    Route::get('/entrada/index/{date?}', 'EntradaMoradorController@index')->name('entrada.index');
+    Route::resource('/entrada', 'EntradaMoradorController')->except('index');
