@@ -3,6 +3,12 @@
     use App\Config;
 
     $configs = Config::all();
+
+    if($configs->isEmpty()){
+      $configs = null;
+    }
+
+    $resident_registry = $configs[0] ? $configs[0]->resident_registry : "null";
     
 ?>
 
@@ -13,7 +19,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark">
     <a class="navbar-brand" href="{{route('main')}}">
           <img src="/images/logo.png" height="30" class="logo d-inline-block align-top" alt="">
-      {{$configs[0]->system_name ? " | " . $configs[0]->system_name : ""}}</a>
+      {{$configs ? " | " . $configs[0]->system_name : ""}}</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -46,7 +52,7 @@
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="{{route('morador.create')}}">Criar Morador</a>
                 <a class="dropdown-item" href="{{route('morador.index')}}">Consultar Morador</a>
-                @if($configs[0]->resident_registry == 1)
+                @if($resident_registry == 1)
                     <a class="dropdown-item" href="{{route('veiculo_morador.index')}}">Consultar Veículos</a>
                 @endif
               </div>
@@ -76,7 +82,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark">
     <a class="navbar-brand" href="{{route('main')}}">
           <img src="/images/logo.png" height="30" class="logo d-inline-block align-top" alt="">
-      {{$configs[0]->system_name ? " | " . $configs[0]->system_name : ""}}</a>
+      {{$configs ? " | " . $configs[0]->system_name : ""}}</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -100,7 +106,7 @@
           </div>
         </li>
   
-        @if($configs[0]->resident_registry == 1)
+        @if($resident_registry == 1)
         <!--Dropdown de Moradores-->
         <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle {{Route::currentRouteName() == 'entrada.create' || Route::currentRouteName() == 'entrada.index' || Route::currentRouteName() == 'entrada.show' || Route::currentRouteName() == 'entrada.confirm' ? "active" : ""}}" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -125,7 +131,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark">
     <a class="navbar-brand" href="{{route('main')}}">
           <img src="/images/logo.png" height="30" class="logo d-inline-block align-top" alt="">
-      {{$configs[0]->system_name ? " | " . $configs[0]->system_name : ""}}</a>
+      {{$configs ? " | " . $configs[0]->system_name : ""}}</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>

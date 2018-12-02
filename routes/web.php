@@ -35,8 +35,8 @@ Route::prefix('admin')->group(function(){
     Route::post('/password/reset', 'Auth\AdminResetPasswordController@reset')->name('admin.password.update');
 
     //Rotas para configuração do sistema
-    Route::get('/config/index', 'ConfigController@index')->name('admin.config.index');
-    Route::post('/config/index', 'ConfigController@search')->name('admin.config.search.submit');
+    Route::get('/config/index/{prefix?}', 'ConfigController@index')->name('admin.config.index');
+    Route::post('/config/index/{prefix?}', 'ConfigController@search')->name('admin.config.search.submit');
     Route::get('/config', 'ConfigController@config')->name('admin.config');
     Route::post('/config', 'ConfigController@startConfig')->name('admin.config.submit');
     Route::get('/config/ap', 'ConfigController@apIndex')->name('admin.config.ap');

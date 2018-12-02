@@ -7,14 +7,28 @@ use App\Config;
 use App\Apartamento;
 use App\Morador;
 use App\Bloco;
+use Session;
 
 class ConfigController extends Controller
 {
     //Retorna a view de todos os apartamentos
-    public function index(){
+    public function index($bloco = null){
         $blocos = Bloco::all();
-        $apartamentos = Apartamento::with('moradores')->get();
-        return view('admin.configuration.index')->withApartamentos($apartamentos)->withBlocos($blocos);
+        if ($bloco == null){
+            $prefix = Bloco::first();
+            $bloco = Bloco::where('prefix', $prefix->prefix)->get();
+            $apartamentos = Apartamento::with('moradores')->where('bloco_id', $bloco[0]->id)->get();
+        } else {
+            $bloco = Bloco::where('prefix', $bloco)->get();
+            $apartamentos = Apartamento::with('moradores')->where('bloco_id', $bloco[0]->id)->get();
+        }
+        //$apartamentos = Apartamento::with('moradores')->get();
+        return view('admin.configuration.index')->withApartamentos($apartamentos)->withBlocos($blocos)->withBloco($bloco);
+    }
+
+    //Retorna o index com o bloco selecionado
+    public function search(Request $request){
+        return redirect()->route('admin.config.index', $request->bloco);
     }
     
     public function config(){
@@ -113,6 +127,9 @@ class ConfigController extends Controller
             $config[0]->howmanyblocks = $request->howmanyblocks;
             $config[0]->configured = 1;
             $config[0]->save();
+
+        //Mensagem de sucesso
+        Session::flash('success', 'Configuração finalizada com sucesso!');
         
         return redirect()->route('admin.dashboard');
     }
@@ -132,7 +149,10 @@ class ConfigController extends Controller
         $apartamento->bloco_id = $request->bloco_id;
         $apartamento->save();
 
-        return redirect()->route('admin.dashboard');
+        //Mensagem de sucesso
+        Session::flash('success', 'Apartamento cadastrado com sucesso!');
+
+        return redirect()->route('admin.config.index');
     }
 
     //Função que retorna a edição de configuração e apartamentos
@@ -195,13 +215,17 @@ class ConfigController extends Controller
         $ap = Apartamento::find($id);
         $ap->delete();
 
-        return redirect()->route('admin.dashboard');
+        //Mensagem de Sucesso
+        Session::flash('success', 'Apartamento editado com sucesso!');
+
+        return redirect()->route('admin.config.index');
     }
 
     //Função que edita apartamento
     function apEdit($id){
         $blocos = Bloco::all();
         $ap = Apartamento::find($id);
+
         return view('admin.configuration.ap-edit')->withAp($ap)->withBlocos($blocos);
     }
 
@@ -212,6 +236,9 @@ class ConfigController extends Controller
         $apartamento->bloco_id = $request->bloco_id;
         $apartamento->save();
 
-        return redirect()->route('admin.dashboard');
+        //Mensagem de Sucesso
+        Session::flash('success', 'Apartamento editado com sucesso!');
+
+        return redirect()->route('admin.config.index');
     }
 }

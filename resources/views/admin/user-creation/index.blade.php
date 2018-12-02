@@ -35,7 +35,6 @@
                                 <td>{{$user->name}}</td>
                                 <td>{{$user->email}}</td>
                                 <td><a href="{{route('usr.show', $user->id)}}" class="btn btn-warning">Visualizar</a></td>
-                            <p></p> </li>
                             </tr>
                         @endforeach
                     </body>

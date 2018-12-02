@@ -17,7 +17,7 @@
 
         function addFile(i) {
         fileId++; // increment fileId to get a unique ID for the new element
-        var html = '<input type="text"  name="apartamento_' + i + '[]"><br>';
+        var html = '<input type="text"  name="apartamento_' + i + '[]">';
         div = "files_" + i;
         addElement(div, 'p', 'file-' + fileId, html);
         }
@@ -26,24 +26,41 @@
 @stop
 
 @section('content')
-<h1>Terminamos de configurar as views das configurações! Agora precisamos trabalhar com o finishConfig para que ele trabalhe com o array de apartamentos!</h1>
-    <h3>Conclua a configuração do sistema.</h3>
-    <form method="POST" action="{{ route('admin.config.finish') }}">
-        @csrf
-        <!-- Loop de cada bloco -->
-        @for($i = 1; $i <= $blocos; $i++)
-            <!-- Loop de cada apartamento por bloco -->
-            <label>Bloco</label>
-            <input type="text" name="{{"prefix" . $i}}"><br>
-                <div id="{{"files_" . $i}}">
-                @for($k = 0; $k < count($apartamentos); $k++)
-                    <input type="text" value="@if(array_key_exists($k, $apartamentos)){{$apartamentos[$k]}}@endif" name="{{"apartamento_" . $i . "[]"}}"><br>
-                @endfor
-                </div>
-            <button type="button" onclick="{{"addFile($i);"}}">Adicionar Apartamento para este bloco</button><br>
-            <br>
-        @endfor
-        <input hidden type="text" name="blocos" value="{{$blocos}}"><br>
-        <input type="submit" value="Logar"><br><br>
-    </form>
+<div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="forms border">
+                <h3 class="text-center">Conclua a configuração do sistema!<h5 class="text-center">Adicione apartamentos para cada bloco, ou deixe um apartamento em branco caso não exista naquele bloco.</h5></h3>
+                <form method="POST" action="{{ route('admin.config.finish') }}">
+                        @csrf
+                        <!-- Loop de cada bloco -->
+                        @for($i = 1; $i <= $blocos; $i++)
+                            <div class="form group">
+                                <!-- Loop de cada apartamento por bloco -->
+                                <div class="forms border">
+                                    <div class="form-group">
+                                        <div class="text-center">
+                                            <h4>Bloco {{$i}}</h4>
+                                        </div>
+                                        <label>Nome do Bloco</label>
+                                        <input type="text" name="{{"prefix" . $i}}" class="form-control">
+                                    </div>
+                                    
+                                    <div id="{{"files_" . $i}}" class="form-group">
+                                        <label>Apartamentos do Bloco</label>
+                                        @for($k = 0; $k < count($apartamentos); $k++)
+                                            <input type="text" class="form-control" value="@if(array_key_exists($k, $apartamentos)){{$apartamentos[$k]}}@endif" name="{{"apartamento_" . $i . "[]"}}">
+                                        @endfor
+                                    </div>
+                                    <div class="form-group text-center">
+                                        <button type="button" class="btn btn-secondary" onclick="{{"addFile($i);"}}">Adicionar Apartamento para este bloco</button>
+                                    </div>
+                                </div>
+                            </div>
+                        @endfor
+                        <input hidden type="text" name="blocos" value="{{$blocos}}">
+                        <input type="submit" class="form-control btn btn-success" value="Terminar Configuração">
+                </form>
+            </div>
+        </div>
+</div>
 @stop

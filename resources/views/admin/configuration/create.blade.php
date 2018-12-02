@@ -3,17 +3,28 @@
 @section('title', '| Inserir Apartamento')
 
 @section('content')
-<h3>Inserir um Apartamento</h3>
-<form method="POST" action="{{route('admin.config.store')}}">
-    @csrf
-    Bloco:
-    <select name="bloco_id">
-    @foreach($blocos as $bloco)
-        <option value="{{$bloco->id}}">{{$bloco->prefix}}</option>
-    @endforeach
-    </select><br>
-    <label>Apartamento (não deve já existir no bloco): </label>
-    <input type="text" name="apartamento">
-    <input type="submit" value="Cadastrar">
-</form><br>
+<div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="forms border">
+                <h3 class="text-center">Cadastrar um Apartamento</h3>
+                <form method="POST" action="{{route('admin.config.store')}}">
+                        @csrf
+                        <div class="form-group">
+                            <label>Bloco</label>
+                            <select name="bloco_id" class="form-control">
+                                @foreach($blocos as $bloco)
+                                    <option value="{{$bloco->id}}" class="form-control">{{$bloco->prefix}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Apartamento (não deve já existir no bloco): </label>
+                            <input type="text" class="form-control" name="apartamento">
+                        </div>
+    
+                        <input type="submit" class="form-control btn btn-success" value="Cadastrar">
+                </form>
+            </div>
+        </div>
+</div>
 @stop
