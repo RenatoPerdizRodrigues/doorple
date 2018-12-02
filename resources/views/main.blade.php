@@ -1,7 +1,7 @@
 <!-- Todo o conteúdo das views será mostrado nesta página -->
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     @include('partials/_head')
 </head>

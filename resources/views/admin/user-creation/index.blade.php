@@ -21,6 +21,9 @@
     <div class="col-md-10 offset-md-1">
         <div class="indexes">
                 <h3>Lista de Usuários</h3>
+                @if($users->isEmpty())
+                    Não há usuários cadastrados.
+                @else
                 <table class="table">
                     <thead>
                         <th>#</th>
@@ -40,6 +43,7 @@
                     </body>
                 </table>
                 {!! $users->links(); !!}
+                @endif
         </div>
     </div>
 </div>

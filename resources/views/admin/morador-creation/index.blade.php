@@ -14,7 +14,9 @@
                     <input type="text" name="rg" class="form-control">
                 </div>
                 
-                <input type="submit" class="btn btn-success" value="Procurar">
+                <div class="text-center">
+                        <input type="submit" class="btn btn-success" value="Procurar">
+                </div>
             </form>
         </div>
     </div>
@@ -23,32 +25,36 @@
 <div class="col-md-10 offset-md-1">
     <div class="indexes">
             <h3>Lista de Moradores</h3>
-            <table class="table">
-                <thead>
-                    <th>#</th>
-                    <th>Nome</th>
-                    <th>Sobrenome</th>
-                    <th>RG</th>
-                    <th>Data de Nascimento</th>
-                    <th>Apartamento</th>
-                    <th>Ações</th>
-                </thead>
-                <tbody >
-                    @foreach($moradores as $morador)
-                        <tr>
-                            <td>{{$morador->id}}</td> 
-                            <td>{{$morador->name}}</td>
-                            <td>{{$morador->surname}}</td>
-                            <td>{{$morador->rg}}</td>
-                            <td>{{$morador->birthdate}}</td>
-                            <td>{{$morador->bloco->prefix . '-' . $morador->apartamento->apartamento}}</td>
-                            <td><a href="{{route('morador.show', $morador->id)}}" class="btn btn-warning">Visualizar</a></td>
-                        <p></p> </li>
-                        </tr>
-                    @endforeach
-                </body>
-            </table>
-            {!! $moradores->links(); !!}
+            @if($moradores->isEmpty())
+                Não há moradores cadastrados.
+            @else
+                <table class="table">
+                    <thead>
+                        <th>#</th>
+                        <th>Nome</th>
+                        <th>Sobrenome</th>
+                        <th>RG</th>
+                        <th>Data de Nascimento</th>
+                        <th>Apartamento</th>
+                        <th>Ações</th>
+                    </thead>
+                    <tbody >
+                        @foreach($moradores as $morador)
+                            <tr>
+                                <td>{{$morador->id}}</td> 
+                                <td>{{$morador->name}}</td>
+                                <td>{{$morador->surname}}</td>
+                                <td>{{$morador->rg}}</td>
+                                <td>{{$morador->birthdate}}</td>
+                                <td>{{$morador->bloco->prefix . '-' . $morador->apartamento->apartamento}}</td>
+                                <td><a href="{{route('morador.show', $morador->id)}}" class="btn btn-warning">Visualizar</a></td>
+                            <p></p> </li>
+                            </tr>
+                        @endforeach
+                    </body>
+                </table>
+                {!! $moradores->links(); !!}
+            @endif
     </div>
 </div>
 @stop

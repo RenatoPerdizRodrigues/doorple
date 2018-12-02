@@ -25,6 +25,9 @@
     <div class="col-md-10 offset-md-1">
         <div class="indexes">
                 <h3>Lista de Visitantes</h3>
+                @if($visitantes->isEmpty())
+                    Não há visitantes cadastrados para este dia.
+                @else
                 <table class="table">
                     <thead>
                         <th>#</th>
@@ -49,6 +52,7 @@
                     </body>
                 </table>
                 {!! $visitantes->links(); !!}
+                @endif
         </div>
     </div>
 @stop

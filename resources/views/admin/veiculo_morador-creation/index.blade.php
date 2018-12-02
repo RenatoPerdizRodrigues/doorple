@@ -23,7 +23,10 @@
 
 <div class="col-md-10 offset-md-1">
         <div class="indexes">
-                <h3>Lista de Veìculos</h3>
+                <h3>Lista de Veículos</h3>
+                @if($veiculos_morador->isEmpty())
+                    Não há veículos cadastrados.
+                @else
                 <table class="table">
                     <thead>
                         <th>#</th>
@@ -47,6 +50,7 @@
                     </body>
                 </table>
                 {!! $veiculos_morador->links(); !!}
+                @endif
         </div>
     </div>
 @stop

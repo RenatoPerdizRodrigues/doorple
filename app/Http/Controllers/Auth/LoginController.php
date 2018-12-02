@@ -28,6 +28,14 @@ class LoginController extends Controller
      */
     protected $redirectTo = '/home';
 
+    //Mostra formulário de login de usuários
+    public function showLoginForm(){
+        if(Auth::guard('admin')->check()){
+            return redirect()->route('admin.dashboard');
+        }
+        return view('auth.login');
+    }
+
     /**
      * Create a new controller instance.
      *

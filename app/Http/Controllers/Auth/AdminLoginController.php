@@ -15,6 +15,9 @@ class AdminLoginController extends Controller
 
     //Mostra formulário de login de administradores
     public function showLoginForm(){
+        if(Auth::guard('web')->check()){
+            return redirect()->route('user.dashboard');
+        }
         return view('auth.admin.login');
     }
 

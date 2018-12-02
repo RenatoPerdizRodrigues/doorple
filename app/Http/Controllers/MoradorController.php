@@ -69,6 +69,8 @@ class MoradorController extends Controller
             Image::make($picture)->resize(300, 400)->save($location);
             
             $morador->picture = $filename;
+        } else {
+            $morador->picture = '1.jpg';
         }
 
         $morador->save();
@@ -77,7 +79,7 @@ class MoradorController extends Controller
         Session::flash('success', 'Morador cadastrado com sucesso!');
 
         //Redirecionamento
-        return redirect()->route('admin.dashboard');
+        return redirect()->route('morador.index');
     }
 
     //Busca um morador e redireciona para a página de show
@@ -142,8 +144,10 @@ class MoradorController extends Controller
             Image::make($picture)->resize(240, 320)->save($location);
             
             //Deleta a foto original
-            File::delete(public_path('images/morador/'.$morador->picture));
-
+            if ($morador->picture != '1.jpg'){
+                File::delete(public_path('images/morador/'.$morador->picture));
+            }
+            
             $morador->picture = $filename;
 
         }
@@ -166,12 +170,14 @@ class MoradorController extends Controller
     public function destroy($id)
     {
         $morador = Morador::find($id);
-        File::delete(public_path('images/morador/'.$morador->picture));
+        if ($morador->picture != '1.jpg'){
+            File::delete(public_path('images/morador/'.$morador->picture));
+        }
         $morador->delete();
 
         //Criação de mensagem de sucesso
         Session::flash('success', 'Morador deletado com sucesso!');
 
-        return redirect()->route('admin.dashboard');
+        return redirect()->route('morador.index');
     }
 }

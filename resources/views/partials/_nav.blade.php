@@ -17,7 +17,7 @@
 @if(Auth::guard('admin')->check())
 
 <nav class="navbar navbar-expand-lg navbar-dark">
-    <a class="navbar-brand" href="{{route('main')}}">
+    <a class="navbar-brand" href="{{route('admin.dashboard')}}">
           <img src="/images/logo.png" height="30" class="logo d-inline-block align-top" alt="">
       {{$configs ? " | " . $configs[0]->system_name : ""}}</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
