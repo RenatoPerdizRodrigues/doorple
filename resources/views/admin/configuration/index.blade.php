@@ -42,22 +42,20 @@
                                         @if(count($apartamento->moradores) == 0)
                                             Vazio
                                         @else
-                                            <ul>
                                                 @foreach($apartamento->moradores as $morador)
                                                     @if($morador->bloco_id == $bloco->id && $morador->apartamento_id == $apartamento->id)
-                                                        <li><a href="{{route('morador.show', $morador->id)}}">{{$morador->name . " " . $morador->surname}}</a></li>
+                                                        <a href="{{route('morador.show', $morador->id)}}">{{$morador->name . " " . $morador->surname}}</a><br>
                                                     @endif
                                                 @endforeach
-                                            </ul>
                                         @endif
                                     </td>
                                     <td>
-                                            <div class="text-right">
                                                     <a href="{{ route('admin.config.ap-edit', $apartamento->id) }}" class="btn btn-warning">Editar</a>
                                                     @if(count($apartamento->moradores) == 0)
                                                     <a href="{{ route('admin.config.delete', $apartamento->id) }}" class="btn btn-danger">Deletar</a>
+                                                    @else 
+                                                    <a href="#" class="btn btn-secondary">Deletar</a>
                                                     @endif
-                                            </div>
                                     </td>
                                 <p></p> </li>
                                 </tr>

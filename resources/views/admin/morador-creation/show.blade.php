@@ -64,7 +64,7 @@
                                 @foreach($entradas as $entrada)
                                     <tr>
                                         <td>{{$entrada->id}}</td> 
-                                        <td>{{$entrada->morador->name . ' ' . $entrada->morador->surname}}</td>
+                                        <td>{{$entrada->created_at}}</td>
                                         <td>{{!empty($entrada->veiculo) ? $entrada->veiculo->type . ' ' . $entrada->veiculo->license_plate : "Sem Veículo"}}</td>
                                     <p></p>
                                     </tr>

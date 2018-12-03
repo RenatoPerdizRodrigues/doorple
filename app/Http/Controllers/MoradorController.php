@@ -27,11 +27,31 @@ class MoradorController extends Controller
         return view('admin.morador-creation.index')->withMoradores($moradores);
     }
 
-    //Mostra o formulário de criação de novos moradores
+    //Mostra o formulário de criação de novos moradores, deve mostrar blocos e apartamentos dinamicamente
     public function create()
     {
-        $blocos = Bloco::with('apartamentos')->get();
-        return view('admin.morador-creation.create')->withBlocos($blocos);
+        //Mostra todos os blocos
+        $blocos = Bloco::all();
+
+        //Criação do array que receberá arrays de apartamentos de cada bloco, na ordem
+        $apartamentos = array();
+
+        foreach($blocos as $bloco){
+            $apartamento = Apartamento::where('bloco_id', $bloco->id)->get();
+
+            ${"prefixo_" . $bloco->prefix} = array();
+
+            foreach($apartamento as $apartamento){
+                array_push(${"prefixo_" . $bloco->prefix}, $apartamento);
+            }
+
+            array_push($apartamentos, ${"prefixo_" . $bloco->prefix});
+        }
+
+        //Array com um set inicial de apartamento do primeiro bloco, para usar como default
+        $apartamentosBlocoInicial = Apartamento::where('bloco_id', $blocos[1]->id)->get();
+
+        return view('admin.morador-creation.create')->withBlocos($blocos)->withApartamentos($apartamentos)->withApartamentosBlocoInicial($apartamentosBlocoInicial);
     }
 
     //Salva o novo morador no banco de dados
@@ -43,7 +63,7 @@ class MoradorController extends Controller
             'surname' => 'required|min:3|max:35',
             'rg' => 'required|min:6',
             'birthdate' => 'required',
-            'ap' => 'exists:apartamentos,apartamento',
+            'ap' => 'exists:apartamentos,id',
             'bloco' => 'exists:blocos,id'
         ));
 
@@ -54,13 +74,8 @@ class MoradorController extends Controller
         $morador->rg = $request->rg;
         $morador->birthdate = $request->birthdate;
         $morador->bloco_id = $request->bloco;
+        $morador->apartamento_id = $request->ap;
         
-        //Encontra a id do apartamento com o bloco correto
-        $apartamento = Apartamento::where([['apartamento', $request->ap], ['bloco_id', $request->bloco]])->limit(1)->get();
-        
-        //Salva o id no objeto Morador
-        $morador->apartamento_id = $apartamento[0]->id;
-
         //Salva imagem se necessário, com filename feito pela timestamp, com a extensão original e salva o filename no bd
         if ($request->hasfile('picture')){
             $picture = $request->file('picture');
@@ -98,12 +113,34 @@ class MoradorController extends Controller
         return view('admin.morador-creation.show')->withMorador($morador)->withEntradas($entradas)->withConfigs($configs);
     }
 
-    //Mostra formulário de edição de morador
+    //Mostra formulário de edição de morador, que deve mostrar os apartamentos dinamicamente
     public function edit($id)
     {
-        $blocos = Bloco::with('apartamentos')->get();
+        //Mostra todos os blocos
+        $blocos = Bloco::all();
+
         $morador = Morador::find($id);
-        return view('admin.morador-creation.edit')->withMorador($morador)->withBlocos($blocos);
+
+        //Criação do array que receberá arrays de apartamentos de cada bloco, na ordem
+        $apartamentos = array();
+
+        foreach($blocos as $bloco){
+            $apartamento = Apartamento::where('bloco_id', $bloco->id)->get();
+
+            ${"prefixo_" . $bloco->prefix} = array();
+
+            foreach($apartamento as $apartamento){
+                array_push(${"prefixo_" . $bloco->prefix}, $apartamento);
+            }
+
+            array_push($apartamentos, ${"prefixo_" . $bloco->prefix});
+        }
+
+        //Array com um set inicial de apartamento do primeiro bloco, para usar como default
+        $apartamentosBlocoInicial = Apartamento::where('bloco_id', $morador->bloco->id)->get();
+
+
+        return view('admin.morador-creation.edit')->withMorador($morador)->withBlocos($blocos)->withApartamentos($apartamentos)->withApartamentosBlocoInicial($apartamentosBlocoInicial);;
     }
 
     //Salva as alterações da edição
@@ -117,7 +154,7 @@ class MoradorController extends Controller
             'surname' => 'required|min:3|max:35',
             'rg' => 'required|min:6',
             'birthdate' => 'required',
-            'ap' => 'exists:apartamentos,apartamento',
+            'ap' => 'exists:apartamentos,id',
             'bloco' => 'exists:blocos,id'
         ));
 
@@ -128,12 +165,7 @@ class MoradorController extends Controller
         $morador->rg = $request->rg;
         $morador->birthdate = $request->birthdate;
         $morador->bloco_id = $request->bloco;
-        
-        //Encontra a id do apartamento com o bloco correto
-        $apartamento = Apartamento::where([['apartamento', $request->ap], ['bloco_id', $request->bloco]])->limit(1)->get();
-        
-        //Salva o id no objeto Morador
-        $morador->apartamento_id = $apartamento[0]->id;
+        $morador->apartamento_id = $request->ap;
 
         //Edita imagem se necessário, com filename feito pela timestamp, com a extensão original e salva o filename no bd
         if ($request->hasfile('picture')){

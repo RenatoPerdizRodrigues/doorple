@@ -20,35 +20,55 @@ class VisitanteController extends Controller
         $this->middleware('auth');
     }
 
-    //Método que mostra o formulário de busca inicial do usuário
+    //Método que mostra o formulário de busca inicial do usuário, que deve mostrar dinamicamente todos os apartamentos e blocos
     public function main(){
-        $blocos = Bloco::with('apartamentos')->get();
-        return view('user.visitante-creation.search')->withBlocos($blocos);
+        //Todos os blocos
+        $blocos = Bloco::all();        
+
+        //Criação do array que receberá arrays de apartamentos de cada bloco, na ordem
+        $apartamentos = array();
+
+        foreach($blocos as $bloco){
+            $apartamento = Apartamento::where('bloco_id', $bloco->id)->get();
+
+            ${"prefixo_" . $bloco->prefix} = array();
+
+            foreach($apartamento as $apartamento){
+                array_push(${"prefixo_" . $bloco->prefix}, $apartamento);
+            }
+
+            array_push($apartamentos, ${"prefixo_" . $bloco->prefix});
+        }
+
+        //Array com um set inicial de apartamento do primeiro bloco, para usar como default
+        $apartamentosBlocoInicial = Apartamento::where('bloco_id', $blocos[1]->id)->get();
+
+        return view('user.visitante-creation.search')->withBlocos($blocos)->withApartamentos($apartamentos)->withApartamentosBlocoInicial($apartamentosBlocoInicial);
     }
-    /*Método que checa se apartamento possui morador e
-     busca visitantes já existentes para encaminhar para show ou create*/
+
+    //Método que checa se apartamento possui morador e busca visitantes já existentes para encaminhar para show ou create
     public function search(Request $request){
+
         //Checa se apartamento possui morador e pode ser visitado
-        //Encontra o ID do apartamento
-        $apartamento = Apartamento::where([['apartamento', $request->apartamento],['bloco_id', $request->bloco]])->first();
-        //Verifica se existe morador
-        $morador = Morador::where([['apartamento_id' , $apartamento->id],['bloco_id', $request->bloco]])->get();
+        $morador = Morador::where([['apartamento_id' , $request->apartamento],['bloco_id', $request->bloco]])->get();
+
         if($morador->isEmpty()){
             Session::flash('success', 'Apartamento selecionado não possui morador!');
             return redirect()->route('vst.main');
         }
 
+        //Checa se visitante já existe ou deverá ser cadastrdo
         $visitante = Visitante::where('rg', $request->rg)->get();
         if($visitante->isEmpty()){
             //Precisa redirecionar para a criação de visitante
 
             Session::flash('success', 'Visitante não encontrado!');
-            return view('user.visitante-creation.next')->withRg($request->rg)->withBlocovisita($request->bloco)->withApartamentovisita($apartamento->id);
+            return view('user.visitante-creation.next')->withRg($request->rg)->withBlocovisita($request->bloco)->withApartamentovisita($request->apartamento);
         } else {
             //Precisa redirecionar para a criação de visita
 
             Session::flash('success', 'Visitante encontrado!');
-            return redirect()->route('visita.create', [$visitante[0]->id, $apartamento->id, $request->bloco, $visitante[0]->vehicle_license_plate, $visitante[0]->vehicle_model]);
+            return redirect()->route('visita.create', [$visitante[0]->id, $request->apartamento, $request->bloco, $visitante[0]->vehicle_license_plate, $visitante[0]->vehicle_model]);
         }
     }
 
