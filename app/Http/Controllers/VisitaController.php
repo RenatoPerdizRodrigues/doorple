@@ -92,6 +92,20 @@ class VisitaController extends Controller
         return redirect()->route('visita.index', $request->date);
     }
 
+    //Registra a saída de veículo
+    public function leave(Request $request){
+        //Muda o valor que indica que veículo está no condomínio
+        $visita = Visita::find($request->id);
+        $visita->vehicle_parked = 0;
+
+        $visita->save();
+
+        //Mensagem de sucesso
+        Session::flash('success', 'Saída de veículo registrada!');
+
+        return redirect()->route('user.dashboard');
+    }
+
     //Mostra uma visita específica
     public function show($id)
     {

@@ -19,7 +19,7 @@ class HomeController extends Controller
     public function index()
     {
         $visitas = Visita::whereDate('created_at', date('Y-m-d'))->limit(5)->get();
-        $carros = Visita::where('vehicle_parked', 1)->get();
+        $carros = Visita::where('vehicle_parked', 1)->orderBy('created_at', 'asc')->paginate(10);
         $configs = Config::all();
         return view('user.home')->withVisitas($visitas)->withCarros($carros)->withConfigs($configs);
     }
