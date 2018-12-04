@@ -14,6 +14,7 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth')->except('main');
+        $this->middleware('checkConfig');
     }
 
     //Função que retorna a página principal do usuário com visitas e veículos, e array para timer de contagem

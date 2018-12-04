@@ -8,8 +8,8 @@ class DatabaseSeeder extends Seeder
     {
         //Chama os seeds criados
         $this->call(AdminsTableSeeder::class);
-        $this->call(ConfigTablesSeeder::class);
+        //$this->call(ConfigTablesSeeder::class);
         $this->call(UsersTableSeeder::class);
-        $this->call(MoradoresTableSeeder::class);
+        //$this->call(MoradoresTableSeeder::class);
     }
 }

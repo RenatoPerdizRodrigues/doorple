@@ -15,7 +15,7 @@ use Session;
 
 class VisitanteController extends Controller
 {
-    //Construct que permite acesso apenas a administradores logados
+    //Construct que permite acesso apenas a usuários logados
     public function __construct(){
         $this->middleware('auth');
     }

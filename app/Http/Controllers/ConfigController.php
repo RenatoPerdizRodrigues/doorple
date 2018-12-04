@@ -12,6 +12,12 @@ use Session;
 //Controller das ações relacionadas a configurações do sistema
 class ConfigController extends Controller
 {
+    //Construct que permite acesso apenas a administradores logados
+    public function __construct(){
+        $this->middleware('auth:admin');
+        $this->middleware('checkConfig')->except('config1', 'config2', 'config3', 'config4', 'finishConfig');
+    }
+    
     //Retorna a view de todos os apartamentos
     public function index($bloco = null){
         //Retorna o primeiro bloco de apartamentos caso não tenha sido feita uma pesquisa
@@ -59,10 +65,15 @@ class ConfigController extends Controller
         //Cálculo de tempo que o carro pode ficar no condomínio, em minutos
         if ($request->minutes || $request->car_time_hours){
             if ($request->car_time_hours != null){
-                $time = ($request->car_time_hours * 60) + $request->car_time_minutes;
-            } elseif($request->car_time_minutes  != null) {
-                $time = $request->car_time_minutes;
+                $horas = ($request->car_time_hours * 60);
             } 
+            
+            if($request->car_time_minutes  != null) {
+                $minutos = $request->car_time_minutes;
+            } 
+
+            $time = $horas + $minutos; 
+            
         } else {
             $time = 0;
         }
@@ -214,14 +225,17 @@ class ConfigController extends Controller
         $configs = Config::find(1);
         $configs->system_name = $request->system_name;
         $configs->visitor_car = $request->visitor_car;
-
+         
         if ($request->car_time_minutes || $request->car_time_hours){
             if ($request->car_time_hours != null){
-                $time = ($request->car_time_hours * 60) + $request->car_time_minutes;
-                $configs->car_time = $time;
-            } elseif($request->car_time_minutes != null) {
-                $configs->car_time = $request->car_time_minutes;
+                $horas = ($request->car_time_hours * 60);
+            } 
+            
+            if($request->car_time_minutes  != null) {
+                $minutos = $request->car_time_minutes;
             }
+    
+            $configs->car_time = $horas + $minutos; 
         }
 
         $configs->resident_registry = $request->resident_registry;

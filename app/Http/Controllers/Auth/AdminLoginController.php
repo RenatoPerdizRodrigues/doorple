@@ -10,7 +10,7 @@ class AdminLoginController extends Controller
 {
     //Garante que apenas usuários não logados possam usar as funções da classe 
     public function __construct(){
-        $this->middleware('guest:admin')->except('adminLogout');
+        $this->middleware('guest')->except('adminLogout');
     }
 
     //Mostra formulário de login de administradores
@@ -42,7 +42,7 @@ class AdminLoginController extends Controller
     //Realiza o logout
     public function adminLogout(){
         Auth::guard('admin')->logout();
-        return redirect('/');
+        return redirect()->route('admin.login');
     }
 
 }

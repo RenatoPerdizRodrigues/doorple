@@ -9,13 +9,16 @@ use App\Visita;
 use Hash;
 use Session;
 use Auth;
+use Illuminate\Routing\Redirector;
+
 
 //Classe de acesso à página inicial do administrador, assim como as funções de CRUD de criação de um novo admin
 class AdminController extends Controller
 {
     //Construct que permite acesso apenas a administradores logados
-    public function __construct(){
+    public function __construct(Redirector $redirect){
         $this->middleware('auth:admin');
+        $this->middleware('checkConfig');
     }
 
     /*Função de acesso a view inicial do administrador, que pode redirecionar para a configuração do sistema

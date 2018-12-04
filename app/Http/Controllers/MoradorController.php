@@ -19,6 +19,7 @@ class MoradorController extends Controller
     //Construct que permite acesso apenas a administradores logados
     public function __construct(){
         $this->middleware('auth:admin');
+        $this->middleware('checkConfig');
     }
 
     //Função de acesso ao index de todos os moradores cadastrados, paginados em 10

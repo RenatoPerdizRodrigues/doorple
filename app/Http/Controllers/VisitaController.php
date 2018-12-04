@@ -13,6 +13,11 @@ use Session;
 
 class VisitaController extends Controller
 {
+    //Construct que permite acesso apenas a usuários logados
+    public function __construct(){
+        $this->middleware('auth');
+    }
+    
     //Mostra todas as visitas do dia, paginadas em 10, junto das configurações para verificar se o condomínio permite o registro de carros para visitantes
     public function index($date = null)
     {
