@@ -24,7 +24,7 @@
         </div>
         <div class="col-md-10 offset-md-1">
             <div class="indexes">
-                    <h3>Lista de Apartamentos</h3>
+                <h3>Lista de Apartamentos de prefixo {{$bloco[0]->prefix}}</h3>
                     <table class="table">
                         <thead>
                             <th>#</th>
@@ -54,7 +54,7 @@
                                                     @if(count($apartamento->moradores) == 0)
                                                     <a href="{{ route('admin.config.delete', $apartamento->id) }}" class="btn btn-danger">Deletar</a>
                                                     @else 
-                                                    <a href="#" class="btn btn-secondary">Deletar</a>
+                                                    <a href="{{ route('admin.config.delete', $apartamento->id) }}" class="btn btn-secondary">Deletar</a>
                                                     @endif
                                     </td>
                                 <p></p> </li>

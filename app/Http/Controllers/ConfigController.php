@@ -9,10 +9,12 @@ use App\Morador;
 use App\Bloco;
 use Session;
 
+//Controller das ações relacionadas a configurações do sistema
 class ConfigController extends Controller
 {
     //Retorna a view de todos os apartamentos
     public function index($bloco = null){
+        //Retorna o primeiro bloco de apartamentos caso não tenha sido feita uma pesquisa
         $blocos = Bloco::all();
         if ($bloco == null){
             $prefix = Bloco::first();
@@ -20,70 +22,75 @@ class ConfigController extends Controller
             $apartamentos = Apartamento::with('moradores')->where('bloco_id', $bloco[0]->id)->get();
         } else {
             $bloco = Bloco::where('prefix', $bloco)->get();
+
+            //Caso não tenha sido encontrado bloco, retornar para a função Index e passar a mensagem de fracasso
+            if ($bloco->isEmpty()){
+                Session::flash('success', 'Não foi encontrado um bloco com o valor selecionado.');
+
+                return redirect()->route('admin.config.index');
+            }
+
+            //Caso tenha encontrado, retornar a view com o bloco selecionado
             $apartamentos = Apartamento::with('moradores')->where('bloco_id', $bloco[0]->id)->get();
         }
         //$apartamentos = Apartamento::with('moradores')->get();
         return view('admin.configuration.index')->withApartamentos($apartamentos)->withBlocos($blocos)->withBloco($bloco);
     }
 
-    //Retorna o index com o bloco selecionado
+    //Retorna o index com o bloco de apartamentos selecionado
     public function search(Request $request){
         return redirect()->route('admin.config.index', $request->bloco);
     }
     
-    public function config(){
-        return view('admin.configuration.config');
+    //Retorna a view inicial de configuração
+    public function config1(){
+        return view('admin.configuration.config1');
     }
 
-    //Valida e insere dados de configuração inicial
-    public function startConfig(Request $request){
+    //Valida os dados da configuração inicial e retorna a view da próxima etapa de configuração
+    public function config2(Request $request){
         //Valida os dados do formulário de configuração
         $this->validate($request, array(
-            'system_name' => 'required|min:3|max:20',
+            'system_name' => 'required|min:1|max:20',
             'visitor_car' => 'required|boolean',
             'resident_registry' => 'required|boolean'
         ));
 
-        //Insere os dados de configuração na tabela configs
-        $config = new Config();
-        $config->configured = 0;
-        $config->system_name = $request->system_name;
-        $config->visitor_car = $request->visitor_car;
-
-        //Cálculo de tempo que o carro pode ficar no condomínio
+        //Cálculo de tempo que o carro pode ficar no condomínio, em minutos
         if ($request->minutes || $request->car_time_hours){
             if ($request->car_time_hours != null){
                 $time = ($request->car_time_hours * 60) + $request->car_time_minutes;
-                $config->car_time = $time;
-            } elseif($request->car_time_minutes) {
-                $config->car_time = $request->car_time_minutes;
-            }
+            } elseif($request->car_time_minutes  != null) {
+                $time = $request->car_time_minutes;
+            } 
+        } else {
+            $time = 0;
         }
-        $config->resident_registry = $request->resident_registry;
-        $config->save();
 
-        //Redireciona para a configuração de apartamentos
-        return redirect()->route('admin.config.ap');
-    }
-
-    //Retorna a view do formulário de configuração inicial
-    public function apIndex(){
-        return view('admin.configuration.config-ap');
+        //Redireciona para a configuração de apartamentos, embora os valores só vão vir a ser salvos em finishConfig()
+        return view('admin.configuration.config2')->with('system_name', $request->system_name)->with('visitor_car', $request->visitor_car)->with('resident_registry', $request->resident_registry)->with('time', $time);
     }
 
     //Retorna a a continuação do formulário de configuração
-    public function apDetail(Request $request){
+    public function config3(Request $request){
         $total = $request->total;
         $blocos = $request->blocos;
         //Descobre a quantidade de apartamentos por bloco, arredondando para cima
         $pbloco = $total / $blocos;
         $pbloco = ceil($pbloco);
 
-        return view('admin.configuration.config-ap-2')->withTotal($total)->withBlocos($blocos)->withPblocos($pbloco);
+        //Retorna os valores da configuração inicial
+        $system_name = $request->system_name;
+        $visitor_car = $request->visitor_car;
+        $resident_registry = $request->resident_registry;
+        $time = $request->time;
+
+        return view('admin.configuration.config3')->withTotal($total)->withBlocos($blocos)->withPblocos($pbloco)->with('system_name', $request->system_name)->with('visitor_car', $request->visitor_car)->with('resident_registry', $request->resident_registry)->with('time', $time);
     }
 
         //Retorna a visualização dos apartamentos
-        public function apDetail2(Request $request){
+        public function config4(Request $request){
+
             $total = $request->total;
             $blocos = $request->blocos;
             $pblocos = $request->pblocos;
@@ -96,7 +103,13 @@ class ConfigController extends Controller
                 }
             }
 
-            return view('admin.configuration.config-ap-3')->withTotal($total)->withBlocos($blocos)->withPblocos($pblocos)->withApartamentos($apartamentos);
+            //Retorna os valores da configuração inicial
+            $system_name = $request->system_name;
+            $visitor_car = $request->visitor_car;
+            $resident_registry = $request->resident_registry;
+            $time = $request->time;
+
+            return view('admin.configuration.config4')->withTotal($total)->withBlocos($blocos)->withPblocos($pblocos)->withApartamentos($apartamentos)->with('system_name', $request->system_name)->with('visitor_car', $request->visitor_car)->with('resident_registry', $request->resident_registry)->with('time', $time);
         }
 
     //Valida dados de configuração final
@@ -123,10 +136,14 @@ class ConfigController extends Controller
         }
 
         //Método que salva o booleano de configuração como true
-            $config = Config::all();
-            $config[0]->howmanyblocks = $request->howmanyblocks;
-            $config[0]->configured = 1;
-            $config[0]->save();
+        $config = new Config();
+        $config->system_name = $request->system_name;
+        $config->visitor_car = $request->visitor_car;
+        $config->resident_registry = $request->resident_registry;
+        $config->car_time = $request->time;
+        $config->howmanyblocks = $request->blocos;
+        $config->configured = 1;
+        $config->save();
 
         //Mensagem de sucesso
         Session::flash('success', 'Configuração finalizada com sucesso!');
@@ -134,7 +151,7 @@ class ConfigController extends Controller
         return redirect()->route('admin.dashboard');
     }
 
-    //Cria um apartamento individual
+    //Retorna a view para a criação de um apartamento individual
     public function create(){
         $blocos = Bloco::all();
         return view('admin.configuration.create')->withBlocos($blocos);
@@ -143,19 +160,27 @@ class ConfigController extends Controller
     //Armazena apartamento individual referindo o bloco correto
     public function store(Request $request){
 
-        //Salva os dados no objeto Apartamento
-        $apartamento = new Apartamento();
-        $apartamento->apartamento = $request->apartamento;
-        $apartamento->bloco_id = $request->bloco_id;
-        $apartamento->save();
+        //Verifica se o apartamento não é duplicado neste bloco
+        $existente = Apartamento::where([['bloco_id', $request->bloco_id], ['apartamento', $request->apartamento]])->get();
 
-        //Mensagem de sucesso
-        Session::flash('success', 'Apartamento cadastrado com sucesso!');
+        if ($existente->isEmpty()){
+            //Salva os dados no objeto Apartamento
+            $apartamento = new Apartamento();
+            $apartamento->apartamento = $request->apartamento;
+            $apartamento->bloco_id = $request->bloco_id;
+            $apartamento->save();
 
-        return redirect()->route('admin.config.index');
+            //Mensagem de sucesso
+            Session::flash('success', 'Apartamento cadastrado com sucesso!');
+
+            return redirect()->route('admin.config.index');
+        }
+
+        Session::flash('success', 'O Apartamento não pode ser cadastrado pois já existe no bloco selecionado.');
+        return redirect()->route('admin.config.create');
     }
 
-    //Função que retorna a edição de configuração e apartamentos
+    //Função que retorna a edição de configurações do sistema e blocos
     public function edit(){
         $blocos = Bloco::all();
         $configsAll = Config::all();
@@ -194,7 +219,7 @@ class ConfigController extends Controller
             if ($request->car_time_hours != null){
                 $time = ($request->car_time_hours * 60) + $request->car_time_minutes;
                 $configs->car_time = $time;
-            } elseif($request->car_time_minutes) {
+            } elseif($request->car_time_minutes != null) {
                 $configs->car_time = $request->car_time_minutes;
             }
         }
@@ -202,43 +227,74 @@ class ConfigController extends Controller
         $configs->resident_registry = $request->resident_registry;
         $configs->save();
 
-        return redirect()->route('admin.dashboard');
+        Session::flash('success', 'Configurações atualizadas com sucesso');
+
+        return redirect()->route('admin.config.edit');
     }
 
-    //Função que deleta um apartamento
+    //Função que deleta um apartamento vazio
     function delete($id){
-        $ap = Apartamento::find($id);
-        return view('admin.configuration.delete')->withAp($ap);
+        $ap = Apartamento::where('id', $id)->first();
+
+        if ($ap->moradores->isEmpty()){
+            return view('admin.configuration.delete')->withAp($ap);    
+        }
+
+        Session::flash('success', 'Não é possível deletar um apartamento que possua moradores');
+        return redirect()->route('admin.config.index');
     }
 
     function destroy($id){
         $ap = Apartamento::find($id);
-        $ap->delete();
 
-        //Mensagem de Sucesso
-        Session::flash('success', 'Apartamento editado com sucesso!');
+        if ($ap->moradores->isEmpty()){
+            $ap->delete();
 
-        return redirect()->route('admin.config.index');
+            //Mensagem de Sucesso
+            Session::flash('success', 'Apartamento deletado com sucesso!');
+
+            return redirect()->route('admin.config.index');
+        }
+
+        Session::flash('success', 'Não é possível deletar um apartamento que possua moradores');
+        return redirect()->route('admin.config.index');         
+        
     }
 
     //Função que edita apartamento
     function apEdit($id){
         $blocos = Bloco::all();
-        $ap = Apartamento::find($id);
+        $ap = Apartamento::where('id', $id)->first();
 
         return view('admin.configuration.ap-edit')->withAp($ap)->withBlocos($blocos);
     }
 
     function apUpdate(Request $request, $id){
-        //Salva os dados de edição no objeto Apartamento
-        $apartamento = Apartamento::find($id);
-        $apartamento->apartamento = $request->apartamento;
-        $apartamento->bloco_id = $request->bloco_id;
-        $apartamento->save();
+        //Verifica se o apartamento não é duplicado neste bloco
+        $existente = Apartamento::where([['bloco_id', $request->bloco_id], ['apartamento', $request->apartamento]])->get();
+        $original = Apartamento::where('id', $id)->first();
 
-        //Mensagem de Sucesso
-        Session::flash('success', 'Apartamento editado com sucesso!');
+        if ($original->bloco_id == $request->bloco_id && $original->apartamento == $request->apartamento){
+            //Mensagem de sucesso
+            Session::flash('success', 'Apartamento editado com sucesso!');
 
-        return redirect()->route('admin.config.index');
+            return redirect()->route('admin.config.index');
+        }
+
+        if ($existente->isEmpty()){
+            //Salva os dados de edição no objeto Apartamento
+            $apartamento = Apartamento::find($id);
+            $apartamento->apartamento = $request->apartamento;
+            $apartamento->bloco_id = $request->bloco_id;
+            $apartamento->save();
+
+            //Mensagem de sucesso
+            Session::flash('success', 'Apartamento editado com sucesso!');
+
+            return redirect()->route('admin.config.index');
+        }
+
+        Session::flash('success', 'O Apartamento não pode ser editado pois este apartamento já existe no bloco selecionado.');
+        return redirect()->route('admin.config.ap-edit', $id);
     }
 }

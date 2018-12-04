@@ -17,7 +17,7 @@
     //Para cada div timer_, calcular o timer adequado
 
     //Converte o array de tempo restante para js
-    var data_entradaJS = '<?php echo json_encode($data_entrada); ?>';
+    var data_entradaJS = <?php echo json_encode($data_entrada); ?>;
 
     var i = 1;
 

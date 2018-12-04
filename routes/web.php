@@ -37,11 +37,10 @@ Route::prefix('admin')->group(function(){
     //Rotas para configuração do sistema
     Route::get('/config/index/{prefix?}', 'ConfigController@index')->name('admin.config.index');
     Route::post('/config/index/{prefix?}', 'ConfigController@search')->name('admin.config.search.submit');
-    Route::get('/config', 'ConfigController@config')->name('admin.config');
-    Route::post('/config', 'ConfigController@startConfig')->name('admin.config.submit');
-    Route::get('/config/ap', 'ConfigController@apIndex')->name('admin.config.ap');
-    Route::post('/config/ap/2', 'ConfigController@apDetail')->name('admin.config.ap.detail');
-    Route::post('/config/ap/3', 'ConfigController@apDetail2')->name('admin.config.ap.detail2');
+    Route::get('/config', 'ConfigController@config1')->name('admin.config1');
+    Route::post('/config', 'ConfigController@config2')->name('admin.config1.submit');
+    Route::post('/config/ap/2', 'ConfigController@config3')->name('admin.config2');
+    Route::post('/config/ap/3', 'ConfigController@config4')->name('admin.config3');
     Route::post('/config/ap', 'ConfigController@finishConfig')->name('admin.config.finish');
     Route::get('/config/edit', 'ConfigController@edit')->name('admin.config.edit');
     Route::put('/config/edit', 'ConfigController@update')->name('admin.config.update');

@@ -77,7 +77,7 @@
                         <label>Apartamento</label>
                         <select name="ap" class="form-control" id="apartamento">
                             @foreach($apartamentosBlocoInicial as $apartamentos)
-                                    <option value="{{$apartamentos->apartamento}}" {{ $morador->apartamento->apartamento == $apartamentos->apartamento ? "selected" : ""}} class="form-control">{{$apartamentos->apartamento}}</option>
+                                    <option value="{{$apartamentos->id}}" {{ $morador->apartamento->apartamento == $apartamentos->apartamento ? "selected" : ""}} class="form-control">{{$apartamentos->apartamento}}</option>
                             @endforeach
                         </select>
                     </div>                 

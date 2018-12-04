@@ -29,6 +29,9 @@
         <div class="col-md-10 offset-md-1">
                         <div class="indexes">
                                 <h3>Visitas</h3>
+                                @if(count($visitas) == 0)
+                                    Não há visitas cadastrados para este visitante.
+                                @else
                                 <table class="table">
                                     <thead>
                                         <th>#</th>
@@ -54,6 +57,7 @@
                                         @endforeach
                                     </body>
                                 </table>
+                                @endif
                         </div>
                 </div>
 </div>

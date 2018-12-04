@@ -23,13 +23,13 @@
                             <label>Nome do Sistema: </label>
                             <input type="text" class="form-control" name="system_name" value="{{$configs->system_name}}">
                             <label>Visitante pode entrar com Carro? </label>
-                            <select name="visitor_car" class="form-control">
+                            <select name="visitor_car" class="form-control" id="visitor_car">
                                 <option value="1" class="form-control" {{$configs->visitor_car == 1 ? "selected" : ""}}>Sim</option>
                                 <option value="0" class="form-control" {{$configs->visitor_car == 0 ? "selected" : ""}}>Não</option>
                             </select>
                             <label>Tempo que carro de visitante pode ficar no condomínio</label>
-                            Horas: <input type="number" class="form-control" name="car_time_hours" value="{{$horas}}">
-                            Minutos: <input type="number" class="form-control" name="car_time_minutes" value="{{$minutos}}">
+                            Horas: <input type="number" class="form-control" name="car_time_hours" id="hora" @if($configs->visitor_car == 0) disabled @endif value="{{$horas}}">
+                            Minutos: <input type="number" class="form-control" name="car_time_minutes" id="minuto" @if($configs->visitor_car == 0) disabled @endif value="{{$minutos}}">
                             <label>Morador deve ter entrada registrada? </label>
                             <select name="resident_registry" class="form-control">
                                 <option value="1" class="form-control" {{$configs->resident_registry == 1 ? "selected" : ""}}>Sim</option>
@@ -53,4 +53,23 @@
             </div>
         </div>
 </div>
+@stop
+
+@section('jsbody')
+<script>
+    $(document).ready(function(){
+        $("#visitor_car").change(function(){
+            //Valor do select de bloco
+            var val = $(this).val();
+
+            if (val == 0){
+                document.getElementById("hora").disabled = true;
+                document.getElementById("minuto").disabled = true;
+            } else if (val == 1){
+                document.getElementById("hora").disabled = false;
+                document.getElementById("minuto").disabled = false;
+            }
+        });
+    });
+</script>
 @stop

@@ -24,7 +24,7 @@ class AdminController extends Controller
         $config = Config::select('configured')->get();
         $visitas = Visita::whereDate('created_at', date('Y-m-d'))->limit(5)->get();
         if (empty($config[0])){
-            return view('admin.configuration.config');
+            return redirect()->route('admin.config1');
         }
         $configs = Config::all();
         return view('admin.dashboard')->withConfig($config)->withVisitas($visitas)->withConfigs($configs);

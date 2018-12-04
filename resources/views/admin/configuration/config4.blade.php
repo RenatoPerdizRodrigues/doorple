@@ -17,7 +17,7 @@
 
         function addFile(i) {
         fileId++; // increment fileId to get a unique ID for the new element
-        var html = '<input type="text"  name="apartamento_' + i + '[]">';
+        var html = '<input type="text" class="form-control" name="apartamento_' + i + '[]">';
         div = "files_" + i;
         addElement(div, 'p', 'file-' + fileId, html);
         }
@@ -58,6 +58,10 @@
                             </div>
                         @endfor
                         <input hidden type="text" name="blocos" value="{{$blocos}}">
+                        <input type="text" hidden name="system_name" value="{{$system_name}}">
+                        <input type="text" hidden name="visitor_car" value="{{$visitor_car}}">
+                        <input type="text" hidden name="resident_registry" value="{{$resident_registry}}">
+                        <input type="text" hidden name="time" value="{{$time}}">
                         <input type="submit" class="form-control btn btn-success" value="Terminar Configuração">
                 </form>
             </div>

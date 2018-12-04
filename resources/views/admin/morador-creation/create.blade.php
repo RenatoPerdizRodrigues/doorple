@@ -75,7 +75,7 @@
                             <label>Apartamento</label>
                             <select name="ap" class="form-control" id="apartamento">
                                 @foreach($apartamentosBlocoInicial as $apartamento)
-                                        <option value="{{$apartamento->apartamento}}" class="form-control">{{$apartamento->apartamento}}</option>
+                                        <option value="{{$apartamento->id}}" class="form-control">{{$apartamento->apartamento}}</option>
                                 @endforeach
                             </select>
                         </div>

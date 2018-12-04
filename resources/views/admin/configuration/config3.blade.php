@@ -29,13 +29,13 @@
         <div class="col-md-6 offset-md-3">
             <div class="forms border">
                 <h3 class="text-center">Preencha os números de apartamento de um bloco. <h5>Ex: Todo bloco possui os apartamentos 1, 2, 3, 4, 5, 6.</h5></h3>
-                <form method="POST" action="{{ route('admin.config.ap.detail2') }}">
+                <form method="POST" action="{{ route('admin.config3') }}">
                         @csrf
                         <div class="form-group">
                             <label>Apartamentos</label>
                             <?php
                                 for ($i = 1; $i <= $pblocos; $i++){
-                                    echo "<input type=\"number\" class=\"form-control\" name=\"ap[]\" value=\"\">";
+                                    echo "<input type=\"text\" class=\"form-control\" name=\"ap[]\" value=\"\">";
                                 }
                             ?>
 
@@ -51,6 +51,10 @@
                         <input hidden type="number" name="pblocos" value="<?= $pblocos ?>">
                         <input hidden type="number" name="blocos" value="<?= $blocos ?>">
                         <input hidden type="number" name="total" value="<?= $total ?>">
+                        <input type="text" hidden name="system_name" value="{{$system_name}}">
+                        <input type="text" hidden name="visitor_car" value="{{$visitor_car}}">
+                        <input type="text" hidden name="resident_registry" value="{{$resident_registry}}">
+                        <input type="text" hidden name="time" value="{{$time}}">
                         <input type="submit" value="Continuar" class="form-control btn btn-success">
                 </form>
             </div>

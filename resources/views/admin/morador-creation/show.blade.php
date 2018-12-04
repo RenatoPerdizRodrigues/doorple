@@ -33,6 +33,9 @@
         <div class="col-md-10 offset-md-1">
                         <div class="indexes">
                                 <h3>Veículos</h3>
+                                @if(count($morador->veiculos) == 0)
+                                    Não há veículos cadastrados para este morador.
+                                @else
                                 <table class="table">
                                     <thead>
                                         <th>#</th>
@@ -50,11 +53,15 @@
                                         @endforeach
                                     </body>
                                 </table>
+                                @endif
                         </div>
                 </div>
         <div class="col-md-10 offset-md-1">
                 <div class="indexes">
                         <h3>Registro de Entradas</h3>
+                        @if(count($entradas) == 0)
+                            Não há entradas registradas para este morador.
+                        @else
                         <table class="table">
                             <thead>
                                 <th>#</th>
@@ -72,6 +79,7 @@
                                 @endforeach
                             </body>
                         </table>
+                        @endif
                 </div>
         </div>
 </div>
