@@ -52,7 +52,7 @@ class ConfigController extends Controller
 
         //Cálculo de tempo que o carro pode ficar no condomínio
         if ($request->minutes || $request->car_time_hours){
-            if ($request->car_time_hours){
+            if ($request->car_time_hours != null){
                 $time = ($request->car_time_hours * 60) + $request->car_time_minutes;
                 $config->car_time = $time;
             } elseif($request->car_time_minutes) {
@@ -190,8 +190,8 @@ class ConfigController extends Controller
         $configs->system_name = $request->system_name;
         $configs->visitor_car = $request->visitor_car;
 
-        if ($request->minutes || $request->car_time_hours){
-            if ($request->car_time_hours){
+        if ($request->car_time_minutes || $request->car_time_hours){
+            if ($request->car_time_hours != null){
                 $time = ($request->car_time_hours * 60) + $request->car_time_minutes;
                 $configs->car_time = $time;
             } elseif($request->car_time_minutes) {

@@ -10,9 +10,10 @@
                     <hr>
                     <div class="row">
                             <div class="col-sm">
-                                    <h3>Nome: {{$morador->name . " " . $morador->surname}}</h3>
-                                    <h4>RG: {{$morador->rg}}</h4>
-                                    <h4>Apartamento: {{$morador->bloco->prefix . "-" . $morador->apartamento->apartamento}}</h4>                              
+                                    <h3>{{$morador->name . " " . $morador->surname}}</h3>
+                                    <h5>RG: {{$morador->rg}}</h5>
+                                    <h5>Data de Nascimento: {{$morador->birthdate}}</h5>
+                                    <h5>Apartamento: {{$morador->bloco->prefix . "-" . $morador->apartamento->apartamento}}</h5>                              
                             </div>
                             <div class="col-sm mr-md-3">
                                     <img src="{{"/images/morador/".$morador->picture}}" class="float-right">
@@ -64,7 +65,7 @@
                                 @foreach($entradas as $entrada)
                                     <tr>
                                         <td>{{$entrada->id}}</td> 
-                                        <td>{{$entrada->created_at}}</td>
+                                        <td>{{$entrada->created_at->format('d/m/Y | H:i:s')}}</td>
                                         <td>{{!empty($entrada->veiculo) ? $entrada->veiculo->type . ' ' . $entrada->veiculo->license_plate : "Sem Veículo"}}</td>
                                     <p></p>
                                     </tr>

@@ -24,7 +24,7 @@
                         </div>
                         <div class="form-group">
                                 <label>Data de Nascimento</label>
-                                <input type="date" name="birthdate" value="{{$visitante->birthdate}}" class="form-control">
+                                <input type="text" name="birthdate" id="date" value="{{$visitante->birthdate}}" class="form-control">
                         </div>
                         <div class="form-group">
                                 <label>Foto</label>
@@ -46,4 +46,13 @@
                 </div>
         </div>
 </div>
+@stop
+
+@section('jsbody')
+<script src="{{ asset('/js/jquery.mask.js') }}"></script>
+<script>
+    $(document).ready(function(){
+        $('#date').mask('00/00/0000')
+    });
+</script>
 @stop

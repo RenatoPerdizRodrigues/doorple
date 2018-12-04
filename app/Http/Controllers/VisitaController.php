@@ -89,7 +89,12 @@ class VisitaController extends Controller
 
     //Seleciona um dia para mostrar pesquisas
     public function search(Request $request){
-        return redirect()->route('visita.index', $request->date);
+        
+        //Formata a data
+        $valores = explode("/", $request->date);
+        $date = $valores[2] . '-' . $valores[1] . '-' . $valores[0];
+        
+        return redirect()->route('visita.index', $date);
     }
 
     //Registra a saída de veículo

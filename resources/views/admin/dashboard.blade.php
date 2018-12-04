@@ -37,7 +37,7 @@
                                                 @if($configs[0]->visitor_car == 1)
                                                 <td>@if($visita->vehicle_license_plate && $visita->vehicle_model) {{$visita->vehicle_model . ' - ' . $visita->vehicle_license_plate}} @else Sem veículo @endif</td>
                                                 @endif
-                                                <td>{{$visita->created_at}}</td>
+                                                <td>{{$visita->created_at->format('d/m/Y | H:i:s')}}</td>
                                             </tr>
                                         @endforeach
                                     </body>

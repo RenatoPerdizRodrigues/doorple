@@ -1,50 +1,8 @@
 <!-- Pàgina principal de usuário, a ser construída -->
 <!-- Nesta página, o Javascript se prepara para soltar uma notificação de acordo com a quatnidade de tempo restante para o carro no condomínio -->
 <?php
-    //Quantidade de segundos de espera antes que a notificação seja enviada
-    $milisegundos = ($configs[0]->car_time * 60) * 1000;
 
-    //Array de tempo restante de cada carro
-    $data_entrada = array();
-
-    //Contagem para inserção no array
-    $i = 0;
-
-    /*
-    foreach($carros as $carro){
-        //Pega a data do created_at, divide em um array
-        $horaEntrada = explode(' ', $carro->created_at);
-        $horaEntrada = $horaEntrada[1];
-        $horaEntrada = new DateTime($horaEntrada);
-
-        //Pega a hora atual
-        $now = date("H:i:s");
-        $now = new DateTime($now);
-
-        //Calcula o intervalo entre quando o carro foi estacionado com o atual
-        $interval = date_diff($horaEntrada, $now);
-
-        //Tempo restante em minutos
-        $timeLeft = $configs[0]->car_time - $interval->h;
-
-        //Coloca o tempo restante no array
-        array_push($data_entrada, $timeLeft);
-
-    }*/
-
-    foreach($carros as $carro){
-        //Pega a hora de entrada do veículo no condomínio
-        $horaEntrada = new DateTime($carro->created_at);
-        $horario_saida = $horaEntrada->add(date_interval_create_from_date_string($configs[0]->car_time . ' minutes'));
-
-        //Converte a timestamp para UNIX para passar para o JS
-        $horario_saida = $horario_saida->format('Y-m-d H:i:s');
-        $horario_saida = strtotime($horario_saida);
-
-        //Coloca a timestamp do horário máximo de saída no array
-        array_push($data_entrada, $horario_saida);
-
-    }
+    
     
     //Queremos passar a timestamp do cada carro
 
@@ -59,7 +17,7 @@
     //Para cada div timer_, calcular o timer adequado
 
     //Converte o array de tempo restante para js
-    var data_entradaJS = <?php echo json_encode($data_entrada); ?>;
+    var data_entradaJS = '<?php echo json_encode($data_entrada); ?>';
 
     var i = 1;
 
@@ -179,7 +137,7 @@
                                             @if($configs[0]->visitor_car == 1)
                                             <td>@if($visita->vehicle_license_plate && $visita->vehicle_model) {{$visita->vehicle_model . ' - ' . $visita->vehicle_license_plate}} @else Sem veículo @endif</td>
                                             @endif
-                                            <td>{{$visita->created_at}}</td>
+                                            <td>{{$visita->created_at->format('d/m/Y | H:i:s')}}</td>
                                         </tr>
                                     @endforeach
                                 </body>

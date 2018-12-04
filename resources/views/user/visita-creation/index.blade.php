@@ -11,7 +11,7 @@
                 @csrf
                 <div class="form-group">
                         <label>Dia da Visita</label>
-                    <input type="date" name="date" class="form-control">
+                    <input type="text" name="date" class="form-control" id="date" placeholder="DD/MM/YYYY">
                 </div>                
                 <div class="text-center">
                     <input type="submit" class="btn btn-success" value="Procurar">
@@ -23,7 +23,7 @@
 
 <div class="col-md-10 offset-md-1">
     <div class="indexes">
-            <h3>Visitas do dia</h3>
+            <h3>Visitas do dia @if(!empty($visitas[0])) {{$visitas[0]->created_at->format('d/m/Y')}} @endif</h3>
             @if(empty($visitas[0]))
                 Não há visitas registradas para este dia
             @else
@@ -47,7 +47,7 @@
                                 @if($configs[0]->visitor_car == 1)
                                 <td>@if($visita->vehicle_license_plate && $visita->vehicle_model) {{$visita->vehicle_model . ' - ' . $visita->vehicle_license_plate}} @else Sem veículo @endif</td>
                                 @endif
-                                <td>{{$visita->created_at}}</td>
+                                <td>{{$visita->created_at->format('d/m/Y | H:i:s')}}</td>
                             <p></p> </li>
                             </tr>
                         @endforeach
@@ -57,4 +57,13 @@
                 {!! $visitas->links(); !!}
     </div>
 </div>
+@stop
+
+@section('jsbody')
+<script src="{{ asset('/js/jquery.mask.js') }}"></script>
+<script>
+    $(document).ready(function(){
+        $('#date').mask('00/00/0000')
+    });
+</script>
 @stop

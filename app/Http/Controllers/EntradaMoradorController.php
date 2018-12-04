@@ -22,7 +22,12 @@ class EntradaMoradorController extends Controller
     }
 
     public function search(Request $request){
-        return redirect()->route('entrada.index', $request->date);
+
+        //Formata a data
+        $valores = explode("/", $request->date);
+        $date = $valores[2] . '-' . $valores[1] . '-' . $valores[0];
+
+        return redirect()->route('entrada.index', $date);
     }
 
     //Confirma o usuário a ter sua entrada registrada

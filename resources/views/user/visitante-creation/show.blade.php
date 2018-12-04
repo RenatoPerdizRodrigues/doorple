@@ -10,8 +10,9 @@
                     <hr>
                     <div class="row">
                             <div class="col-sm">
-                                    <h3>Nome: {{$visitante->name . " " . $visitante->surname}}</h3>
-                                    <h4>RG: {{$visitante->rg}}</h4>                              
+                                    <h3>{{$visitante->name . " " . $visitante->surname}}</h3>
+                                    <h5>RG: {{$visitante->rg}}</h5>
+                                    <h5>Data de Nascimento: {{$visitante->birthdate}}</h5>           
                             </div>
                             <div class="col-sm mr-md-3">
                                     <img src="{{"/images/visitante/".$visitante->picture}}" class="float-right">
@@ -47,7 +48,7 @@
                                                 @if($configs[0]->visitor_car == 1)
                                                 <td>{{$visita->vehicle_license_plate && $visita->vehicle_model ? $visita->visitante->vehicle_license_plate . ' ' . $visita->vehicle_model : "Sem veículo"}}</td>
                                                 @endif
-                                                <td>{{$visita->created_at}}</td>
+                                                <td>{{$visita->created_at->format('d/m/Y | H:i:s')}}</td>
                                             <p></p>
                                             </tr>
                                         @endforeach
