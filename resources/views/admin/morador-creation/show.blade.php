@@ -11,7 +11,7 @@
                     <div class="row">
                             <div class="col-sm">
                                     <h3>{{$morador->name . " " . $morador->surname}}</h3>
-                                    <h5>RG: {{$morador->rg}}</h5>
+                                    <h5>RG: <input type="text" disabled id="rg" value="{{$morador->rg}}" class="rg_view"></h5>
                                     <h5>Data de Nascimento: {{$morador->birthdate}}</h5>
                                     <h5>Apartamento: {{$morador->bloco->prefix . "-" . $morador->apartamento->apartamento}}</h5>                              
                             </div>
@@ -46,8 +46,8 @@
                                         @foreach($morador->veiculos as $veiculo)
                                             <tr>
                                                 <td>{{$veiculo->id}}</td> 
-                                                <td>{{$veiculo->type}}</td>
-                                                <td><a href="{{route('veiculo_morador.show', $veiculo->id)}}">{{$veiculo->license_plate}}</a></td>
+                                                <td>{{$veiculo->vehicle_model}}</td>
+                                                <td><a href="{{route('veiculo_morador.show', $veiculo->id)}}">{{$veiculo->vehicle_license_plate}}</a></td>
                                             <p></p>
                                             </tr>
                                         @endforeach
@@ -83,4 +83,21 @@
                 </div>
         </div>
 </div>
+@stop
+
+@section('jsbody')
+<script src="{{ asset('/js/jquery.mask.js') }}"></script>
+<script>
+    $(document).ready(function(){
+        $('#rg').mask('99.999.999-W', {
+            translation: {
+                'W' : {
+                    pattern: /[Xx0-9]/
+                }
+            },
+            reverse: true
+        })
+    });
+
+</script>
 @stop

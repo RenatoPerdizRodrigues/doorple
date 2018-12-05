@@ -45,7 +45,7 @@
     <div class="col-md-8 offset-md-2">
         <div class="forms border">
                 <h3 class="text-center">Cadastre um novo Morador</h3>
-                    <form method="POST" enctype="multipart/form-data" action="{{ route('morador.store') }}">
+                    <form method="POST" id="form" enctype="multipart/form-data" action="{{ route('morador.store') }}">
                         @csrf
                         <div class="form-group">
                             <label>Nome</label>
@@ -57,11 +57,11 @@
                         </div>
                         <div class="form-group">
                             <label>RG</label>
-                            <input type="text" name="rg" class="form-control">    
+                            <input type="text" name="rg" id="rg" class="form-control">    
                         </div>
                         <div class="form-group">
                             <label>Data de Nascimento</label>
-                            <input type="text" name="birthdate" class="form-control" id="date" placeholder="DD/MM/YYYY">    
+                            <input type="text" name="birthdate" class="form-control" id="date" placeholder="DD/MM/YYYY"> 
                         </div>
                         <div class="form-group">
                             <label>Bloco</label>
@@ -96,6 +96,21 @@
 <script>
     $(document).ready(function(){
         $('#date').mask('00/00/0000')
+        $('#rg').mask('99.999.999-W', {
+            translation: {
+                'W' : {
+                    pattern: /[Xx0-9]/
+                }
+            },
+            reverse: true
+        })
     });
+
+    $("#form").submit(function() {
+        $("#date").unmask();
+        $("#date").mask('00-00-0000')
+        $("#rg").unmask();
+    });
+
 </script>
 @stop

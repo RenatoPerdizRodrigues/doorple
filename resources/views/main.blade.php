@@ -1,5 +1,3 @@
-<!-- Todo o conteúdo das views será mostrado nesta página -->
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>

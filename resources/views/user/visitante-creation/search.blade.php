@@ -47,7 +47,7 @@
     <div class="col-md-8 offset-md-2">
         <div class="forms border">
                 <h3 class="text-center">Cadastre uma visita</h3>
-                <form method="POST" action="{{ route('vst.search.submit') }}">
+                <form method="POST" id="form" action="{{ route('vst.search.submit') }}">
                     @csrf
                     <div class="form-group">
                         <label>Qual apartamento o visitante deseja visitar?</label>
@@ -66,7 +66,7 @@
                     </div>
                     <div class="form-group">
                         <label>RG: </label>
-                        <input type="text" name="rg" class="form-control">
+                        <input type="text" name="rg" id="rg" class="form-control">
                     </div>                    
                     
                     <input type="submit" value="Buscar" class="form-control btn btn-success">
@@ -74,4 +74,25 @@
         </div>
     </div>
 </div>
+@stop
+
+@section('jsbody')
+<script src="{{ asset('/js/jquery.mask.js') }}"></script>
+<script>
+    $(document).ready(function(){
+        $('#rg').mask('99.999.999-W', {
+            translation: {
+                'W' : {
+                    pattern: /[Xx0-9]/
+                }
+            },
+            reverse: true
+        })
+    });
+
+    $("#form").submit(function() {
+        $("#rg").unmask();
+    });
+
+</script>
 @stop

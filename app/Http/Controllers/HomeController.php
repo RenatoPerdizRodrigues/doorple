@@ -7,7 +7,7 @@ use App\Visita;
 use App\Config;
 use DateTime;
 
-//Controller de páginas de usuário logado, a alterar
+//Controller de páginas de usuário logado, e que inicializa a função de timer de tempo restante de veículo estacionado
 class HomeController extends Controller
 {
     //Função que permite apenas usuários logados acessem as funções, com exceção da função amin

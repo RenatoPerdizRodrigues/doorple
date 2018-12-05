@@ -7,11 +7,11 @@
         <div class="col-md-6 offset-md-3">
             <div class="forms border">
                 <h3 class="text-center">Encontre um Visitante</h3>
-                <form method="POST" action="{{ route('vst.find.submit') }}">
+                <form method="POST" id="form" action="{{ route('vst.find.submit') }}">
                     @csrf
                     <div class="form-group">
                             <label>RG do Visitante</label>
-                        <input type="text" name="rg" class="form-control">
+                        <input type="text" name="rg" id="rg" class="form-control">
                     </div>
                     
                     <div class="text-center">
@@ -43,7 +43,7 @@
                                 <td>{{$visitante->id}}</td> 
                                 <td>{{$visitante->name}}</td>
                                 <td>{{$visitante->surname}}</td>
-                                <td>{{$visitante->rg}}</td>
+                                <td><input type="text" disabled value="{{$visitante->rg}}" class="rg_view rg2"></td>
                                 <td>{{$visitante->birthdate}}</td>
                                 <td><a href="{{route('vst.show', $visitante->id)}}" class="btn btn-warning">Visualizar</a></td>
                             <p></p> </li>
@@ -55,4 +55,33 @@
                 @endif
         </div>
     </div>
+@stop
+
+@section('jsbody')
+<script src="{{ asset('/js/jquery.mask.js') }}"></script>
+<script>
+    $(document).ready(function(){
+        $('#rg').mask('99.999.999-W', {
+            translation: {
+                'W' : {
+                    pattern: /[Xx0-9]/
+                }
+            },
+            reverse: true
+        })
+        $('.rg2').mask('99.999.999-W', {
+            translation: {
+                'W' : {
+                    pattern: /[Xx0-9]/
+                }
+            },
+            reverse: true
+        })
+    });
+
+    $("#form").submit(function() {
+        $("#rg").unmask();
+    });
+
+</script>
 @stop

@@ -11,7 +11,7 @@
                     <div class="row">
                             <div class="col-sm">
                                     <h3>{{$visitante->name . " " . $visitante->surname}}</h3>
-                                    <h5>RG: {{$visitante->rg}}</h5>
+                                    <h5>RG: <input type="text" id="rg" disabled value="{{$visitante->rg}}" class="rg_view"></h5>
                                     <h5>Data de Nascimento: {{$visitante->birthdate}}</h5>           
                             </div>
                             <div class="col-sm mr-md-3">
@@ -49,7 +49,7 @@
                                                 <td>{{$visita->bloco->prefix}}</td> 
                                                 <td>{{$visita->apartamento->apartamento}}</td>
                                                 @if($configs[0]->visitor_car == 1)
-                                                <td>{{$visita->vehicle_license_plate && $visita->vehicle_model ? $visita->visitante->vehicle_license_plate . ' ' . $visita->vehicle_model : "Sem veículo"}}</td>
+                                                <td>{{$visita->vehicle_license_plate != null && $visita->vehicle_model ? $visita->vehicle_model . ' | ' . $visita->vehicle_license_plate : "Sem veículo"}}</td>
                                                 @endif
                                                 <td>{{$visita->created_at->format('d/m/Y | H:i:s')}}</td>
                                             <p></p>
@@ -61,4 +61,21 @@
                         </div>
                 </div>
 </div>
+@stop
+
+@section('jsbody')
+<script src="{{ asset('/js/jquery.mask.js') }}"></script>
+<script>
+    $(document).ready(function(){
+        $('#rg').mask('99.999.999-W', {
+            translation: {
+                'W' : {
+                    pattern: /[Xx0-9]/
+                }
+            },
+            reverse: true
+        })
+    });
+
+</script>
 @stop

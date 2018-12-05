@@ -11,7 +11,7 @@
                         @csrf
                         <div class="form-group">
                             <label>Placa do Motorista</label>
-                            <input type="text" name="license_plate" class="form-control">
+                            <input type="text" name="license_plate" id="placa" class="form-control">
                         </div>
                         <div class="text-center">
                             <input type="submit" value="Procurar" class="btn btn-success">
@@ -39,9 +39,9 @@
                         @foreach($veiculos_morador as $veiculo)
                             <tr>
                                 <td>{{$veiculo->id}}</td> 
-                                <td>{{$veiculo->license_plate}}</td>
-                                <td>{{$veiculo->model}}</td>
-                                <td>{{$veiculo->morador->name . ' ' . $veiculo->morador->surname}}</td>
+                                <td>{{$veiculo->vehicle_license_plate}}</td>
+                                <td>{{$veiculo->vehicle_model}}</td>
+                                <td><a href="{{route('morador.show', $veiculo->morador->id)}}">{{$veiculo->morador->name . ' ' . $veiculo->morador->surname}}</a></td>
                                 <td>{{$veiculo->morador->bloco->prefix . '-' . $veiculo->morador->apartamento->apartamento}}</td>
                                 <td><a href="{{route('veiculo_morador.show', $veiculo->id)}}" class="btn btn-warning">Visualizar</a></td>
                             <p></p> </li>
@@ -53,4 +53,13 @@
                 @endif
         </div>
     </div>
+@stop
+
+@section('jsbody')
+<script src="{{ asset('/js/jquery.mask.js') }}"></script>
+<script>
+    $(document).ready(function(){
+        $('#placa').mask('SSS-0000')
+    });
+</script>
 @stop

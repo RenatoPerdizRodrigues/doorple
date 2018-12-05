@@ -12,8 +12,6 @@
     
 ?>
 
-<!--Confere qual o tipo de usuário logado e ajusta a navbar de acordo -->
-
 @if(Auth::guard('admin')->check())
 
 <nav class="navbar navbar-expand-lg navbar-dark">
@@ -30,7 +28,6 @@
           <a class="nav-link" href="{{route('admin.dashboard')}}">Home <span class="sr-only">(current)</span></a>
         </li>
   
-        <!--Dropdown de Usuários-->
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle {{Route::currentRouteName() == 'adm.create' || Route::currentRouteName() == 'adm.index' || Route::currentRouteName() == 'adm.show' || Route::currentRouteName() == 'adm.edit' || Route::currentRouteName() == 'admin.delete' || Route::currentRouteName() == 'usr.create' || Route::currentRouteName() == 'usr.index'  ? "active" : ""}}" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Usuários
@@ -44,7 +41,6 @@
           </div>
         </li>
   
-        <!--Dropdown de Moradores-->
         <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle {{Route::currentRouteName() == 'morador.create' || Route::currentRouteName() == 'morador.index' || Route::currentRouteName() == 'morador.show' || Route::currentRouteName() == 'morador.delete' || Route::currentRouteName() == 'morador.edit' || Route::currentRouteName() == 'veiculo_morador.index' || Route::currentRouteName() == 'veiculo_morador.create' || Route::currentRouteName() == 'veiculo_morador.show' || Route::currentRouteName() == 'veiculo_morador.delete' || Route::currentRouteName() == 'veiculo_morador.edit' ? "active" : ""}}" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Moradores
@@ -58,7 +54,6 @@
               </div>
           </li>
   
-          <!--Dropdown de Configuração-->
           <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Configuração e Apartamentos
@@ -69,7 +64,6 @@
               </div>
           </li>
   
-          <!--Logout-->
           <li class="nav-item">
               <a class="nav-link" href="{{route('admin.logout')}}">Logout<span class="sr-only">(current)</span></a>
           </li>
@@ -93,7 +87,6 @@
           <a class="nav-link" href="{{route('user.dashboard')}}">Home <span class="sr-only">(current)</span></a>
         </li>
   
-        <!--Dropdown de Usuários-->
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle {{Route::currentRouteName() == 'vst.main' || Route::currentRouteName() == 'vst.index' || Route::currentRouteName() == 'vst.create' || Route::currentRouteName() == 'vst.edit' || Route::currentRouteName() == 'vst.delete' || Route::currentRouteName() == 'vst.show' || Route::currentRouteName() == 'visita.create' || Route::currentRouteName() == 'visita.index' || Route::currentRouteName() == 'visita.show' || Route::currentRouteName() == 'visita.edit'  ? "active" : ""}}" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Visitas
@@ -107,7 +100,6 @@
         </li>
   
         @if($resident_registry == 1)
-        <!--Dropdown de Moradores-->
         <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle {{Route::currentRouteName() == 'entrada.create' || Route::currentRouteName() == 'entrada.index' || Route::currentRouteName() == 'entrada.show' || Route::currentRouteName() == 'entrada.confirm' ? "active" : ""}}" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Moradores
@@ -119,7 +111,6 @@
         </li>
         @endif
   
-          <!--Logout-->
           <li class="nav-item">
               <a class="nav-link" href="{{route('user.logout')}}">Logout<span class="sr-only">(current)</span></a>
           </li>

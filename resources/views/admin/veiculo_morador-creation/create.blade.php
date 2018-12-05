@@ -11,18 +11,14 @@
                 @csrf
                 <div class="form-group">
                     <label>Tipo</label>
-                    <select name="type" class="form-control">
-                        <option value="carro" class="form-control">Carro</option>
-                        <option value="moto" class="form-control">Moto</option>
+                    <select name="vehicle_model" class="form-control">
+                        <option value="Carro" class="form-control">Carro</option>
+                        <option value="Moto" class="form-control">Moto</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label>Placa</label>
-                    <input type="text" name="license_plate" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label>Cor</label>
-                    <input type="text" name="color" class="form-control">
+                    <input type="text" id="placa" name="vehicle_license_plate" class="form-control">
                 </div>
                 <div class="form-group">
                     <p>Dono: {{ $morador->name . " " . $morador->surname }}</p>
@@ -34,4 +30,13 @@
         </div>
     </div>
 </div>
+@stop
+
+@section('jsbody')
+<script src="{{ asset('/js/jquery.mask.js') }}"></script>
+<script>
+    $(document).ready(function(){
+        $('#placa').mask('SSS-0000')
+    });
+</script>
 @stop

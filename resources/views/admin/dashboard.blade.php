@@ -1,5 +1,3 @@
-<!-- Pàgina principal de administrador, a ser construída -->
-
 @extends('main')
 
 @section('title', '| Página Principal de Usuário')

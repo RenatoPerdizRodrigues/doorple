@@ -68,3 +68,11 @@ a .btn {
 .indexes{
     overflow-x: auto;
 }
+
+/*Estiliza a visualização de RG em views para inserir máscara*/
+.rg_view{
+    background-color: white; 
+    color: black; 
+    border: 0px solid;
+    width: 100%;
+}

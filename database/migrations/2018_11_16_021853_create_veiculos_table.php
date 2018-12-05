@@ -15,9 +15,8 @@ class CreateVeiculosTable extends Migration
     {
         Schema::create('veiculos_morador', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('type');
-            $table->string('license_plate');
-            $table->string('color');
+            $table->string('vehicle_model');
+            $table->string('vehicle_license_plate');
             $table->integer('morador_id')->unsigned()->nullable();
             $table->foreign('morador_id')->references('id')->on('moradores');
             $table->timestamps();

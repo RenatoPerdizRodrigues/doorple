@@ -38,15 +38,44 @@
                     @if($configs[0]->visitor_car == 1)
                     <div class="form-group">
                             <!-- Carro -->
-                            <h2>Carro</h2>
+                            <h2>Está visitando de veículo?</h2>
+                            <select name="vehicle" id="vehicle" class="form-control">
+                                    <option value="0" class="form-control" selected>Não</option>
+                                    <option value="1" class="form-control">Sim</option>
+                            </select>
                             <label>Modelo do Veículo</label>
-                            <input type="text" name="vehicle_model" value="{{$modelo}}" class="form-control">
+                            <select name="vehicle_model" id="modelo" disabled class="form-control">
+                                <option value="Carro" class="form-control" @if($modelo == 'Carro') selected @endif>Carro</option>
+                                <option value="Moto" class="form-control" @if($modelo == 'Moto') selected @endif>Moto</option>
+                            </select>
                             <label>Placa do Veículo</label>
-                            <input type="text" name="vehicle_license_plate" value="{{$placa}}" class="form-control">
+                            <input type="text" name="vehicle_license_plate" disabled id="placa" value="{{$placa}}" placeholder="Sem Veículo" class="form-control">
                     </div>
                     @endif
                     <input type="text" hidden name="bloco" value="{{$bloco}}">
                     <input type="text" hidden name="apartamento" value="{{$apartamento}}">
                             <input type="submit" value="Cadastrar visita" class="form-control btn btn-success">
                             </form>
+@stop
+
+@section('jsbody')
+<script src="{{ asset('/js/jquery.mask.js') }}"></script>
+<script>
+    $(document).ready(function(){
+        $('#placa').mask('SSS-0000')
+    });
+
+    $("#vehicle").change(function(){
+            //Valor do select de bloco
+            var val = $(this).val();
+
+            if (val == 1){
+                document.getElementById("placa").disabled = false;
+                document.getElementById("modelo").disabled = false;
+            } else if (val == 0){
+                document.getElementById("placa").disabled = true;
+                document.getElementById("modelo").disabled = true;
+            }
+        });
+</script>
 @stop

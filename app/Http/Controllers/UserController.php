@@ -35,7 +35,7 @@ class UserController extends Controller
         $this->validate($request, array(
             'name' => 'required|min:3|max:35',
             'email' => 'required|email',
-            'password' => 'required|min:6|same:password-confirmation'
+            'password' => 'alpha_num|required|min:8|same:password-confirmation|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/'
         ));
 
         //Criação do modelo e save das mudanças
@@ -55,14 +55,28 @@ class UserController extends Controller
     //Busca um usuário e redireciona para a página de show
     public function search(Request $request)
     {   
-        $user = User::where('email', $request->email)->get();
-        return redirect()->route('usr.show', $user[0]->id);
+        $user = User::where('email', $request->email)->first();
+
+        //Verifica se user existe
+        if($user == null){
+            Session::flash('warning', 'Usuário não encontrado!');
+            return redirect()->route('usr.index');
+        }
+
+        return redirect()->route('usr.show', $user->id);
     }
 
     //Mostra um usuário
     public function show($id)
     {
         $user = User::find($id);
+
+        //Verifica se user existe
+        if($user == null){
+            Session::flash('warning', 'Usuário não encontrado!');
+            return redirect()->route('usr.index');
+        }
+
         return view('admin.user-creation.show')->withUser($user);
     }
 
@@ -70,6 +84,13 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
+
+        //Verifica se user existe
+        if($user == null){
+            Session::flash('warning', 'Usuário não encontrado!');
+            return redirect()->route('usr.index');
+        }
+
         return view('admin.user-creation.edit')->withUser($user);
     }
 
@@ -78,11 +99,16 @@ class UserController extends Controller
     {
         $user = User::find($id);
 
+        //Verifica se user existe
+        if($user == null){
+            Session::flash('warning', 'Usuário não encontrado!');
+            return redirect()->route('usr.index');
+        }
+
         $this->validate($request, array(
             'name' => 'required|min:5|max:35',
-            'email' => 'required|email',
-            'password' => 'nullable|min:6|same:password-confirmation',
-            'password-confirmation' => 'nullable|min:6|same:password'
+            'email' => 'required|email|unique:admins,email,'.$id,
+            'password' => 'alpha_num|nullable|min:8|same:password-confirmation|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/'
         ));
 
         $user->name = $request->name;
@@ -102,6 +128,13 @@ class UserController extends Controller
 
     public function delete($id){
         $user = User::find($id);
+        
+        //Verifica se user existe
+        if($user == null){
+            Session::flash('warning', 'Usuário não encontrado!');
+            return redirect()->route('usr.index');
+        }
+
         return view('admin.user-creation.delete')->withUser($user);
     }
 
@@ -109,6 +142,13 @@ class UserController extends Controller
     public function destroy($id)
     {
         $user = User::find($id);
+
+        //Verifica se user existe
+        if($user == null){
+            Session::flash('warning', 'Usuário não encontrado!');
+            return redirect()->route('usr.index');
+        }
+
         $user->delete();
 
         //Criação de mensagem de sucesso

@@ -9,14 +9,13 @@ use App\Visita;
 use Hash;
 use Session;
 use Auth;
-use Illuminate\Routing\Redirector;
 
 
 //Classe de acesso à página inicial do administrador, assim como as funções de CRUD de criação de um novo admin
 class AdminController extends Controller
 {
     //Construct que permite acesso apenas a administradores logados
-    public function __construct(Redirector $redirect){
+    public function __construct(){
         $this->middleware('auth:admin');
         $this->middleware('checkConfig');
     }
@@ -26,9 +25,6 @@ class AdminController extends Controller
     public function home(){
         $config = Config::select('configured')->get();
         $visitas = Visita::whereDate('created_at', date('Y-m-d'))->limit(5)->get();
-        if (empty($config[0])){
-            return redirect()->route('admin.config1');
-        }
         $configs = Config::all();
         return view('admin.dashboard')->withConfig($config)->withVisitas($visitas)->withConfigs($configs);
     }
@@ -51,8 +47,8 @@ class AdminController extends Controller
         //Validação de dados do formulário
         $this->validate($request, array(
             'name' => 'required|min:3|max:35',
-            'email' => 'required|email',
-            'password' => 'required|min:6|same:password-confirmation'
+            'email' => 'required|email|unique:admins,email',
+            'password' => 'alpha_num|required|min:8|same:password-confirmation|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/'
         ));
 
         //Criação do modelo e salvamento das mudanças
@@ -73,14 +69,27 @@ class AdminController extends Controller
     //Busca um admin na página de index e redireciona para a página de show
     public function search(Request $request)
     {   
-        $admin = Admin::where('email', $request->email)->get();
-        return redirect()->route('adm.show', $admin[0]->id);
+        $admin = Admin::where('email', $request->email)->first();
+
+        //Verifica se admin existe
+        if($admin == null){
+            Session::flash('warning', 'Admin não encontrado!');
+            return redirect()->route('adm.index');
+        }
+        return redirect()->route('adm.show', $admin->id);
     }
 
     //Mostra um admin com opções de deletar ou editar
     public function show($id)
     {
         $admin = Admin::find($id);
+
+        //Verifica se o admin existe
+        if($admin == null){
+            Session::flash('warning', 'Admin não encontrado!');
+            return redirect()->route('adm.index');
+        }
+
         return view('admin.admin-creation.show')->withAdmin($admin);
     }
 
@@ -88,6 +97,13 @@ class AdminController extends Controller
     public function edit($id)
     {
         $admin = Admin::find($id);
+
+        //Verifica se o admin existe
+        if($admin == null){
+            Session::flash('warning', 'Admin não encontrado!');
+            return redirect()->route('adm.index');
+        }
+
         return view('admin.admin-creation.edit')->withAdmin($admin);
     }
 
@@ -96,11 +112,16 @@ class AdminController extends Controller
     {
         $admin = Admin::find($id);
 
+        //Verifica se o admin existe
+        if($admin == null){
+            Session::flash('warning', 'Admin não encontrado!');
+            return redirect()->route('adm.index');
+        }
+
         $this->validate($request, array(
             'name' => 'required|min:5|max:35',
-            'email' => 'required|email',
-            'password' => 'nullable|min:6|same:password-confirmation',
-            'password-confirmation' => 'nullable|min:6|same:password'
+            'email' => 'required|email|unique:admins,email,'.$id,
+            'password' => 'alpha_num|nullable|min:8|same:password-confirmation|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/'
         ));
 
         $admin->name = $request->name;
@@ -122,6 +143,12 @@ class AdminController extends Controller
     public function delete($id){
         $admin = Admin::find($id);
 
+        //Verifica se o admin existe
+        if($admin == null){
+            Session::flash('warning', 'Admin não encontrado!');
+            return redirect()->route('adm.index');
+        }
+
         //Caso o administrador esteja logado, não deve permitir o delete
         if(Auth::id() == $admin->id){
             //Cria mensagem de aviso
@@ -136,6 +163,13 @@ class AdminController extends Controller
     public function destroy($id)
     {
         $admin = Admin::find($id);
+
+        //Verifica se o admin existe
+        if($admin == null){
+            Session::flash('warning', 'Admin não encontrado!');
+            return redirect()->route('adm.index');
+        }
+
         $admin->delete();
 
         //Cria mensagem de sucesso

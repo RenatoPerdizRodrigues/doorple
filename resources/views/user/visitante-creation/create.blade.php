@@ -6,8 +6,8 @@
 <div class="row">
         <div class="col-md-6 offset-md-3">
                 <div class="forms border">
-                    <h3 class="text-center">Cadastre um novo usuário?</h3>
-                    <form method="POST" enctype="multipart/form-data" action="{{ route('vst.store') }}">
+                    <h3 class="text-center">Cadastre um novo visitante</h3>
+                    <form method="POST" id="form" enctype="multipart/form-data" action="{{ route('vst.store') }}">
                         @csrf
                         <!-- Visitante -->
                         <div class="form-group">
@@ -20,7 +20,7 @@
                         </div>
                         <div class="form-group">
                                 <label>RG</label>
-                                <input type="text" name="rg" value="{{$rg}}" class="form-control">
+                                <input type="text" name="rg" id="rg" value="{{$rg}}" class="form-control">
                         </div>
                         <div class="form-group">
                                 <label>Data de Nascimento</label>
@@ -38,9 +38,13 @@
                             <!-- Carro -->
                             <h3>Visitante está visitando de carro?</h3>
                             <label>Modelo do Veículo</label>
-                            <input type="text" name="vehicle_model" class="form-control">
+                            <select name="vehicle_model" class="form-control">
+                                <option disabled selected class="form-control">Sem Veículo</option>
+                                <option value="Carro" class="form-control">Carro</option>
+                                <option value="Moto" class="form-control">Moto</option>
+                            </select>
                             <label>Placa do Veículo</label>
-                            <input type="text" name="vehicle_license_plate" class="form-control">
+                            <input type="text" id="placa" name="vehicle_license_plate" placeholder="Sem Veículo" class="form-control">
                         </div>          
                         @endif
 
@@ -56,6 +60,22 @@
 <script>
     $(document).ready(function(){
         $('#date').mask('00/00/0000')
+        $('#placa').mask('SSS-0000')
+        $('#rg').mask('99.999.999-W', {
+            translation: {
+                'W' : {
+                    pattern: /[Xx0-9]/
+                }
+            },
+            reverse: true
+        })
     });
+
+    $("#form").submit(function() {
+        $("#date").unmask();
+        $("#date").mask('00-00-0000')
+        $("#rg").unmask();
+    });
+
 </script>
 @stop

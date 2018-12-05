@@ -24,12 +24,12 @@ class CheckConfig
             $config = Config::all()->first();
             if (Auth::guard('admin')->check()){
                 if ($config == null || $config->configured == 0){
-                    Session::flash('success', 'O sistema deve ser configurado antes de sua utilização!');
+                    Session::flash('warning', 'O sistema deve ser configurado antes de sua utilização!');
                     return redirect()->route('admin.config1');
                 }
             } elseif (Auth::guard('web')->check()){
                 if ($config == null || $config->configured == 0){
-                    Session::flash('success', 'O sistema deve ser configurado antes de sua utilização!');
+                    Session::flash('warning', 'O sistema deve ser configurado antes de sua utilização!');
                     return redirect()->route('logout');
                 }
             }            

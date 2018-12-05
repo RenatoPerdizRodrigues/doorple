@@ -34,8 +34,30 @@ class VisitaController extends Controller
     //Mostra formulários da visita, deve passar as configs para definir se é possível cadastrar veículo de visitante
     public function create($id, $apartamento, $bloco, $placa = null, $modelo = null)
     {
+        //Deve checar se o usuário não alterou o bloco e o apartamento para algum que não tenha visitante
+        $morador = Morador::where([['apartamento_id' , $apartamento],['bloco_id', $bloco]])->get();
+
+        if($morador->isEmpty()){
+            Session::flash('warning', 'Apartamento selecionado não possui morador!');
+            return redirect()->route('vst.main');
+        }
+
         $configs = Config::all();
-        $visitante = Visitante::find($id);
+
+        //Deve checar se o usuário não alterou o id do visitante para algum que não exista
+        $visitante = Visitante::where('id', $id)->first();
+        if($visitante == null){
+            Session::flash('warning', 'Visitante selecionado não existe!');
+            return redirect()->route('vst.main');
+        }
+
+        //Deve checar se o visitante já não está estacionado no veículo
+        $visita = Visita::where([['visitante_id', $visitante->id], ['vehicle_parked', 1]])->first();
+        if ($visita != null && $visita->vehicle_parked == 1){
+            Session::flash('warning', 'Não é possível cadastrar uma nova visita para este visitante, pois o mesmo já consta como estacionado no condomínio.');
+            return redirect()->route('vst.main');
+        }
+
         $blocos = Bloco::all();
         $apartamentos = Apartamento::all();
         return view('user.visita-creation.create')->withVisitante($visitante)->withApartamento($apartamento)->withBloco($bloco)->withPlaca($placa)->withModelo($modelo)->withBlocos($blocos)->withApartamentos($apartamentos)->withConfigs($configs);
@@ -47,7 +69,9 @@ class VisitaController extends Controller
         $this->validate($request, array(
             'visitante->id', 'exists:visitante, id',
             'apartamento_id', 'exists:apartamento, id',
-            'bloco_id', 'exists:bloco, id'
+            'bloco_id', 'exists:bloco, id',
+            'vehicle_model' => 'nullable|in:'."Moto".","."Carro",
+            'vehicle_license_plate' => 'nullable|min:8|max:8',
         ));
 
         //Checa se apartamento possui morador e pode ser visitado
@@ -56,7 +80,7 @@ class VisitaController extends Controller
         //Verifica se existe morador
         $morador = Morador::where([['apartamento_id' , $apartamento->id],['bloco_id', $request->bloco]])->get();
         if($morador->isEmpty()){
-            Session::flash('success', 'Apartamento selecionado não possui morador!');
+            Session::flash('warning', 'Apartamento selecionado não possui morador!');
             return redirect()->back()->withInput();
         }
 
@@ -76,11 +100,8 @@ class VisitaController extends Controller
 
         //Edita o último veículo utilizado pelo visitante
         $visitante = Visitante::find($request->visitante_id);
-        if ($visitante->vehicle_license_plate != $request->vehicle_license_plate ){
+        if ($request->vehicle_license_plate != null && $visitante->vehicle_license_plate != $request->vehicle_license_plate ){
             $visitante->vehicle_license_plate = $request->vehicle_license_plate;
-        }
-
-        if ($visitante->vehicle_model != $request->vehicle_model ){
             $visitante->vehicle_model = $request->vehicle_model;
         }
 

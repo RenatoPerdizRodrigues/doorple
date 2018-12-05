@@ -31,7 +31,7 @@ class ConfigController extends Controller
 
             //Caso não tenha sido encontrado bloco, retornar para a função Index e passar a mensagem de fracasso
             if ($bloco->isEmpty()){
-                Session::flash('success', 'Não foi encontrado um bloco com o valor selecionado.');
+                Session::flash('warning', 'Não foi encontrado um bloco com o valor selecionado.');
 
                 return redirect()->route('admin.config.index');
             }
@@ -187,7 +187,7 @@ class ConfigController extends Controller
             return redirect()->route('admin.config.index');
         }
 
-        Session::flash('success', 'O Apartamento não pode ser cadastrado pois já existe no bloco selecionado.');
+        Session::flash('warning', 'O Apartamento não pode ser cadastrado pois já existe no bloco selecionado.');
         return redirect()->route('admin.config.create');
     }
 
@@ -254,7 +254,7 @@ class ConfigController extends Controller
             return view('admin.configuration.delete')->withAp($ap);    
         }
 
-        Session::flash('success', 'Não é possível deletar um apartamento que possua moradores');
+        Session::flash('warning', 'Não é possível deletar um apartamento que possua moradores');
         return redirect()->route('admin.config.index');
     }
 
@@ -270,7 +270,7 @@ class ConfigController extends Controller
             return redirect()->route('admin.config.index');
         }
 
-        Session::flash('success', 'Não é possível deletar um apartamento que possua moradores');
+        Session::flash('warning', 'Não é possível deletar um apartamento que possua moradores');
         return redirect()->route('admin.config.index');         
         
     }
@@ -308,7 +308,7 @@ class ConfigController extends Controller
             return redirect()->route('admin.config.index');
         }
 
-        Session::flash('success', 'O Apartamento não pode ser editado pois este apartamento já existe no bloco selecionado.');
+        Session::flash('warning', 'O Apartamento não pode ser editado pois este apartamento já existe no bloco selecionado.');
         return redirect()->route('admin.config.ap-edit', $id);
     }
 }

@@ -37,7 +37,7 @@ class ConfigTablesSeeder extends Seeder
             'howmanyblocks' => 5,
             'visitor_car' => 1,
             'car_time' => 45,
-            'resident_registry' => 0
+            'resident_registry' => 1
         ]);
     }
 }

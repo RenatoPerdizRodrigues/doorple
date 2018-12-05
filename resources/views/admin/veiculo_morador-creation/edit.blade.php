@@ -11,20 +11,15 @@
                         @csrf
                         <div class="form-group">
                                 <label>Tipo</label>
-                                <select name="type" class="form-control">
-                                    <option @if($veiculo_morador->type == "carro") selected @endif value="carro" class="form-control">Carro</option>
-                                    <option @if($veiculo_morador->type == "moto") selected @endif value="moto" class="form-control">Moto</option>
+                                <select name="vehicle_model" class="form-control">
+                                    <option @if($veiculo_morador->vehicle_model == "Carro") selected @endif value="Carro" class="form-control">Carro</option>
+                                    <option @if($veiculo_morador->vehicle_model == "Moto") selected @endif value="Moto" class="form-control">Moto</option>
                                 </select>
                         </div>
                         <div class="form-group">
                                 <label>Placa</label>
-                                <input type="text" name="license_plate" value="{{$veiculo_morador->license_plate}}" class="form-control"><br>
+                                <input type="text" name="vehicle_license_plate" id="placa" value="{{$veiculo_morador->vehicle_license_plate}}" class="form-control">
                         </div>
-                        <div class="form-group">
-                                <label>Cor</label>
-                                <input type="text" name="color" value="{{$veiculo_morador->color}}" class="form-control"><br>
-                                <input hidden name="morador_id" value="{{$veiculo_morador->morador_id}}">
-                        </div>                     
                         
                         <input hidden name="_method" value="PUT">
                         <input type="submit" value="Cadastrar" class="form-control btn btn-success">
@@ -32,4 +27,13 @@
             </div>
         </div>
 </div>
+@stop
+
+@section('jsbody')
+<script src="{{ asset('/js/jquery.mask.js') }}"></script>
+<script>
+    $(document).ready(function(){
+        $('#placa').mask('SSS-0000')
+    });
+</script>
 @stop

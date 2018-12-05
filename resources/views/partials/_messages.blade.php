@@ -1,4 +1,3 @@
-<!--Checa mensagens de sucesso-->
 @if(Session::has('success'))
     <div class="col-md-4 offset-md-4">
         <div class="mensagens">
@@ -9,7 +8,6 @@
     </div>
 @endif
 
-<!--Checa mensagens de aviso-->
 @if(Session::has('warning'))
     <div class="col-md-4 offset-md-4">
         <div class="mensagens">

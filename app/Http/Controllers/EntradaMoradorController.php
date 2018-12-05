@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Morador;
 use App\EntradaMorador;
+use Session;
 
 //Controller de entrada de morador no condomínio
 class EntradaMoradorController extends Controller
@@ -33,12 +34,20 @@ class EntradaMoradorController extends Controller
     //Confirma o usuário a ter sua entrada registrada
     public function confirm(Request $request){
 
+        //Valida a request
         $this->validate($request, array(
-            'rg' => 'exists:moradores,rg'
+            'rg' => 'required|min:1|max:12',
         ));
 
-        $morador = Morador::where('rg', $request->rg)->get();
-        return view('user.entrada-creation.confirm')->withMorador($morador[0]);
+        $morador = Morador::where('rg', $request->rg)->first();
+
+        //Verifica se o morador existe
+        if($morador == null){
+            Session::flash('warning', 'Morador não encontrado!');
+            return redirect()->route('entrada.create');
+        }
+
+        return view('user.entrada-creation.confirm')->withMorador($morador);
     }
 
     //Retorna formulário de criação de nova entrada
@@ -55,6 +64,11 @@ class EntradaMoradorController extends Controller
      */
     public function store(Request $request)
     {
+        //Valida a request
+        $this->validate($request, array(
+            'veiculo_id' => 'nullable|exists:veiculos_morador,id',
+        ));
+
         $entrada = new EntradaMorador();
         $entrada->morador_id = $request->morador_id;
         $entrada->veiculo_id = $request->veiculo_id;

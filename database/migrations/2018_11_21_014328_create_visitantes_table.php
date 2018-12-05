@@ -17,7 +17,7 @@ class CreateVisitantesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('surname');
-            $table->string('rg');
+            $table->string('rg')->unique();
             $table->string('birthdate');
             $table->binary('picture')->nullable();
             $table->string('vehicle_license_plate')->nullable();

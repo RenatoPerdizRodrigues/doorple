@@ -47,7 +47,7 @@
     <div class="col-md-8 offset-md-2">
         <div class="forms border">
                 <h3 class="text-center">Editar Morador</h3>
-                <form method="POST" enctype="multipart/form-data" action="{{ route('morador.update', $morador->id) }}">
+                <form method="POST" id="form" enctype="multipart/form-data" action="{{ route('morador.update', $morador->id) }}">
                     @csrf
                     <div class="form-group">
                         <label>Nome</label>
@@ -59,7 +59,7 @@
                     </div>
                     <div class="form-group">
                         <label>RG</label>
-                        <input type="text" name="rg" value="{{$morador->rg}}" class="form-control">
+                        <input type="text" name="rg" value="{{$morador->rg}}" id="rg" class="form-control">
                     </div>
                     <div class="form-group">
                         <label>Data de Nascimento</label>
@@ -88,7 +88,7 @@
                     </div>
 
                     <input hidden name="_method" value="PUT">
-                    <input type="submit" value="Cadastrar" class="form-control btn btn-success">
+                    <input type="submit" value="Editar" class="form-control btn btn-success">
                 </form>
         </div>
     </div>
@@ -100,6 +100,21 @@
 <script>
     $(document).ready(function(){
         $('#date').mask('00/00/0000')
+        $('#rg').mask('99.999.999-W', {
+            translation: {
+                'W' : {
+                    pattern: /[Xx0-9]/
+                }
+            },
+            reverse: true
+        })
     });
+
+    $("#form").submit(function() {
+        $("#date").unmask();
+        $("#date").mask('00-00-0000')
+        $("#rg").unmask();
+    });
+
 </script>
 @stop

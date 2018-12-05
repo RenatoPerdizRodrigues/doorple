@@ -33,6 +33,7 @@ class MoradorController extends Controller
     {
         //Mostra todos os blocos
         $blocos = Bloco::all();
+        $primeirobloco = Bloco::first();
 
         //Criação do array que receberá arrays de apartamentos de cada bloco, na ordem
         $apartamentos = array();
@@ -50,30 +51,34 @@ class MoradorController extends Controller
         }
 
         //Array com um set inicial de apartamento do primeiro bloco, para usar como default
-        $apartamentosBlocoInicial = Apartamento::where('bloco_id', $blocos[1]->id)->get();
+        $apartamentosBlocoInicial = Apartamento::where('bloco_id', $primeirobloco->id)->get();
 
         return view('admin.morador-creation.create')->withBlocos($blocos)->withApartamentos($apartamentos)->withApartamentosBlocoInicial($apartamentosBlocoInicial);
     }
 
     //Salva o novo morador no banco de dados
     public function store(Request $request)
-    {
+    {        
         //Validação de dados do formulário, incluindo conferindo se o apartamento existe
         $this->validate($request, array(
             'name' => 'required|min:3|max:35',
             'surname' => 'required|min:3|max:35',
-            'rg' => 'required|min:6',
-            'birthdate' => 'required',
+            'rg' => 'required|min:1|max:12|unique:moradores,rg',
+            'birthdate' => 'required|before:'.date('d-m-Y'),
             'ap' => 'exists:apartamentos,id',
             'bloco' => 'exists:blocos,id'
         ));
+
+        //Reformata a data para formato brasileiro para inserção
+        $valores = explode("-", $request->birthdate);
+        $birthdate = $valores[0] . '/' . $valores[1] . '/' . $valores[2];
 
         //Criação do modelo e save das mudanças
         $morador = new Morador();
         $morador->name = $request->name;
         $morador->surname = $request->surname;
         $morador->rg = $request->rg;
-        $morador->birthdate = $request->birthdate;
+        $morador->birthdate = $birthdate;
         $morador->bloco_id = $request->bloco;
         $morador->apartamento_id = $request->ap;
         
@@ -82,7 +87,7 @@ class MoradorController extends Controller
             $picture = $request->file('picture');
             $filename = time() . '.' . $picture->getClientOriginalExtension();
             $location = public_path('images/morador/' . $filename);
-            Image::make($picture)->resize(300, 400)->save($location);
+            Image::make($picture)->resize(150, 250)->save($location);
             
             $morador->picture = $filename;
         } else {
@@ -101,16 +106,31 @@ class MoradorController extends Controller
     //Busca um morador e redireciona para a página de show
     public function search(Request $request)
     {   
-        $morador = Morador::where('rg', $request->rg)->get();
-        return redirect()->route('morador.show', $morador[0]->id);
+        $morador = Morador::where('rg', $request->rg)->first();
+        
+        //Verifica se o morador existe
+        if($morador == null){
+            Session::flash('warning', 'Morador não encontrado!');
+            return redirect()->route('morador.index');
+        }
+
+        return redirect()->route('morador.show', $morador->id);
     }
 
     //Mostra um morador específico. Deve retornar as configurações para ver se deve permitir o cadastro de veículos
     public function show($id)
     {
         $morador = Morador::find($id);
+
+        //Verifica se o morador existe
+        if($morador == null){
+            Session::flash('warning', 'Morador não encontrado!');
+            return redirect()->route('morador.index');
+        }
+
         $entradas = EntradaMorador::where('morador_id', $id)->get();
         $configs = Config::all();
+        
         return view('admin.morador-creation.show')->withMorador($morador)->withEntradas($entradas)->withConfigs($configs);
     }
 
@@ -121,6 +141,12 @@ class MoradorController extends Controller
         $blocos = Bloco::all();
 
         $morador = Morador::find($id);
+
+        //Verifica se o morador existe
+        if($morador == null){
+            Session::flash('warning', 'Morador não encontrado!');
+            return redirect()->route('morador.index');
+        }
 
         //Criação do array que receberá arrays de apartamentos de cada bloco, na ordem
         $apartamentos = array();
@@ -149,22 +175,32 @@ class MoradorController extends Controller
     {
         $morador = Morador::find($id);        
 
+        //Verifica se o morador existe
+        if($morador == null){
+            Session::flash('warning', 'Morador não encontrado!');
+            return redirect()->route('morador.index');
+        }
+
         //Validação de dados do formulário, incluindo conferindo se o apartamento existe
         $this->validate($request, array(
             'name' => 'required|min:3|max:35',
             'surname' => 'required|min:3|max:35',
-            'rg' => 'required|min:6',
-            'birthdate' => 'required',
+            'rg' => 'required|min:1|max:12|unique:moradores,rg,'.$id,
+            'birthdate' => 'required|before:'.date('d-m-Y'),
             'ap' => 'exists:apartamentos,id',
             'bloco' => 'exists:blocos,id'
         ));
+
+        //Reformata a data para formato brasileiro para inserção
+        $valores = explode("-", $request->birthdate);
+        $birthdate = $valores[0] . '/' . $valores[1] . '/' . $valores[2];
 
         //Criação do modelo e save das mudanças
         $morador = Morador::find($id);
         $morador->name = $request->name;
         $morador->surname = $request->surname;
         $morador->rg = $request->rg;
-        $morador->birthdate = $request->birthdate;
+        $morador->birthdate = $birthdate;
         $morador->bloco_id = $request->bloco;
         $morador->apartamento_id = $request->ap;
 
@@ -174,7 +210,7 @@ class MoradorController extends Controller
             $picture = $request->file('picture');
             $filename = time() . '.' . $picture->getClientOriginalExtension();
             $location = public_path('images/morador/' . $filename);
-            Image::make($picture)->resize(240, 320)->save($location);
+            Image::make($picture)->resize(150, 250)->save($location);
             
             //Deleta a foto original
             if ($morador->picture != '1.jpg'){
@@ -196,6 +232,13 @@ class MoradorController extends Controller
 
     public function delete($id){
         $morador = Morador::find($id);
+
+        //Verifica se o morador existe
+        if($morador == null){
+            Session::flash('warning', 'Morador não encontrado!');
+            return redirect()->route('morador.index');
+        }
+
         return view('admin.morador-creation.delete')->withMorador($morador);
     }
 
@@ -203,6 +246,13 @@ class MoradorController extends Controller
     public function destroy($id)
     {
         $morador = Morador::find($id);
+
+        //Verifica se o morador existe
+        if($morador == null){
+            Session::flash('warning', 'Morador não encontrado!');
+            return redirect()->route('morador.index');
+        }
+        
         if ($morador->picture != '1.jpg'){
             File::delete(public_path('images/morador/'.$morador->picture));
         }

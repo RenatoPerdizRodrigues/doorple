@@ -18,7 +18,7 @@
                             <input type="text" name="email" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label>Senha</label>
+                            <label>Senha <small> | Deve conter no mínimo 8 letras, um número e uma letra maiúscula</small></label>
                             <input type="password" name="password" class="form-control">
                         </div>
                         <div class="form-group">

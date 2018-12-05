@@ -6,16 +6,16 @@
 <div class="row">
     <div class="col-md-6 offset-md-3">
         <div class="forms border">
-            <h3 class="text-center">Encontre um Admin</h3>
+            <h3 class="text-center">Encontre um Usuário</h3>
                 <form method="POST" action="{{ route('usr.search.submit') }}">
                     @csrf
-                    <div class="formgroup">
+                    <div class="form-group">
                         <label>Email do User</label>
-                        <input type="text" name="email" class="form-control"><br>
+                        <input type="text" name="email" class="form-control">
                     </div>
                     
                     <input type="submit" value="Procurar" class="form-control btn btn-success">
-                </form><br><br>
+                </form>
         </div>
     </div>
     <div class="col-md-10 offset-md-1">
