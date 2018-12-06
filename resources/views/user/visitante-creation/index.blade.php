@@ -11,7 +11,7 @@
                     @csrf
                     <div class="form-group">
                             <label>RG do Visitante</label>
-                        <input type="text" name="rg" id="rg" class="form-control">
+                        <input type="text" name="rg" id="rg" class="form-control text-uppercase">
                     </div>
                     
                     <div class="text-center">

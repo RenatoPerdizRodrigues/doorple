@@ -49,7 +49,7 @@
                                 <option value="Moto" class="form-control" @if($modelo == 'Moto') selected @endif>Moto</option>
                             </select>
                             <label>Placa do Veículo</label>
-                            <input type="text" name="vehicle_license_plate" disabled id="placa" value="{{$placa}}" placeholder="Sem Veículo" class="form-control">
+                            <input type="text" name="vehicle_license_plate" disabled id="placa" value="{{$placa}}" placeholder="Sem Veículo" class="form-control text-uppercase">
                     </div>
                     @endif
                     <input type="text" hidden name="bloco" value="{{$bloco}}">

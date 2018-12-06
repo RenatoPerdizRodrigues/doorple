@@ -18,7 +18,7 @@
                         </div>
                         <div class="form-group">
                                 <label>Placa</label>
-                                <input type="text" name="vehicle_license_plate" id="placa" value="{{$veiculo_morador->vehicle_license_plate}}" class="form-control">
+                                <input type="text" name="vehicle_license_plate" id="placa" value="{{$veiculo_morador->vehicle_license_plate}}" class="form-control text-uppercase">
                         </div>
                         
                         <input hidden name="_method" value="PUT">

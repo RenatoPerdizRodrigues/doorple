@@ -39,7 +39,7 @@ class EntradaMoradorController extends Controller
             'rg' => 'required|min:1|max:12',
         ));
 
-        $morador = Morador::where('rg', $request->rg)->first();
+        $morador = Morador::where('rg', strtoupper($request->rg))->first();
 
         //Verifica se o morador existe
         if($morador == null){

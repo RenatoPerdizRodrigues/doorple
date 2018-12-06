@@ -77,7 +77,7 @@ class MoradorController extends Controller
         $morador = new Morador();
         $morador->name = $request->name;
         $morador->surname = $request->surname;
-        $morador->rg = $request->rg;
+        $morador->rg = strtoupper($request->rg);
         $morador->birthdate = $birthdate;
         $morador->bloco_id = $request->bloco;
         $morador->apartamento_id = $request->ap;
@@ -106,7 +106,7 @@ class MoradorController extends Controller
     //Busca um morador e redireciona para a página de show
     public function search(Request $request)
     {   
-        $morador = Morador::where('rg', $request->rg)->first();
+        $morador = Morador::where('rg', strtoupper($request->rg))->first();
         
         //Verifica se o morador existe
         if($morador == null){
@@ -199,7 +199,7 @@ class MoradorController extends Controller
         $morador = Morador::find($id);
         $morador->name = $request->name;
         $morador->surname = $request->surname;
-        $morador->rg = $request->rg;
+        $morador->rg = strtoupper($request->rg);
         $morador->birthdate = $birthdate;
         $morador->bloco_id = $request->bloco;
         $morador->apartamento_id = $request->ap;

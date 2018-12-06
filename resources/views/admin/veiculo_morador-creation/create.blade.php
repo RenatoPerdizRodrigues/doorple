@@ -18,7 +18,7 @@
                 </div>
                 <div class="form-group">
                     <label>Placa</label>
-                    <input type="text" id="placa" name="vehicle_license_plate" class="form-control">
+                    <input type="text" id="placa" name="vehicle_license_plate" class="form-control text-uppercase">
                 </div>
                 <div class="form-group">
                     <p>Dono: {{ $morador->name . " " . $morador->surname }}</p>

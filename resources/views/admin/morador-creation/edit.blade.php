@@ -59,7 +59,7 @@
                     </div>
                     <div class="form-group">
                         <label>RG</label>
-                        <input type="text" name="rg" value="{{$morador->rg}}" id="rg" class="form-control">
+                        <input type="text" name="rg" value="{{$morador->rg}}" id="rg" class="form-control  text-uppercase">
                     </div>
                     <div class="form-group">
                         <label>Data de Nascimento</label>

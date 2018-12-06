@@ -52,7 +52,7 @@ class Veiculo_MoradorController extends Controller
         //Criação do modelo e save das mudanças
         $veiculo_morador = new Veiculo();
         $veiculo_morador->vehicle_model = $request->vehicle_model;
-        $veiculo_morador->vehicle_license_plate = $request->vehicle_license_plate;
+        $veiculo_morador->vehicle_license_plate = strtoupper($request->vehicle_license_plate);
         $veiculo_morador->morador_id = $request->morador_id;
         $veiculo_morador->save();
 
@@ -118,7 +118,7 @@ class Veiculo_MoradorController extends Controller
         //Criação do modelo e salvamento das mudanças
         $veiculo_morador = Veiculo::find($id);
         $veiculo_morador->vehicle_model = $request->vehicle_model;
-        $veiculo_morador->vehicle_license_plate = $request->vehicle_license_plate;
+        $veiculo_morador->vehicle_license_plate = strtoupper($request->vehicle_license_plate);
         $veiculo_morador->save();
 
         //Mensagem de sucesso

@@ -11,7 +11,7 @@
                     <div class="row">
                             <div class="col-sm">
                                     <h3>{{$morador->name . " " . $morador->surname}}</h3>
-                                    <h5>RG: <input type="text" disabled id="rg" value="{{$morador->rg}}" class="rg_view"></h5>
+                                    <h5>RG: <input type="text" disabled id="rg" value="{{$morador->rg}}" class="rg_view text-uppercase"></h5>
                                     <h5>Data de Nascimento: {{$morador->birthdate}}</h5>
                                     <h5>Apartamento: {{$morador->bloco->prefix . "-" . $morador->apartamento->apartamento}}</h5>                              
                             </div>

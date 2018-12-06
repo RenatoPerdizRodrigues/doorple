@@ -11,7 +11,7 @@
                     <div class="row">
                             <div class="col-sm">
                                     <h3>{{$visitante->name . " " . $visitante->surname}}</h3>
-                                    <h5>RG: <input type="text" id="rg" disabled value="{{$visitante->rg}}" class="rg_view"></h5>
+                                    <h5>RG: <input type="text" id="rg" disabled value="{{$visitante->rg}}" class="rg_view  text-uppercase"></h5>
                                     <h5>Data de Nascimento: {{$visitante->birthdate}}</h5>           
                             </div>
                             <div class="col-sm mr-md-3">

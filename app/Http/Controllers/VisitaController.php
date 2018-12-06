@@ -91,7 +91,7 @@ class VisitaController extends Controller
 
         //Checa se está com veículo
         if ($request->vehicle_license_plate && $request->vehicle_model){
-            $visita->vehicle_license_plate = $request->vehicle_license_plate;
+            $visita->vehicle_license_plate = strtoupper($request->vehicle_license_plate);
             $visita->vehicle_model = $request->vehicle_model;
             $visita->vehicle_parked = 1;
         }
@@ -100,8 +100,8 @@ class VisitaController extends Controller
 
         //Edita o último veículo utilizado pelo visitante
         $visitante = Visitante::find($request->visitante_id);
-        if ($request->vehicle_license_plate != null && $visitante->vehicle_license_plate != $request->vehicle_license_plate ){
-            $visitante->vehicle_license_plate = $request->vehicle_license_plate;
+        if ($request->vehicle_license_plate != null && $visitante->vehicle_license_plate != strtoupper($request->vehicle_license_plate) ){
+            $visitante->vehicle_license_plate = strtoupper($request->vehicle_license_plate);
             $visitante->vehicle_model = $request->vehicle_model;
         }
 

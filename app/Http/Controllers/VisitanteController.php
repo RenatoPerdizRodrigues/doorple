@@ -57,8 +57,13 @@ class VisitanteController extends Controller
             return redirect()->route('vst.main');
         }
 
+        if($request->rg == null){
+            Session::flash('warning', 'É necessário digitar um RG para o visitante!');
+            return redirect()->route('vst.main');
+        }
+
         //Checa se visitante já existe ou deverá ser cadastrdo
-        $visitante = Visitante::where('rg', $request->rg)->first();
+        $visitante = Visitante::where('rg', strtoupper($request->rg))->first();
         if($visitante == null){
             //Precisa redirecionar para a criação de visitante
 
@@ -86,7 +91,7 @@ class VisitanteController extends Controller
 
     //Encontra visitante específico no índex
     public function find(Request $request){
-        $visitante = Visitante::where('rg', $request->rg)->first();
+        $visitante = Visitante::where('rg', strtoupper($request->rg))->first();
 
         if($visitante == null){
             Session::flash('warning', 'Visitante não encontrado!');
@@ -119,7 +124,7 @@ class VisitanteController extends Controller
         $this->validate($request, array(
             'name' => 'required|min:3|max:35',
             'surname' => 'required|min:3|max:35',
-            'rg' => 'required|min:1|max:12|unique:moradores,rg',
+            'rg' => 'required|min:1|max:12|unique:visitantes,rg',
             'birthdate' => 'required|before:'.date('d-m-Y'),
             'vehicle_model' => 'nullable|in:'."Moto".","."Carro",
             'vehicle_license_plate' => 'nullable|min:8|max:8',
@@ -129,7 +134,7 @@ class VisitanteController extends Controller
         $visitante = new Visitante();
         $visitante->name = $request->name;
         $visitante->surname = $request->surname;
-        $visitante->rg = $request->rg;
+        $visitante->rg = strtoupper($request->rg);
         $visitante->birthdate = $request->birthdate;
         
         //Salva a imagem se necessário
@@ -147,12 +152,12 @@ class VisitanteController extends Controller
         //Caso tenha digitado a placa mas não o modelo, retorna
         if(!is_null($request->vehicle_license_plate) && is_null($request->vehicle_model)){
             Session::flash('warning', 'É preciso cadastrar o modelo do veículo!');
-            return redirect()->route('vst.create', [$request->rg, $request->bloco, $request->apartamento]);
+            return redirect()->route('vst.create', [strtoupper($request->rg), $request->bloco, $request->apartamento]);
         }
 
         //Salva o carro se necessário
         if($request->vehicle_license_plate && $request->vehicle_model){
-            $visitante->vehicle_license_plate = $request->vehicle_license_plate;
+            $visitante->vehicle_license_plate = strtoupper($request->vehicle_license_plate);
             $visitante->vehicle_model = $request->vehicle_model;
         }
 
@@ -163,7 +168,7 @@ class VisitanteController extends Controller
 
         //Deve redirecionar para a criação de visita, com ID do visitante, apartamento e bloco e informações do carro
         if ($request->vehicle_license_plate != null && $request->vehicle_model != null){
-            return redirect()->route('visita.create', [$visitante->id, $request->apartamento, $request->bloco, $request->vehicle_license_plate, $request->vehicle_model]);
+            return redirect()->route('visita.create', [$visitante->id, $request->apartamento, $request->bloco, strtoupper($request->vehicle_license_plate, $request->vehicle_model)]);
         } else {
             return redirect()->route('visita.create', [$visitante->id, $request->apartamento, $request->bloco]);
         }
@@ -218,7 +223,7 @@ class VisitanteController extends Controller
         $visitante = Visitante::find($id);
         $visitante->name = $request->name;
         $visitante->surname = $request->surname;
-        $visitante->rg = $request->rg;
+        $visitante->rg = strtoupper($request->rg);
         $visitante->birthdate = $request->birthdate;
         
         //Salva a imagem se necessário
@@ -244,7 +249,7 @@ class VisitanteController extends Controller
 
         //Salva o carro se necessário
         if($request->vehicle_license_plate && $request->vehicle_model){
-            $visitante->vehicle_license_plate = $request->vehicle_license_plate;
+            $visitante->vehicle_license_plate = strtoupper($request->vehicle_license_plate);
             $visitante->vehicle_model = $request->vehicle_model;
         }
 

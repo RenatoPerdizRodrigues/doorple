@@ -20,7 +20,7 @@
                         </div>
                         <div class="form-group">
                                 <label>RG</label>
-                                <input type="text" name="rg" id="rg" value="{{$visitante->rg}}" class="form-control">
+                                <input type="text" name="rg" id="rg" value="{{$visitante->rg}}" class="form-control text-uppercase">
                         </div>
                         <div class="form-group">
                                 <label>Data de Nascimento</label>
@@ -41,7 +41,7 @@
                                         <option value="Moto" class="form-control" @if($visitante->vehicle_model == 'Moto' && $visitante->vehicle_license_plate != null) selected @endif>Moto</option>
                                     </select>
                             <label>Placa do Veículo</label>
-                            <input type="text" name="vehicle_license_plate" id="placa" class="form-control" value="{{$visitante->vehicle_license_plate ? $visitante->vehicle_license_plate : "" }}">
+                            <input type="text" name="vehicle_license_plate" id="placa" class="form-control text-uppercase" value="{{$visitante->vehicle_license_plate ? $visitante->vehicle_license_plate : "" }}">
                         </div>            
                         @endif
                         <input hidden name="_method" value="PUT">

@@ -6,7 +6,7 @@
 <div class="row">
     <div class="col-md-6 offset-md-3">
             <div class="forms border">
-                <h3 class="text-center">Deseja cadastrar o novo visitante de RG <input disabled type="text" class="rg_view text-center" id="rg" value="{{$rg . "aaaaaaa"}}"></h3>
+                <h3 class="text-center">Deseja cadastrar o novo visitante de RG <input disabled type="text" class="rg_view text-center  text-uppercase" id="rg" value="{{$rg . "aaaaaaa"}}"></h3>
                 <hr>
                 <div class="text-right">
                         <a href="{{route('vst.main')}}" class="btn btn-warning">Voltar</a>
