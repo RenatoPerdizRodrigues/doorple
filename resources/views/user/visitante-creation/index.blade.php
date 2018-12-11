@@ -7,7 +7,7 @@
         <div class="col-md-6 offset-md-3">
             <div class="forms border">
                 <h3 class="text-center">Encontre um Visitante</h3>
-                <form method="POST" id="form" action="{{ route('vst.find.submit') }}">
+                <form data-parsley-validate method="POST" id="form" action="{{ route('vst.find.submit') }}">
                     @csrf
                     <div class="form-group">
                             <label>RG do Visitante</label>

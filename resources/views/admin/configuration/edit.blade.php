@@ -7,7 +7,7 @@
         <div class="col-md-6 offset-md-3">
             <div class="forms border">
                 <h3 class="text-center">Vamos configurar o sistema!</h3>
-                <form method="POST" action="{{route('admin.config.update')}}">
+                <form data-parsley-validate method="POST" action="{{route('admin.config.update')}}">
                         @csrf
                         <div class="form-group">
                             <!-- Edição do nome de blocos -->

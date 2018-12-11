@@ -7,7 +7,7 @@
         <div class="col-md-8 offset-md-2">
             <div class="forms border">
                     <h3 class="text-center">Edite um novo Usuário</h3>
-                    <form method="POST" action="{{ route('usr.update', $user->id) }}">
+                    <form data-parsley-validate method="POST" action="{{ route('usr.update', $user->id) }}">
                         @csrf
                         <div class="form-group">
                             <label>Nome</label>

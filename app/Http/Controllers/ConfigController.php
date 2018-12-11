@@ -62,15 +62,26 @@ class ConfigController extends Controller
             'resident_registry' => 'required|boolean'
         ));
 
+        if($request->visitor_car == 1){
+            if($request->car_time_hours == null && $request->car_time_minutes == null){
+                Session::flash('warning', 'Caso seja permitida a entrada de veículos no condomínio, favor selecione o tempo de estadia permitido!');
+                return back()->withInput();
+            }
+        }
+
         //Cálculo de tempo que o carro pode ficar no condomínio, em minutos
         if ($request->minutes || $request->car_time_hours){
             if ($request->car_time_hours != null){
                 $horas = ($request->car_time_hours * 60);
-            } 
+            } else {
+                $horas = 0;
+            }
             
             if($request->car_time_minutes  != null) {
                 $minutos = $request->car_time_minutes;
-            } 
+            }  else {
+                $minutos = 0;
+            }
 
             $time = $horas + $minutos; 
             
@@ -83,9 +94,16 @@ class ConfigController extends Controller
     }
 
     //Retorna a a continuação do formulário de configuração
-    public function config3(Request $request){
+    public function config3(Request $request){        
+         //Valida os dados do formulário de configuração
+         $this->validate($request, array(
+            'total' => 'required|numeric',
+            'blocos' => 'required|numeric',
+        ));
+
         $total = $request->total;
         $blocos = $request->blocos;
+
         //Descobre a quantidade de apartamentos por bloco, arredondando para cima
         $pbloco = $total / $blocos;
         $pbloco = ceil($pbloco);
@@ -101,7 +119,6 @@ class ConfigController extends Controller
 
         //Retorna a visualização dos apartamentos
         public function config4(Request $request){
-
             $total = $request->total;
             $blocos = $request->blocos;
             $pblocos = $request->pblocos;
@@ -125,8 +142,18 @@ class ConfigController extends Controller
 
     //Valida dados de configuração final
     public function finishConfig(Request $request){
+
+        //Caso os prefixos dos blocos não tenham sido preenchidos corretamente, o sistema redireciona para a tela inicial de configuração de condomínio
+        for($i = 1; $i <= $request->blocos; $i++){
+            if($request['prefix'.$i] == null){
+                Session::flash('warning', 'Por favor escolha a quantidade correta de blocos do condomínio e preencha o nome de cada um corretamente!');
+                return view('admin.configuration.config2')->with('system_name', $request->system_name)->with('visitor_car', $request->visitor_car)->with('resident_registry', $request->resident_registry)->with('time', $request->time);
+            }
+        }
+
         //Insere todos os blocos e seus respectivos valores
         for($i = 1; $i <= $request->blocos; $i++){
+
             $bloco = new Bloco([
                 'prefix' => $request['prefix'.$i]
             ]);

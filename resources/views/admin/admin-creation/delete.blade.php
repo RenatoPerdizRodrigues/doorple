@@ -8,7 +8,7 @@
             <div class="forms border">
                 <h3 class="text-center">Deseja deletar {{$admin->name}}?</h3>
                 <div class="text-center inline-block">
-                    <form method="POST" action="{{ route('adm.destroy', $admin->id) }}">
+                    <form data-parsley-validate method="POST" action="{{ route('adm.destroy', $admin->id) }}">
                         @csrf
                         <a href="{{route('adm.show', $admin->id)}}" class="btn btn-warning">Voltar</a>
                         <input hidden type="text" name="_method" value="DELETE">

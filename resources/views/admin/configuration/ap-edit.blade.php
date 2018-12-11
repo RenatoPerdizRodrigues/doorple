@@ -7,11 +7,11 @@
         <div class="col-md-6 offset-md-3">
             <div class="forms border">
                 <h3 class="text-center">Editar Apartamento</h3>
-                <form method="POST" action="{{route('admin.config.ap-update', $ap->id)}}">
+                <form data-parsley-validate method="POST" action="{{route('admin.config.ap-update', $ap->id)}}">
                     @csrf
                     <div class="form-group">
                         <label>Bloco</label>
-                        <select name="bloco_id" class="form-control">
+                        <select name="bloco_id" class="form-control" required>
                             @foreach($blocos as $bloco)
                                 <option value="{{$bloco->id}}" class="form-control" @if($ap->bloco_id == $bloco->id) selected @endif>{{$bloco->prefix}}</option>
                             @endforeach
@@ -19,7 +19,7 @@
                     </div>
                     <div class="form-group">
                         <label>Apartamento</label>
-                        <input type="text" name="apartamento" class="form-control" value={{$ap->apartamento}}>
+                        <input type="text" name="apartamento" class="form-control" required value={{$ap->apartamento}}>
                     </div>
                     
                     

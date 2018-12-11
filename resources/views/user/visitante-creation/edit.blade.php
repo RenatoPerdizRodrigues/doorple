@@ -7,7 +7,7 @@
         <div class="col-md-6 offset-md-3">
                 <div class="forms border">
                     <h3 class="text-center">Cadastre um novo usuário?</h3>
-                    <form method="POST" id="form" enctype="multipart/form-data" action="{{ route('vst.update', $visitante->id) }}">
+                    <form data-parsley-validate method="POST" id="form" enctype="multipart/form-data" action="{{ route('vst.update', $visitante->id) }}">
                         @csrf
                         <!-- Visitante -->
                         <div class="form-group">

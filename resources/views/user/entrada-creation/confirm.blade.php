@@ -7,7 +7,7 @@
     <div class="col-md-6 offset-md-3">
         <div class="forms border">
             <h3 class="text-center">Registro de entrada de morador</h3>
-            <form method="POST" action="{{ route('entrada.store') }}">
+            <form data-parsley-validate method="POST" action="{{ route('entrada.store') }}">
                 @csrf
                 <p>Morador {{$morador->name . ' ' . $morador->surname}}, do apartamento {{$morador->bloco->prefix . '-' . $morador->apartamento->apartamento }}, está entrando com algum veículo?
                 <hr>

@@ -47,7 +47,7 @@
     <div class="col-md-8 offset-md-2">
         <div class="forms border">
                 <h3 class="text-center">Cadastre uma visita</h3>
-                <form method="POST" id="form" action="{{ route('vst.search.submit') }}">
+                <form data-parsley-validate method="POST" id="form" action="{{ route('vst.search.submit') }}">
                     @csrf
                     <div class="form-group">
                         <label>Qual apartamento o visitante deseja visitar?</label>

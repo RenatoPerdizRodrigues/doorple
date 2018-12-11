@@ -47,7 +47,7 @@
     <div class="col-md-8 offset-md-2">
         <div class="forms border">
                 <h3 class="text-center">Editar Morador</h3>
-                <form method="POST" id="form" enctype="multipart/form-data" action="{{ route('morador.update', $morador->id) }}">
+                <form data-parsley-validate method="POST" id="form" enctype="multipart/form-data" action="{{ route('morador.update', $morador->id) }}">
                     @csrf
                     <div class="form-group">
                         <label>Nome</label>

@@ -99,7 +99,7 @@
                                         <td>{{$carro->vehicle_model . ' - ' . $carro->vehicle_license_plate}}</td>
                                         <td>{{$carro->created_at->format('d/m/Y | H:i:s')}}</td>
                                         <td id="{{'timer_'.$i}}"></td>
-                                        <td><form method="POST" action="{{route('visita.leave')}}"> @csrf <input hidden type="text" name="id" value="{{$carro->id}}"><input type="submit" class="btn btn-danger" value="Registrar Saída"></form></td>
+                                        <td><form data-parsley-validate method="POST" action="{{route('visita.leave')}}"> @csrf <input hidden type="text" name="id" value="{{$carro->id}}"><input type="submit" class="btn btn-danger" value="Registrar Saída"></form></td>
                                     </tr>
                                     <?php $i++; ?>
                                 @endforeach

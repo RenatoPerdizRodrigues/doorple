@@ -7,7 +7,7 @@
     <div class="col-md-6 offset-md-3">
         <div class="forms border">
             <h3 class="text-center">Encontre um Morador</h3>
-            <form method="POST" id="form" action="{{ route('morador.search.submit') }}">
+            <form data-parsley-validate method="POST" id="form" action="{{ route('morador.search.submit') }}">
                 @csrf
                 <div class="form-group">
                     <label>RG do Morador</label>

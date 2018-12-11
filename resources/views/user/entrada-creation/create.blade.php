@@ -7,7 +7,7 @@
     <div class="col-md-6 offset-md-3">
         <div class="forms border">
             <h3 class="text-center">Registro de entrada de morador</h3>
-            <form method="POST" id="form" action="{{ route('entrada.confirm') }}">
+            <form data-parsley-validate method="POST" id="form" action="{{ route('entrada.confirm') }}">
                 @csrf
                 <!-- Visitante -->
                 <div class="form-group">

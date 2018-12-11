@@ -7,11 +7,11 @@
         <div class="col-md-6 offset-md-3">
             <div class="forms border">
                 <h3 class="text-center">Encontre um Admin</h3>
-                    <form method="POST" action="{{ route('adm.search.submit') }}">
+                    <form data-parsley-validate method="POST" action="{{ route('adm.search.submit') }}">
                         @csrf
                         <div class="form-group">
                             <label>Email do Adm</label>
-                            <input type="text" class="form-control" name="email">
+                            <input type="email" class="form-control" name="email">
                         </div>
                         <div class="form-group">
                             <input type="submit" class="form-control btn btn-success" value="Procurar">

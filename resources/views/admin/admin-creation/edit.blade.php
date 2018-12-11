@@ -7,23 +7,23 @@
         <div class="col-md-8 offset-md-2">
             <div class="forms border">
                 <h3 class="text-center">Editar Administrador</h3>
-                <form method="POST" action="{{ route('adm.update', $admin->id) }}">
+                <form data-parsley-validate method="POST" action="{{ route('adm.update', $admin->id) }}">
                 @csrf
                 <div class="form-group">
                     <label>Nome</label>
-                    <input type="text" name="name" class="form-control" value="{{$admin->name}}">
+                    <input type="text" name="name" class="form-control" required value="{{$admin->name}}">
                 </div>
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="text" name="email" class="form-control" value="{{$admin->email}}">
+                    <input type="email" name="email" class="form-control" required value="{{$admin->email}}">
                 </div>
                 <div class="form-group">
-                    <label>Senha</label>
-                    <input type="password" name="password" class="form-control">
+                    <label>Senha<small> | Deve conter no mínimo 8 letras, um número e uma letra maiúscula</small></label>
+                    <input type="password" id="password" name="password" minlength="6" data-parsley-pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*" class="form-control">
                 </div>
                 <div class="form-group">
                     <label>Confirme a senha</label>
-                    <input type="password" name="password-confirmation" class="form-control">
+                    <input type="password" name="password-confirmation" minlength="6" data-parsley-equalto="#password" class="form-control">
                 </div>
                 <input hidden type="text" name="_method" value="PUT">
 

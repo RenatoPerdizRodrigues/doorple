@@ -7,7 +7,7 @@
     <div class="col-md-6 offset-md-3">
         <div class="forms border">
             <h3 class="text-center">Procure uma entrada através do dia, mês e ano</h3>
-            <form method="POST" action="{{ route('entrada.search.submit') }}">
+            <form data-parsley-validate method="POST" action="{{ route('entrada.search.submit') }}">
                 @csrf
                 <div class="form-group">
                     <label>Dia da Entrada</label>

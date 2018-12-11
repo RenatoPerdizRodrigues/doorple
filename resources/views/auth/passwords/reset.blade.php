@@ -4,7 +4,7 @@
 
 @section('content')
     <h3>Resete sua senha</h3>
-    <form method="POST" action="{{ route('password.update') }}">
+    <form data-parsley-validate method="POST" action="{{ route('password.update') }}">
         @csrf
         <input type="hidden" name="token" value="{{ $token }}">
         <label>E-mail:</label>

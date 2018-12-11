@@ -28,8 +28,8 @@
 <div class="row">
         <div class="col-md-6 offset-md-3">
             <div class="forms border">
-                <h3 class="text-center">Preencha os números de apartamento de um bloco. <h5>Ex: Todo bloco possui os apartamentos 1, 2, 3, 4, 5, 6.</h5></h3>
-                <form method="POST" action="{{ route('admin.config3') }}">
+                <h3 class="text-center">Preencha a identificação de apartamento de um bloco. <h5>Ex: Todo bloco possui os apartamentos 1, 2, 3, 4, 5, 6.</h5></h3>
+                <form data-parsley-validate method="POST" action="{{ route('admin.config3') }}">
                         @csrf
                         <div class="form-group">
                             <label>Apartamentos</label>

@@ -6,7 +6,7 @@
 <div class="row">
         <div class="col-md-6 offset-md-3">
                 <div class="forms border">
-                        <form method="POST" action="{{ route('visita.store') }}">
+                        <form data-parsley-validate method="POST" action="{{ route('visita.store') }}">
                                 @csrf
                                 
                     <h3 class="text-center">Dados da Visita</h3>

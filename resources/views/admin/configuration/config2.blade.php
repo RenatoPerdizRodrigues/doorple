@@ -7,15 +7,15 @@
         <div class="col-md-6 offset-md-3">
             <div class="forms border">
                 <h3 class="text-center">Configure a quantidade de apartamentos</h3>
-                <form method="POST" action="{{ route('admin.config2') }}">
+                <form data-parsley-validate method="POST" action="{{ route('admin.config2') }}">
                         @csrf
                         <div class="form-group">
                             <label>Quantos apartamentos há no condomínio?</label>
-                            <input type="number" name="total" class="form-control">
+                            <input type="number" name="total" required class="form-control" value="{{ old('total')}}">
                         </div>
                         <div class="form-group">
                             <label>Os apartamentos são divididos em quantos blocos?</label>
-                            <input type="number" name="blocos" class="form-control">
+                            <input type="number" name="blocos" required class="form-control" value="{{ old('blocos')}}">
                         </div>
 
                         <input type="text" hidden name="system_name" value="{{$system_name}}">

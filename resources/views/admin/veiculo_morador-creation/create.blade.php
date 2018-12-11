@@ -7,7 +7,7 @@
     <div class="col-md-8 offset-md-2">
         <div class="forms border">
             <h3 class="text-center">Cadastre um novo veículo para {{$morador->name}}</h3>
-            <form method="POST"  action="{{ route('veiculo_morador.store') }}">
+            <form data-parsley-validate method="POST"  action="{{ route('veiculo_morador.store') }}">
                 @csrf
                 <div class="form-group">
                     <label>Tipo</label>

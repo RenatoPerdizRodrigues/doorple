@@ -7,7 +7,7 @@
         <div class="col-md-6 offset-md-3">
             <div class="forms border">
                 <h3 class="text-center">Selecione um Bloco</h3>
-                    <form method="POST" action="{{ route('admin.config.search.submit') }}">
+                    <form data-parsley-validate method="POST" action="{{ route('admin.config.search.submit') }}">
                         @csrf
                         <div class="form-group">
                             <label>Bloco</label>

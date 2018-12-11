@@ -7,7 +7,7 @@
         <div class="col-md-6 offset-md-3">
             <div class="forms border">
                 <h3 class="text-center">Encontre um Veículo</h3>
-                <form method="POST" action="{{ route('veiculo_morador.search.submit') }}">
+                <form data-parsley-validate method="POST" action="{{ route('veiculo_morador.search.submit') }}">
                         @csrf
                         <div class="form-group">
                             <label>Placa do Motorista</label>
