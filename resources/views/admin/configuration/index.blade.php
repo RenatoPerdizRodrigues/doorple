@@ -30,7 +30,9 @@
                             <th>#</th>
                             <th>Apartamento</th>
                             <th>Moradores</th>
-                            <th>Ações</th>
+                            @if(Auth::guard('admin')->check() == 1)
+                                <th>Ações</th>
+                            @endif
                         </thead>
                         <tbody >
                         @foreach($bloco as $bloco)
@@ -49,14 +51,16 @@
                                                 @endforeach
                                         @endif
                                     </td>
-                                    <td>
-                                                    <a href="{{ route('admin.config.ap-edit', $apartamento->id) }}" class="btn btn-warning">Editar</a>
-                                                    @if(count($apartamento->moradores) == 0)
-                                                    <a href="{{ route('admin.config.delete', $apartamento->id) }}" class="btn btn-danger">Deletar</a>
-                                                    @else 
-                                                    <a href="{{ route('admin.config.delete', $apartamento->id) }}" class="btn btn-secondary">Deletar</a>
-                                                    @endif
-                                    </td>
+                                    @if(Auth::guard('admin')->check() == 1)
+                                        <td>
+                                                        <a href="{{ route('admin.config.ap-edit', $apartamento->id) }}" class="btn btn-warning">Editar</a>
+                                                        @if(count($apartamento->moradores) == 0)
+                                                        <a href="{{ route('admin.config.delete', $apartamento->id) }}" class="btn btn-danger">Deletar</a>
+                                                        @else 
+                                                        <a href="{{ route('admin.config.delete', $apartamento->id) }}" class="btn btn-secondary">Deletar</a>
+                                                        @endif
+                                        </td>
+                                    @endif
                                 <p></p> </li>
                                 </tr>
                             @endforeach

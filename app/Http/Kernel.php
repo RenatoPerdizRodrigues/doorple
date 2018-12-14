@@ -41,6 +41,10 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\CheckConfig::class,
         ],
 
+        'multiView' => [
+            \App\Http\Middleware\MultiViewMiddleware::class,
+        ],
+
         'api' => [
             'throttle:60,1',
             'bindings',

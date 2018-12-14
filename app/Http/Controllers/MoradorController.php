@@ -18,7 +18,8 @@ class MoradorController extends Controller
 {
     //Construct que permite acesso apenas a administradores logados
     public function __construct(){
-        $this->middleware('auth:admin');
+        $this->middleware('multiView')->except('create', 'store', 'edit', 'update', 'delete', 'destroy');
+        $this->middleware('auth:admin')->except('search', 'show', 'index');
         $this->middleware('checkConfig');
     }
 

@@ -20,6 +20,7 @@
                             </div>
                     </div>
                             <div class="form-group text-right mt-md-3 mr-md-3">
+                                @if(Auth::guard('admin')->check() == 1)
                                     <div class="text-right">
                                         @if($configs[0]->resident_registry == 1)
                                             <a href="{{route('veiculo_morador.create', $morador->id)}}" class="btn btn-warning">Adicionar Veículo</a>
@@ -27,6 +28,7 @@
                                         <a href="{{route('morador.edit', $morador->id)}}" class="btn btn-success">Editar</a>
                                         <a href="{{route('morador.delete', $morador->id)}}" class="btn btn-danger">Excluir</a>
                                     </div>
+                                @endif
                             </div>
                 </div>
         </div>
@@ -47,7 +49,11 @@
                                             <tr>
                                                 <td>{{$veiculo->id}}</td> 
                                                 <td>{{$veiculo->vehicle_model}}</td>
-                                                <td><a href="{{route('veiculo_morador.show', $veiculo->id)}}">{{$veiculo->vehicle_license_plate}}</a></td>
+                                                @if(Auth::guard('admin')->check() == 1)
+                                                    <td><a href="{{route('veiculo_morador.show', $veiculo->id)}}">{{$veiculo->vehicle_license_plate}}</a></td>
+                                                @else
+                                                    <td>{{$veiculo->vehicle_license_plate}}</td>
+                                                @endif
                                             <p></p>
                                             </tr>
                                         @endforeach
@@ -73,7 +79,7 @@
                                     <tr>
                                         <td>{{$entrada->id}}</td> 
                                         <td>{{$entrada->created_at->format('d/m/Y | H:i:s')}}</td>
-                                        <td>{{!empty($entrada->veiculo) ? $entrada->veiculo->type . ' ' . $entrada->veiculo->license_plate : "Sem Veículo"}}</td>
+                                        <td>{{!empty($entrada->veiculo) ? $entrada->veiculo->vehicle_model . ' ' . $entrada->veiculo->vehicle_license_plate : "Sem Veículo"}}</td>
                                     <p></p>
                                     </tr>
                                 @endforeach

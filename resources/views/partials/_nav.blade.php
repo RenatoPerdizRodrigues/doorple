@@ -107,6 +107,8 @@
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="{{route('entrada.create')}}">Nova Entrada</a>
                 <a class="dropdown-item" href="{{route('entrada.index')}}">Buscar Entradas</a>
+                <a class="dropdown-item" href="{{route('morador.index')}}">Buscar Moradores</a>
+                <a class="dropdown-item" href="{{route('admin.config.index')}}">Buscar Apartamentos</a>
               </div>
         </li>
         @endif

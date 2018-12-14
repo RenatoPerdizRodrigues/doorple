@@ -14,7 +14,8 @@ class ConfigController extends Controller
 {
     //Construct que permite acesso apenas a administradores logados
     public function __construct(){
-        $this->middleware('auth:admin');
+        $this->middleware('multiView')->except('config1', 'config1Save', 'config2', 'config2Save', 'config3', 'config3Post', 'config3Save', 'create', 'store', 'edit', 'update', 'delete', 'destroy', 'apEdit', 'apUpdate');
+        $this->middleware('auth:admin')->except('search', 'index');;
         $this->middleware('checkConfig')->except('config1', 'config1Save', 'config2', 'config2Save', 'config3', 'config3Post', 'config3Save');
     }
     
@@ -369,7 +370,7 @@ class ConfigController extends Controller
     }
 
     //Função que deleta um apartamento vazio
-    function delete($id){
+    public function delete($id){
         $ap = Apartamento::where('id', $id)->first();
 
         if ($ap->moradores->isEmpty()){
@@ -380,7 +381,7 @@ class ConfigController extends Controller
         return redirect()->route('admin.config.index');
     }
 
-    function destroy($id){
+    public function destroy($id){
         $ap = Apartamento::find($id);
 
         if ($ap->moradores->isEmpty()){
@@ -398,14 +399,14 @@ class ConfigController extends Controller
     }
 
     //Função que edita apartamento
-    function apEdit($id){
+    public function apEdit($id){
         $blocos = Bloco::all();
         $ap = Apartamento::where('id', $id)->first();
 
         return view('admin.configuration.ap-edit')->withAp($ap)->withBlocos($blocos);
     }
 
-    function apUpdate(Request $request, $id){
+    public function apUpdate(Request $request, $id){
         //Verifica se o apartamento não é duplicado neste bloco
         $existente = Apartamento::where([['bloco_id', $request->bloco_id], ['apartamento', $request->apartamento]])->get();
         $original = Apartamento::where('id', $id)->first();
