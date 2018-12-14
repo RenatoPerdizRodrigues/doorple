@@ -13,6 +13,7 @@ class CreateConfigsTable extends Migration
             $table->increments('id');
             $table->boolean('configured');
             $table->string('system_name');
+            $table->integer('total');
             $table->boolean('visitor_car');
             $table->integer('car_time')->nullable();
             $table->boolean('resident_registry');

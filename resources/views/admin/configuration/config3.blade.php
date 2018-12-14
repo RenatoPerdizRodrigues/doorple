@@ -28,8 +28,8 @@
 <div class="row">
         <div class="col-md-6 offset-md-3">
             <div class="forms border">
-                <h3 class="text-center">Preencha a identificação de apartamento de um bloco. <h5>Ex: Todo bloco possui os apartamentos 1, 2, 3, 4, 5, 6.</h5></h3>
-                <form data-parsley-validate method="POST" action="{{ route('admin.config3') }}">
+                <h3 class="text-center">Preencha a identificação de todos os apartamentos do primeiro bloco. <h5>Ex: O bloco possui os apartamentos 1, 2, 3, 4 e 5.</h5></h3>
+                <form data-parsley-validate method="POST" action="{{ route('admin.config3Post') }}">
                         @csrf
                         <div class="form-group">
                             <label>Apartamentos</label>
@@ -47,15 +47,19 @@
                         <div class="form-group text-center">
                                 <button type="button" class="btn btn-secondary" onclick="addFile();">Adicionar Apartamento</button>
                         </div>
+
+                        <div class="form-group">
+                            <label>O condomínio possui {{$blocos}} blocos similares a este. Caso queira alterar a quantidade de blocos, altere o campo abaixo.</label><small>Máximo 90</small>
+                            <input type="text" class="form-control" name="blocos" placeholder="{{$blocos}}">
+                        </div> 
                 
                         <input hidden type="number" name="pblocos" value="<?= $pblocos ?>">
-                        <input hidden type="number" name="blocos" value="<?= $blocos ?>">
+                        <input hidden type="number" name="blocosold" value="<?= $blocos ?>">
                         <input hidden type="number" name="total" value="<?= $total ?>">
-                        <input type="text" hidden name="system_name" value="{{$system_name}}">
-                        <input type="text" hidden name="visitor_car" value="{{$visitor_car}}">
-                        <input type="text" hidden name="resident_registry" value="{{$resident_registry}}">
-                        <input type="text" hidden name="time" value="{{$time}}">
-                        <input type="submit" value="Continuar" class="form-control btn btn-success">
+                        <div class="text-center">
+                            <a href="{{ route('admin.config2') }}" class="btn btn-warning">Voltar</a>
+                            <input type="submit" value="Continuar" class="btn btn-success">
+                        </div>
                 </form>
             </div>
         </div>

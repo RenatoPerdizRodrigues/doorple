@@ -30,7 +30,7 @@
         <div class="col-md-6 offset-md-3">
             <div class="forms border">
                 <h3 class="text-center">Conclua a configuração do sistema!<h5 class="text-center">Adicione apartamentos para cada bloco, ou deixe um apartamento em branco caso não exista naquele bloco.</h5></h3>
-                <form data-parsley-validate method="POST" action="{{ route('admin.config.finish') }}">
+                <form data-parsley-validate method="POST" action="{{ route('admin.save.config3') }}">
                         @csrf
                         <!-- Loop de cada bloco -->
                         @for($i = 1; $i <= $blocos; $i++)
@@ -42,7 +42,7 @@
                                             <h4>Bloco {{$i}}</h4>
                                         </div>
                                         <label>Nome do Bloco</label>
-                                        <input type="text" name="{{"prefix" . $i}}" class="form-control" required>
+                                        <input type="text" name="{{"prefix" . $i}}" class="form-control" placeholder="Bloco {{$i}}">
                                     </div>
                                     
                                     <div id="{{"files_" . $i}}" class="form-group">
@@ -59,10 +59,6 @@
                         @endfor
                         <input hidden type="text" name="blocos" value="{{$blocos}}">
                         <input type="text" hidden name="pblocos" value="{{$pblocos}}">
-                        <input type="text" hidden name="system_name" value="{{$system_name}}">
-                        <input type="text" hidden name="visitor_car" value="{{$visitor_car}}">
-                        <input type="text" hidden name="resident_registry" value="{{$resident_registry}}">
-                        <input type="text" hidden name="time" value="{{$time}}">
                         <input type="submit" class="form-control btn btn-success" value="Terminar Configuração">
                 </form>
             </div>

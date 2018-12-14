@@ -123,6 +123,17 @@
     <a class="navbar-brand" href="{{route('main')}}">
           <img src="/images/logo.png" height="30" class="logo d-inline-block align-top" alt="">
       {{$configs ? " | " . $configs[0]->system_name : ""}}</a>
+      <ul class="navbar-nav ml-auto">
+        @if(Route::currentRouteName() == 'login')
+          <li class="nav-item">
+              <a class="nav-link" href="{{route('admin.login')}}">Painel de Administrador <span class="sr-only">(current)</span></a>
+          </li>
+        @elseif(Route::currentRouteName() == 'admin.login')
+          <li class="nav-item">
+            <a class="nav-link" href="{{route('login')}}">Painel de Usuário<span class="sr-only">(current)</span></a>
+          </li>
+        @endif
+      </ul>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>

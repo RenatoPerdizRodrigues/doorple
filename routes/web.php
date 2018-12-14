@@ -35,13 +35,17 @@ Route::prefix('admin')->group(function(){
     Route::post('/password/reset', 'Auth\AdminResetPasswordController@reset')->name('admin.password.update');
 
     //Rotas para configuração do sistema
+    Route::get('/config/1', 'ConfigController@config1')->name('admin.config1');
+    Route::post('/config/1', 'ConfigController@config1Save')->name('admin.save.config1');
+    Route::get('/config/2', 'ConfigController@config2')->name('admin.config2');
+    Route::post('/config/2', 'ConfigController@config2Save')->name('admin.save.config2');
+    Route::get('/config/3', 'ConfigController@config3')->name('admin.config3');
+    Route::post('/config/3', 'ConfigController@config3Post')->name('admin.config3Post');
+    Route::post('/config/finish', 'ConfigController@config3Save')->name('admin.save.config3');
+
+
     Route::get('/config/index/{prefix?}', 'ConfigController@index')->name('admin.config.index');
     Route::post('/config/index/{prefix?}', 'ConfigController@search')->name('admin.config.search.submit');
-    Route::get('/config', 'ConfigController@config1')->name('admin.config1');
-    Route::post('/config', 'ConfigController@config2')->name('admin.config1.submit');
-    Route::post('/config/ap/2', 'ConfigController@config3')->name('admin.config2');
-    Route::post('/config/ap/3', 'ConfigController@config4')->name('admin.config3');
-    Route::post('/config/ap', 'ConfigController@finishConfig')->name('admin.config.finish');
     Route::get('/config/edit', 'ConfigController@edit')->name('admin.config.edit');
     Route::put('/config/edit', 'ConfigController@update')->name('admin.config.update');
     Route::get('/config/create', 'ConfigController@create')->name('admin.config.create');

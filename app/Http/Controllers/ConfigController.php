@@ -15,7 +15,7 @@ class ConfigController extends Controller
     //Construct que permite acesso apenas a administradores logados
     public function __construct(){
         $this->middleware('auth:admin');
-        $this->middleware('checkConfig')->except('config1', 'config2', 'config3', 'config4', 'finishConfig');
+        $this->middleware('checkConfig')->except('config1', 'config1Save', 'config2', 'config2Save', 'config3', 'config3Post', 'config3Save');
     }
     
     //Retorna a view de todos os apartamentos
@@ -48,18 +48,33 @@ class ConfigController extends Controller
         return redirect()->route('admin.config.index', $request->bloco);
     }
     
-    //Retorna a view inicial de configuração
+    //Retorna a view inicial de configuração, checando se o usuário já inicializou e não terminou
     public function config1(){
-        return view('admin.configuration.config1');
+        $configs = Config::where('id', 1)->first();
+        $horas = null;
+        $minutos = null;
+
+        if($configs != null){
+            //Retorna as horas e minutos permitidas pelo carro
+            $decimal = $configs->car_time / 60;
+            $horas = floor($decimal);
+            $resto = $decimal - $horas;
+            $minutos = $resto * 60;
+        }
+
+        return view('admin.configuration.config1')->withConfigs($configs)->withHoras($horas)->withMinutos($minutos);
     }
 
-    //Valida os dados da configuração inicial e retorna a view da próxima etapa de configuração
-    public function config2(Request $request){
+    //Valida os dados da configuração inicial e redireciona para a próxima etapa da configuração
+    //esse seria o save.config1
+    public function config1Save(Request $request){
         //Valida os dados do formulário de configuração
         $this->validate($request, array(
             'system_name' => 'required|min:1|max:20',
             'visitor_car' => 'required|boolean',
-            'resident_registry' => 'required|boolean'
+            'resident_registry' => 'required|boolean',
+            'car_time_hours' => 'nullable|integer',
+            'car_time_minutes' => 'nullable|integer'
         ));
 
         if($request->visitor_car == 1){
@@ -89,38 +104,113 @@ class ConfigController extends Controller
             $time = 0;
         }
 
-        //Redireciona para a configuração de apartamentos, embora os valores só vão vir a ser salvos em finishConfig()
-        return view('admin.configuration.config2')->with('system_name', $request->system_name)->with('visitor_car', $request->visitor_car)->with('resident_registry', $request->resident_registry)->with('time', $time);
+        //Insere os dados iniciais da configuração no banco de dados
+        $configs = Config::find(1);
+        if ($configs == null){
+            $configs = new Config();
+            $configs->id = 1;
+        }
+
+        $configs->system_name = $request->system_name;
+        $configs->visitor_car = $request->visitor_car;
+        $configs->car_time = $time;
+        $configs->resident_registry = $request->resident_registry;
+        $configs->total = 0;
+        $configs->configured = 0;
+        $configs->save();
+
+        //Redireciona para a configuração de apartamentos
+        return redirect()->route('admin.config2');
     }
 
-    //Retorna a a continuação do formulário de configuração
-    public function config3(Request $request){        
+    //Retorna a view do segundo formulário de configuração
+    public function config2(){
+        $configs = Config::find(1);
+        if ($configs == null){
+            Session::flash("Por favor preencha corretamente as informações do sistema.");
+            return redirect()->route('admin.config1');
+        }
+
+        return view('admin.configuration.config2')->withConfigs($configs);
+    }
+
+    //Salva o segundo formulário de configuração
+    public function config2Save(Request $request){        
          //Valida os dados do formulário de configuração
          $this->validate($request, array(
-            'total' => 'required|numeric',
-            'blocos' => 'required|numeric',
+            'total' => 'required|numeric|max:900',
+            'blocos' => 'required|numeric|max:90',
         ));
 
-        $total = $request->total;
-        $blocos = $request->blocos;
+        //Insere os dados da segunda configuração no banco de dados
+        $configs = Config::find(1);
+        if ($configs == null){
+            Session::flash("Por favor preencha corretamente as informações do sistema.");
+            return redirect()->route('admin.config1');
+        }
+        
+        $configs->total = $request->total;
+        $configs->howmanyblocks = $request->blocos;
+        $configs->save();
 
-        //Descobre a quantidade de apartamentos por bloco, arredondando para cima
-        $pbloco = $total / $blocos;
-        $pbloco = ceil($pbloco);
-
-        //Retorna os valores da configuração inicial
-        $system_name = $request->system_name;
-        $visitor_car = $request->visitor_car;
-        $resident_registry = $request->resident_registry;
-        $time = $request->time;
-
-        return view('admin.configuration.config3')->withTotal($total)->withBlocos($blocos)->withPblocos($pbloco)->with('system_name', $request->system_name)->with('visitor_car', $request->visitor_car)->with('resident_registry', $request->resident_registry)->with('time', $time);
+        return redirect()->route('admin.config3');
     }
 
-        //Retorna a visualização dos apartamentos
-        public function config4(Request $request){
+    //Retorna a visualização do primeiro bloco para preenchimento
+    public function config3(){
+        $configs = Config::find(1);
+        if ($configs == null){
+            Session::flash("Por favor preencha corretamente as informações do sistema.");
+            return redirect()->route('admin.config1');
+        }
+
+        //Descobre a quantidade de apartamentos por bloco, arredondando para cima
+        $pbloco = $configs->total / $configs->howmanyblocks;
+        $pbloco = ceil($pbloco);
+
+        return view('admin.configuration.config3')->withTotal($configs->total)->withBlocos($configs->howmanyblocks)->withPblocos($pbloco);
+    }
+
+        //Retorna a visualização de todos os blocos e apartamentos para modelagem
+        public function config3Post(Request $request){
+            //Valida o número máximo de blocos permitidos
+            $this->validate($request, array(
+                'blocos' => 'nullable|integer|max:90',
+                'blocosold' => 'nullable|integer|max:90'
+            ));
+
+            //Verifica se os apartamentos não ultrapassam o valor máximo de 900
+            if ($request->blocos != null){
+                if ($request->blocos * count($request->ap) > 900){
+                    Session::flash("warning", 'O número total de apartamentos do condomínio não pode ultrapassar 900.');
+                    return redirect()->back()->withInput();
+                }
+            } else {
+                if ($request->blocosold * count($request->ap) > 900){
+                    Session::flash("warning", 'O número total de apartamentos do condomínio não pode ultrapassar 900.');
+                    return redirect()->back()->withInput();
+                }                
+            }
+
+            //Verifica se no mínimo um apartamento preenchido não é nulo
+            $notnull = 0;
+            foreach($request->ap as $ap){
+                if($ap != null){
+                    $notnull++;
+                }
+            }
+
+            if($notnull == 0){
+                Session::flash('warning', 'Preencha pelo menos um apartamento para o bloco.');
+                return redirect()->back();
+            }
+
             $total = $request->total;
-            $blocos = $request->blocos;
+            if($request->blocos == null){
+                $blocos = $request->blocosold;
+            } else {
+                $blocos = $request->blocos;    
+            }            
             $pblocos = $request->pblocos;
 
             //Coloca apenas os apartamentos preenchidos
@@ -131,31 +221,35 @@ class ConfigController extends Controller
                 }
             }
 
-            //Retorna os valores da configuração inicial
-            $system_name = $request->system_name;
-            $visitor_car = $request->visitor_car;
-            $resident_registry = $request->resident_registry;
-            $time = $request->time;
-
-            return view('admin.configuration.config4')->withTotal($total)->withBlocos($blocos)->withPblocos($pblocos)->withApartamentos($apartamentos)->with('system_name', $request->system_name)->with('visitor_car', $request->visitor_car)->with('resident_registry', $request->resident_registry)->with('time', $time);
+            return view('admin.configuration.config4')->withTotal($total)->withBlocos($blocos)->withPblocos($pblocos)->withApartamentos($apartamentos);
         }
 
     //Valida dados de configuração final
-    public function finishConfig(Request $request){
-
-        //Caso os prefixos dos blocos não tenham sido preenchidos corretamente, o sistema redireciona para a tela inicial de configuração de condomínio
+    public function config3Save(Request $request){
+        //Contagem do total de apartamentos para verificar se não ultrapassa 900
+        $aptotal = 0;
         for($i = 1; $i <= $request->blocos; $i++){
-            if($request['prefix'.$i] == null){
-                Session::flash('warning', 'Por favor escolha a quantidade correta de blocos do condomínio e preencha o nome de cada um corretamente!');
-                return view('admin.configuration.config2')->with('system_name', $request->system_name)->with('visitor_car', $request->visitor_car)->with('resident_registry', $request->resident_registry)->with('time', $request->time);
+            foreach ($request['apartamento_'.$i] as $apartamento){
+                $aptotal++;
             }
         }
 
-        //Insere todos os blocos e seus respectivos valores
+        if($aptotal > 900){
+            Session::flash("warning", 'O número total de apartamentos do condomínio não pode ultrapassar 900.');
+            return redirect()->back()->withInput();
+        }
+
+        //Insere todos os blocos e seus respectivos valores. Caso não tenha sido colocado o nome, insere como 'Bloco x'
         for($i = 1; $i <= $request->blocos; $i++){
 
+            if($request['prefix'.$i] == null){
+                $bloco = "Bloco " . $i;
+            } else {
+                $bloco = "Bloco " . $request['prefix'.$i];
+            }
+
             $bloco = new Bloco([
-                'prefix' => $request['prefix'.$i]
+                'prefix' => $bloco
             ]);
 
             $bloco->save();
@@ -173,15 +267,16 @@ class ConfigController extends Controller
             }
         }
 
-        //Método que salva o booleano de configuração como true
-        $config = new Config();
-        $config->system_name = $request->system_name;
-        $config->visitor_car = $request->visitor_car;
-        $config->resident_registry = $request->resident_registry;
-        $config->car_time = $request->time;
-        $config->howmanyblocks = $request->blocos;
-        $config->configured = 1;
-        $config->save();
+        //Método que salva o booleano de configuração como true e altera o total de apartamentos e blocos de acordo
+        $configs = Config::find(1);
+        if ($configs == null){
+            Session::flash("Por favor preencha corretamente as informações do sistema.");
+            return redirect()->route('admin.config1');
+        }
+        $configs->howmanyblocks = $request->blocos;
+        $configs->total = $aptotal;
+        $configs->configured = 1;
+        $configs->save();
 
         //Mensagem de sucesso
         Session::flash('success', 'Configuração finalizada com sucesso!');
