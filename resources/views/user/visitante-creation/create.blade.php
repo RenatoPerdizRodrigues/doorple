@@ -9,22 +9,21 @@
                     <h3 class="text-center">Cadastre um novo visitante</h3>
                     <form data-parsley-validate method="POST" id="form" enctype="multipart/form-data" action="{{ route('vst.store') }}">
                         @csrf
-                        <!-- Visitante -->
                         <div class="form-group">
                                 <label>Nome</label>
-                                <input type="text" name="name" class="form-control">
+                                <input type="text" name="name" class="form-control" required>
                         </div>
                         <div class="form-group">
                                 <label>Sobrenome</label>
-                                <input type="text" name="surname" class="form-control">
+                                <input type="text" name="surname" class="form-control" required>
                         </div>
                         <div class="form-group">
                                 <label>RG</label>
-                                <input type="text" name="rg" id="rg" value="{{$rg}}" class="form-control  text-uppercase">
+                                <input type="text" name="rg" id="rg" value="{{$rg}}" required class="form-control  text-uppercase">
                         </div>
                         <div class="form-group">
                                 <label>Data de Nascimento</label>
-                                <input type="text" name="birthdate" class="form-control" id="date" placeholder="DD/MM/YYYY">
+                                <input type="text" name="birthdate" class="form-control" id="date" required placeholder="DD/MM/YYYY">
                         </div>
                         <div class="form-group">
                                 <label>Foto</label>
@@ -72,9 +71,11 @@
     });
 
     $("#form").submit(function() {
-        $("#date").unmask();
-        $("#date").mask('00-00-0000')
-        $("#rg").unmask();
+        if ($(this).parsley().isValid()) {
+            $("#date").unmask();
+            $("#date").mask('00-00-0000')
+            $("#rg").unmask();
+        }
     });
 
 </script>

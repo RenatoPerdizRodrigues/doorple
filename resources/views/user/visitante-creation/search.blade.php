@@ -52,21 +52,21 @@
                     <div class="form-group">
                         <label>Qual apartamento o visitante deseja visitar?</label>
                         <label>Bloco</label>
-                        <select name="bloco" class="form-control" id="bloco">
+                        <select name="bloco" class="form-control" id="bloco" required>
                             @foreach($blocos as $bloco)
                                 <option value="{{$bloco->id}}" class="form-control">{{$bloco->prefix}}</option>
                             @endforeach
                         </select>
                         <label>Apartamento</label>
-                        <select name="apartamento" class="form-control" id="apartamento">
+                        <select name="apartamento" class="form-control" id="apartamento" required>
                             @foreach($apartamentosBlocoInicial as $apartamento)
-                                    <option value="{{$apartamento->apartamento}}" class="form-control">{{$apartamento->apartamento}}</option>
+                                    <option value="{{$apartamento->id}}" class="form-control">{{$apartamento->apartamento}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="form-group">
                         <label>RG: </label>
-                        <input type="text" name="rg" id="rg" class="form-control text-uppercase">
+                        <input type="text" name="rg" id="rg" class="form-control text-uppercase" required>
                     </div>                    
                     
                     <input type="submit" value="Buscar" class="form-control btn btn-success">
@@ -91,7 +91,9 @@
     });
 
     $("#form").submit(function() {
-        $("#rg").unmask();
+        if ($(this).parsley().isValid()) {
+            $("#rg").unmask();
+        }
     });
 
 </script>

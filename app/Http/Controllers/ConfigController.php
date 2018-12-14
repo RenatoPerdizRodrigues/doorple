@@ -243,9 +243,9 @@ class ConfigController extends Controller
         for($i = 1; $i <= $request->blocos; $i++){
 
             if($request['prefix'.$i] == null){
-                $bloco = "Bloco " . $i;
+                $bloco = $i;
             } else {
-                $bloco = "Bloco " . $request['prefix'.$i];
+                $bloco = $request['prefix'.$i];
             }
 
             $bloco = new Bloco([

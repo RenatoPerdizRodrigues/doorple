@@ -11,7 +11,7 @@
                         @csrf
                         <div class="form-group">
                             <label>Bloco</label>
-                            <select name="bloco" class="form-control">
+                            <select name="bloco" class="form-control" required>
                                 @foreach($blocos as $blocos)
                                     <option value="{{$blocos->prefix}}" @if($bloco[0]->prefix == $blocos->prefix) selected @endif>{{$blocos->prefix}}</option>
                                 @endforeach

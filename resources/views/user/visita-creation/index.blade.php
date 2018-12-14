@@ -11,7 +11,7 @@
                 @csrf
                 <div class="form-group">
                         <label>Dia da Visita</label>
-                    <input type="text" name="date" class="form-control" id="date" placeholder="DD/MM/YYYY">
+                    <input type="text" name="date" class="form-control" id="date" placeholder="DD/MM/YYYY" required>
                 </div>                
                 <div class="text-center">
                     <input type="submit" class="btn btn-success" value="Procurar">

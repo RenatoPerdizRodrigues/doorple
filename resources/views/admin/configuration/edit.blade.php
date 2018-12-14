@@ -14,16 +14,16 @@
                             <h4>Edite o Nome do Bloco</h4>
                             @foreach($blocos as $bloco)
                                 <label>Bloco {{$bloco->id}}:</label>
-                                <input type="text" class="form-control" name="bloco_{{$bloco->id}}" value="{{$bloco->prefix}}">
+                                <input type="text" class="form-control" required name="bloco_{{$bloco->id}}" value="{{$bloco->prefix}}">
                             @endforeach
                         </div>
                         <div class="form-group">
                             <!-- Edição de configurações -->
                             <h4>Edite suas Configurações</h4>
                             <label>Nome do Sistema: </label>
-                            <input type="text" class="form-control" name="system_name" value="{{$configs->system_name}}">
+                            <input type="text" class="form-control" name="system_name" required value="{{$configs->system_name}}">
                             <label>Visitante pode entrar com Carro? </label>
-                            <select name="visitor_car" class="form-control" id="visitor_car">
+                            <select name="visitor_car" class="form-control" id="visitor_car" required>
                                 <option value="1" class="form-control" {{$configs->visitor_car == 1 ? "selected" : ""}}>Sim</option>
                                 <option value="0" class="form-control" {{$configs->visitor_car == 0 ? "selected" : ""}}>Não</option>
                             </select>
@@ -31,7 +31,7 @@
                             Horas: <input type="number" class="form-control" name="car_time_hours" id="hora" @if($configs->visitor_car == 0) disabled @endif value="{{$horas}}">
                             Minutos: <input type="number" class="form-control" name="car_time_minutes" id="minuto" @if($configs->visitor_car == 0) disabled @endif value="{{$minutos}}">
                             <label>Morador deve ter entrada registrada? </label>
-                            <select name="resident_registry" class="form-control">
+                            <select name="resident_registry" class="form-control" required>
                                 <option value="1" class="form-control" {{$configs->resident_registry == 1 ? "selected" : ""}}>Sim</option>
                                 <option value="0" class="form-control" {{$configs->resident_registry == 0 ? "selected" : ""}}>Não</option>
                             </select>

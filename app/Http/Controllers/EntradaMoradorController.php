@@ -18,7 +18,7 @@ class EntradaMoradorController extends Controller
         } else {
             $entradas = EntradaMorador::whereDate('created_at', date('Y-m-d'))->paginate(10);
         }
-        return view('user.entrada-creation.index')->withEntradas($entradas);
+        return view('user.entrada-creation.index')->withEntradas($entradas)->withDate($date);
 
     }
 
@@ -33,7 +33,6 @@ class EntradaMoradorController extends Controller
 
     //Confirma o usuário a ter sua entrada registrada
     public function confirm(Request $request){
-
         //Valida a request
         $this->validate($request, array(
             'rg' => 'required|min:1|max:12',

@@ -11,19 +11,19 @@
                         @csrf
                         <div class="form-group">
                             <label>Nome</label>
-                            <input type="text" name="name" class="form-control" value="{{$user->name}}">
+                            <input type="text" name="name" class="form-control" required value="{{$user->name}}">
                         </div>
                         <div class="form-group">
                             <label>Email</label>
-                            <input type="text" name="email" class="form-control" value="{{$user->email}}">
+                            <input type="email" name="email" required class="form-control" value="{{$user->email}}">
                         </div>
                         <div class="form-group">
                             <label>Senha</label>
-                            <input type="password" name="password" class="form-control">
+                            <input type="password" name="password" minlength="6" data-parsley-pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*" class="form-control">
                         </div>
                         <div class="form-group">
                             <label>Confirme a senha</label>
-                            <input type="password" name="password-confirmation" class="form-control">
+                            <input type="password" name="password-confirmation" minlength="6" data-parsley-pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*" class="form-control">
                         </div>                     
                         
                         <input hidden type="text" name="_method" value="PUT">

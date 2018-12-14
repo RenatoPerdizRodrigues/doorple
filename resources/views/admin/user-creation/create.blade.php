@@ -11,19 +11,19 @@
                         @csrf
                         <div class="form-group">
                             <label>Nome</label>
-                            <input type="text" name="name" class="form-control">
+                            <input type="text" name="name" required class="form-control">
                         </div>
                         <div class="form-group">
                             <label>Email</label>
-                            <input type="text" name="email" class="form-control">
+                            <input type="email" name="email" required class="form-control">
                         </div>
                         <div class="form-group">
                             <label>Senha <small> | Deve conter no mínimo 8 letras, um número e uma letra maiúscula</small></label>
-                            <input type="password" name="password" class="form-control">
+                            <input type="password" name="password" required minlength="6" data-parsley-pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*" class="form-control">
                         </div>
                         <div class="form-group">
                             <label>Confirme a senha</label>
-                            <input type="password" name="password-confirmation" class="form-control">
+                            <input type="password" name="password-confirmation" required minlength="6" data-parsley-pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*" class="form-control">
                         </div>                  
                         
                         <input type="submit" value="Cadastrar" class="form-control btn btn-success">

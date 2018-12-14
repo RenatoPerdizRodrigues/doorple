@@ -10,8 +10,8 @@
                 <form data-parsley-validate method="POST" action="{{ route('usr.search.submit') }}">
                     @csrf
                     <div class="form-group">
-                        <label>Email do User</label>
-                        <input type="text" name="email" class="form-control">
+                        <label>Email do Usuário</label>
+                        <input type="text" name="email" required class="form-control">
                     </div>
                     
                     <input type="submit" value="Procurar" class="form-control btn btn-success">

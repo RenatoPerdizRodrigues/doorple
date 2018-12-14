@@ -11,7 +11,7 @@
                     @csrf
                     <div class="form-group">
                             <label>RG do Visitante</label>
-                        <input type="text" name="rg" id="rg" class="form-control text-uppercase">
+                        <input type="text" name="rg" id="rg" class="form-control text-uppercase" required>
                     </div>
                     
                     <div class="text-center">
@@ -80,7 +80,9 @@
     });
 
     $("#form").submit(function() {
-        $("#rg").unmask();
+        if ($(this).parsley().isValid()) {
+            $("#rg").unmask();
+        }
     });
 
 </script>

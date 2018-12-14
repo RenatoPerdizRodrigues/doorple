@@ -106,7 +106,7 @@ class UserController extends Controller
         }
 
         $this->validate($request, array(
-            'name' => 'required|min:5|max:35',
+            'name' => 'required|min:3|max:35',
             'email' => 'required|email|unique:admins,email,'.$id,
             'password' => 'alpha_num|nullable|min:8|same:password-confirmation|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/'
         ));

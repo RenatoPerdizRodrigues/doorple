@@ -11,7 +11,7 @@
                         @csrf
                         <div class="form-group">
                             <label>Placa do Motorista</label>
-                            <input type="text" name="license_plate" id="placa" class="form-control">
+                            <input type="text" name="license_plate" required id="placa" class="form-control">
                         </div>
                         <div class="text-center">
                             <input type="submit" value="Procurar" class="btn btn-success">

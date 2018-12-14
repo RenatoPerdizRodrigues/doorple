@@ -51,31 +51,31 @@
                     @csrf
                     <div class="form-group">
                         <label>Nome</label>
-                        <input type="text" name="name" value="{{$morador->name}}" class="form-control">
+                        <input type="text" name="name" value="{{$morador->name}}" required class="form-control">
                     </div>
                     <div class="form-group">
                         <label>Sobrenome</label>
-                        <input type="text" name="surname" value="{{$morador->surname}}" class="form-control">
+                        <input type="text" name="surname" value="{{$morador->surname}}" required class="form-control">
                     </div>
                     <div class="form-group">
                         <label>RG</label>
-                        <input type="text" name="rg" value="{{$morador->rg}}" id="rg" class="form-control  text-uppercase">
+                        <input type="text" name="rg" value="{{$morador->rg}}" id="rg" required class="form-control  text-uppercase">
                     </div>
                     <div class="form-group">
                         <label>Data de Nascimento</label>
-                        <input type="text" name="birthdate" value="{{$morador->birthdate}}" id="date" class="form-control">
+                        <input type="text" name="birthdate" value="{{$morador->birthdate}}" required id="date" class="form-control">
                     </div>
                     <div class="form-group">
                         <label>Bloco</label>
                         <select name="bloco" class="form-control" id="bloco">
                             @foreach($blocos as $bloco)
-                                <option value="{{$bloco->id}}" {{ $morador->bloco_id == $bloco->id ? "selected" : ""}} class="form-control">{{$bloco->prefix}}</option>
+                                <option value="{{$bloco->id}}" {{ $morador->bloco_id == $bloco->id ? "selected" : ""}} required class="form-control">{{$bloco->prefix}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Apartamento</label>
-                        <select name="ap" class="form-control" id="apartamento">
+                        <select name="ap" class="form-control" id="apartamento" required >
                             @foreach($apartamentosBlocoInicial as $apartamentos)
                                     <option value="{{$apartamentos->id}}" {{ $morador->apartamento->apartamento == $apartamentos->apartamento ? "selected" : ""}} class="form-control">{{$apartamentos->apartamento}}</option>
                             @endforeach
@@ -111,9 +111,11 @@
     });
 
     $("#form").submit(function() {
-        $("#date").unmask();
-        $("#date").mask('00-00-0000')
-        $("#rg").unmask();
+        if ($(this).parsley().isValid()) {
+            $("#date").unmask();
+            $("#date").mask('00-00-0000')
+            $("#rg").unmask();
+        }
     });
 
 </script>

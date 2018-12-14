@@ -49,23 +49,23 @@
                         @csrf
                         <div class="form-group">
                             <label>Nome</label>
-                            <input type="text" name="name" class="form-control">
+                            <input type="text" name="name" required class="form-control">
                         </div>
                         <div class="form-group">
                             <label>Sobrenome</label>
-                            <input type="text" name="surname" class="form-control">    
+                            <input type="text" name="surname" required class="form-control">    
                         </div>
                         <div class="form-group">
                             <label>RG</label>
-                            <input type="text" name="rg" id="rg" class="form-control text-uppercase">    
+                            <input type="text" name="rg" id="rg" required class="form-control text-uppercase">    
                         </div>
                         <div class="form-group">
                             <label>Data de Nascimento</label>
-                            <input type="text" name="birthdate" class="form-control" id="date" placeholder="DD/MM/YYYY"> 
+                            <input type="text" name="birthdate" required  class="form-control" id="date" placeholder="DD/MM/YYYY"> 
                         </div>
                         <div class="form-group">
                             <label>Bloco</label>
-                            <select name="bloco" class="form-control" id="bloco">
+                            <select name="bloco" class="form-control" required id="bloco">
                                 @foreach($blocos as $bloco)
                                     <option value="{{$bloco->id}}" class="form-control">{{$bloco->prefix}}</option>
                                 @endforeach
@@ -73,7 +73,7 @@
                         </div>
                         <div class="form-group">
                             <label>Apartamento</label>
-                            <select name="ap" class="form-control" id="apartamento">
+                            <select name="ap" class="form-control" required id="apartamento">
                                 @foreach($apartamentosBlocoInicial as $apartamento)
                                         <option value="{{$apartamento->id}}" class="form-control">{{$apartamento->apartamento}}</option>
                                 @endforeach
@@ -107,9 +107,11 @@
     });
 
     $("#form").submit(function() {
-        $("#date").unmask();
-        $("#date").mask('00-00-0000')
-        $("#rg").unmask();
+        if ($(this).parsley().isValid()) {
+            $("#date").unmask();
+            $("#date").mask('00-00-0000')
+            $("#rg").unmask();
+        }
     });
 
 </script>

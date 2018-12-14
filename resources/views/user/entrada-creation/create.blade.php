@@ -9,10 +9,9 @@
             <h3 class="text-center">Registro de entrada de morador</h3>
             <form data-parsley-validate method="POST" id="form" action="{{ route('entrada.confirm') }}">
                 @csrf
-                <!-- Visitante -->
                 <div class="form-group">
                     <label>RG do morador</label>
-                    <input type="text" name="rg" id="rg" class="form-control  text-uppercase">
+                    <input type="text" name="rg" id="rg" class="form-control text-uppercase" required>
                 </div>
                 
                 <input type="submit" value="Encontrar Morador" class="form-control btn btn-success">
@@ -38,7 +37,9 @@
     });
 
     $("#form").submit(function() {
-        $("#rg").unmask();
+        if ($(this).parsley().isValid()) {
+            $("#rg").unmask();
+        }
     });
 
 </script>
