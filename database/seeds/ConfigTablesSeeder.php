@@ -35,8 +35,9 @@ class ConfigTablesSeeder extends Seeder
             'configured' => 1,
             'system_name' => 'Portaria',
             'howmanyblocks' => 5,
+            'total' => 30,
             'visitor_car' => 1,
-            'car_time' => 45,
+            'car_time' => 90,
             'resident_registry' => 1
         ]);
     }

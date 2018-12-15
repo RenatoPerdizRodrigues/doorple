@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
+use Illuminate\Validation\ValidationException;
 
 class AdminLoginController extends Controller
 {
@@ -35,8 +36,16 @@ class AdminLoginController extends Controller
             return redirect()->intended(route('admin.dashboard'));
         } else {
             //Caso não tenha sido autenticado, retorna com o email do formulário preenchido
+            throw ValidationException::withMessages([
+                $this->username() => [trans('auth.failed')],
+            ]);
             return redirect()->back()->withInput($request->only('email', 'remember'));
         }
+    }
+
+    public function username()
+    {
+        return 'email';
     }
 
     //Realiza o logout

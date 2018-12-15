@@ -7,10 +7,9 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class AdminResetPasswordNotification extends Notification
+class ResetPasswordNotification extends Notification
 {
     use Queueable;
-    public $token;
 
     /**
      * Create a new notification instance.
@@ -43,7 +42,7 @@ class AdminResetPasswordNotification extends Notification
     {
         return (new MailMessage)
                     ->line('Você pediu para que resetemos sua senha no sistema Doorple.')
-                    ->action('Clique aqui para resetar', route('admin.password.reset', $this->token))
+                    ->action('Clique aqui para resetar', route('password.reset', $this->token))
                     ->line('Caso você não tenha requerido a mudança de senha, por favor desconsidere esta mensagem.')
                     ->line('Obrigado!');
     }

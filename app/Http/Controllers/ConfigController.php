@@ -303,6 +303,11 @@ class ConfigController extends Controller
             $apartamento->bloco_id = $request->bloco_id;
             $apartamento->save();
 
+            //Acrescenta o apartamento cadastrado no total
+            $configs = Config::where('id', 1)->first();
+            $configs->total += 1;
+            $configs->save();
+
             //Mensagem de sucesso
             Session::flash('success', 'Apartamento cadastrado com sucesso!');
 
@@ -379,11 +384,17 @@ class ConfigController extends Controller
         return redirect()->route('admin.config.index');
     }
 
+    //Deleta um apartamento vazio
     public function destroy($id){
         $ap = Apartamento::find($id);
 
         if ($ap->moradores->isEmpty()){
             $ap->delete();
+
+            //Retira o apartamento cadastrado do total
+            $configs = Config::where('id', 1)->first();
+            $configs->total -= 1;
+            $configs->save();
 
             //Mensagem de Sucesso
             Session::flash('success', 'Apartamento deletado com sucesso!');

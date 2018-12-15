@@ -10,6 +10,8 @@ class DatabaseSeeder extends Seeder
         $this->call(AdminsTableSeeder::class);
         $this->call(ConfigTablesSeeder::class);
         $this->call(UsersTableSeeder::class);
-        //$this->call(MoradoresTableSeeder::class);
+        $this->call(MoradoresTableSeeder::class);
+        $this->call(VisitaTableSeeder::class);
+        $this->call(EntradasTableSeeder::class);
     }
 }

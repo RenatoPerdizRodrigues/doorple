@@ -15,7 +15,7 @@
                                 <input type="email" name="email" value="{{ $email ?? old('email') }}" required class="form-control">
                         </div>
                         <div class="form-group">
-                                <label>Senha:</label>
+                                <label>Senha: <small> Deve conter no mínimo 8 letras, um número e uma letra maiúscula</small></label>
                                 <input type="password" name="password" required minlength="6" data-parsley-pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*" class="form-control">
                         </div>
                         <div class="form-group">
