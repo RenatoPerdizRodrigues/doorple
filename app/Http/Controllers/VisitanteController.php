@@ -142,7 +142,7 @@ class VisitanteController extends Controller
             $picture = $request->file('picture');
             $filename = time() . '.' . $picture->getClientOriginalExtension();
             $location = public_path('images/visitante/' . $filename);
-            Image::make($picture)->resize(150, 250)->save($location);
+            Image::make($picture)->resize(170, 250)->save($location);
             
             $visitante->picture = $filename;
         } else {
@@ -231,7 +231,7 @@ class VisitanteController extends Controller
             $picture = $request->file('picture');
             $filename = time() . '.' . $picture->getClientOriginalExtension();
             $location = public_path('images/visitante/' . $filename);
-            Image::make($picture)->resize(150, 250)->save($location);
+            Image::make($picture)->resize(170, 250)->save($location);
 
             //Deleta a imagem inicial
             if ($visitante->picture != '1.jpg'){ 
