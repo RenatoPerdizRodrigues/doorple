@@ -54,7 +54,7 @@ class VisitanteController extends Controller
 
         if($morador->isEmpty()){
             Session::flash('warning', 'Apartamento selecionado não possui morador!');
-            return redirect()->route('vst.main');
+            return redirect()->back()->withInput();
         }
 
         if($request->rg == null){
@@ -168,7 +168,7 @@ class VisitanteController extends Controller
 
         //Deve redirecionar para a criação de visita, com ID do visitante, apartamento e bloco e informações do carro
         if ($request->vehicle_license_plate != null && $request->vehicle_model != null){
-            return redirect()->route('visita.create', [$visitante->id, $request->apartamento, $request->bloco, strtoupper($request->vehicle_license_plate, $request->vehicle_model)]);
+            return redirect()->route('visita.create', [$visitante->id, $request->apartamento, $request->bloco, strtoupper($request->vehicle_license_plate), $request->vehicle_model]);
         } else {
             return redirect()->route('visita.create', [$visitante->id, $request->apartamento, $request->bloco]);
         }

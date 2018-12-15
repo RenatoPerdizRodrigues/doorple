@@ -12,13 +12,13 @@
                         <div class="form-group">
                                 <label>Tipo</label>
                                 <select name="vehicle_model" class="form-control" required>
-                                    <option @if($veiculo_morador->vehicle_model == "Carro") selected @endif value="Carro" class="form-control">Carro</option>
-                                    <option @if($veiculo_morador->vehicle_model == "Moto") selected @endif value="Moto" class="form-control">Moto</option>
+                                    <option @if(old('vehicle_model') == 'Carro') selected @elseif ($veiculo_morador->vehicle_model == "Carro") selected @endif value="Carro" class="form-control">Carro</option>
+                                    <option @if(old('vehicle_model') == 'Moto') selected @elseif($veiculo_morador->vehicle_model == "Moto") selected @endif value="Moto" class="form-control">Moto</option>
                                 </select>
                         </div>
                         <div class="form-group">
                                 <label>Placa</label>
-                                <input type="text" name="vehicle_license_plate" required id="placa" value="{{$veiculo_morador->vehicle_license_plate}}" class="form-control text-uppercase">
+                                <input type="text" name="vehicle_license_plate" required id="placa" @if(old('vehicle_license_plate')) value="{{old('vehicle_license_plate')}}" @else value="{{$veiculo_morador->vehicle_license_plate}}" @endif class="form-control text-uppercase">
                         </div>
                         
                         <input hidden name="_method" value="PUT">

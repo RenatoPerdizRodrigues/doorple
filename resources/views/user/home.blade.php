@@ -94,8 +94,8 @@
                                 @foreach($carros as $carro)
                                     <tr id="{{'tr_'.$i}}">
                                         <td>{{$carro->id}}</td> 
-                                        <td>{{$carro->visitante->name . ' ' . $carro->visitante->surname}}</td>
-                                        <td>{{$carro->bloco->prefix . '-' . $carro->apartamento->apartamento}}</td>
+                                        <td><a href="{{route('vst.show', $carro->visitante->id)}}">{{$carro->visitante->name . ' ' . $carro->visitante->surname}}</a></td>
+                                        <td><a href="{{route('admin.config.index', $carro->bloco->prefix)}}">{{$carro->bloco->prefix . '-' . $carro->apartamento->apartamento}}</a></td>
                                         <td>{{$carro->vehicle_model . ' - ' . $carro->vehicle_license_plate}}</td>
                                         <td>{{$carro->created_at->format('d/m/Y | H:i:s')}}</td>
                                         <td id="{{'timer_'.$i}}"></td>
@@ -132,8 +132,8 @@
                                     @foreach($visitas as $visita)
                                         <tr>
                                             <td>{{$visita->id}}</td> 
-                                            <td>{{$visita->visitante->name . ' ' . $visita->visitante->surname}}</td>
-                                            <td>{{$visita->bloco->prefix . '-' . $visita->apartamento->apartamento}}</td>
+                                            <td><a href="{{route('vst.show', $visita->visitante->id)}}">{{$visita->visitante->name . ' ' . $visita->visitante->surname}}</a></td>
+                                            <td><a href="{{route('admin.config.index', $visita->bloco->prefix)}}">{{$visita->bloco->prefix . '-' . $visita->apartamento->apartamento}}</a></td>
                                             @if($configs[0]->visitor_car == 1)
                                             <td>@if($visita->vehicle_license_plate && $visita->vehicle_model) {{$visita->vehicle_model . ' - ' . $visita->vehicle_license_plate}} @else Sem veículo @endif</td>
                                             @endif

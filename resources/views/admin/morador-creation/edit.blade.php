@@ -51,25 +51,25 @@
                     @csrf
                     <div class="form-group">
                         <label>Nome</label>
-                        <input type="text" name="name" value="{{$morador->name}}" required class="form-control">
+                        <input type="text" name="name" @if(old('name')) value="{{old('name')}}" @else value="{{$morador->name}}" @endif required class="form-control">
                     </div>
                     <div class="form-group">
                         <label>Sobrenome</label>
-                        <input type="text" name="surname" value="{{$morador->surname}}" required class="form-control">
+                        <input type="text" name="surname" @if(old('surname')) value="{{old('surname')}}" @else value="{{$morador->surname}}" @endif required class="form-control">
                     </div>
                     <div class="form-group">
                         <label>RG</label>
-                        <input type="text" name="rg" value="{{$morador->rg}}" id="rg" required class="form-control  text-uppercase">
+                        <input type="text" name="rg" @if(old('rg')) value="{{old('rg')}}" @else value="{{$morador->rg}}" @endif id="rg" required class="form-control  text-uppercase">
                     </div>
                     <div class="form-group">
                         <label>Data de Nascimento</label>
-                        <input type="text" name="birthdate" value="{{$morador->birthdate}}" required id="date" class="form-control">
+                        <input type="text" name="birthdate" @if(old('birthdate')) value="{{old('birthdate')}}" @else value="{{$morador->birthdate}}" @endif required id="date" class="form-control">
                     </div>
                     <div class="form-group">
                         <label>Bloco</label>
                         <select name="bloco" class="form-control" id="bloco">
                             @foreach($blocos as $bloco)
-                                <option value="{{$bloco->id}}" {{ $morador->bloco_id == $bloco->id ? "selected" : ""}} required class="form-control">{{$bloco->prefix}}</option>
+                                <option value="{{$bloco->id}}" @if(old('bloco') == $bloco->id) selected @elseif($morador->bloco_id == $bloco->id) selected @endif required class="form-control">{{$bloco->prefix}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -77,7 +77,7 @@
                         <label>Apartamento</label>
                         <select name="ap" class="form-control" id="apartamento" required >
                             @foreach($apartamentosBlocoInicial as $apartamentos)
-                                    <option value="{{$apartamentos->id}}" {{ $morador->apartamento->apartamento == $apartamentos->apartamento ? "selected" : ""}} class="form-control">{{$apartamentos->apartamento}}</option>
+                                    <option value="{{$apartamentos->id}}" @if($morador->apartamento->apartamento == $apartamentos->apartamento) selected @endif class="form-control">{{$apartamentos->apartamento}}</option>
                             @endforeach
                         </select>
                     </div>                 

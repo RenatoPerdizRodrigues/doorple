@@ -78,7 +78,11 @@
                                 @foreach($entradas as $entrada)
                                     <tr>
                                         <td>{{$entrada->id}}</td> 
-                                        <td>{{$entrada->created_at->format('d/m/Y | H:i:s')}}</td>
+                                        @if(Auth::guard('web')->check() == 1)
+                                            <td><a href="{{route('entrada.index', $entrada->created_at->format('Y-m-d'))}}">{{$entrada->created_at->format('d/m/Y | H:i:s')}}</a></td>
+                                        @else
+                                           <td>{{$entrada->created_at->format('d/m/Y | H:i:s')}}</td>
+                                        @endif
                                         <td>{{!empty($entrada->veiculo) ? $entrada->veiculo->vehicle_model . ' ' . $entrada->veiculo->vehicle_license_plate : "Sem Veículo"}}</td>
                                     <p></p>
                                     </tr>

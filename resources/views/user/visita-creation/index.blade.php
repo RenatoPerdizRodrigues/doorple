@@ -42,8 +42,8 @@
                         @foreach($visitas as $visita)
                             <tr>
                                 <td>{{$visita->id}}</td> 
-                                <td>{{$visita->visitante->name . ' ' . $visita->visitante->surname}}</td>
-                                <td>{{$visita->bloco->prefix . '-' . $visita->apartamento->apartamento}}</td>
+                                <td><a href="{{route('vst.show', $visita->visitante->id)}}">{{$visita->visitante->name . ' ' . $visita->visitante->surname}}</a></td>
+                                <td><a href="{{route('admin.config.index', $visita->bloco->prefix)}}">{{$visita->bloco->prefix . '-' . $visita->apartamento->apartamento}}</a></td>
                                 @if($configs[0]->visitor_car == 1)
                                 <td>@if($visita->vehicle_license_plate && $visita->vehicle_model) {{$visita->vehicle_model . ' - ' . $visita->vehicle_license_plate}} @else Sem veículo @endif</td>
                                 @endif

@@ -293,7 +293,6 @@ class ConfigController extends Controller
 
     //Armazena apartamento individual referindo o bloco correto
     public function store(Request $request){
-
         //Verifica se o apartamento não é duplicado neste bloco
         $existente = Apartamento::where([['bloco_id', $request->bloco_id], ['apartamento', $request->apartamento]])->get();
 
@@ -331,7 +330,6 @@ class ConfigController extends Controller
 
     //Função que edita as configurações
     public function update(Request $request){
-
         //Valida os dados
         $this->validate($request, array(
             'visitor_car' => 'boolean',

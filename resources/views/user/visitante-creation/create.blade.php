@@ -11,19 +11,19 @@
                         @csrf
                         <div class="form-group">
                                 <label>Nome</label>
-                                <input type="text" name="name" class="form-control" required>
+                                <input type="text" name="name" class="form-control" value="{{old('name')}}" required>
                         </div>
                         <div class="form-group">
                                 <label>Sobrenome</label>
-                                <input type="text" name="surname" class="form-control" required>
+                                <input type="text" name="surname" class="form-control" value="{{old('surname')}}" required>
                         </div>
                         <div class="form-group">
                                 <label>RG</label>
-                                <input type="text" name="rg" id="rg" value="{{$rg}}" required class="form-control  text-uppercase">
+                                <input type="text" name="rg" id="rg" @if(old('rg')) value="{{old('rg')}}" @else value="{{$rg}}" @endif required class="form-control  text-uppercase">
                         </div>
                         <div class="form-group">
                                 <label>Data de Nascimento</label>
-                                <input type="text" name="birthdate" class="form-control" id="date" required placeholder="DD/MM/YYYY">
+                                <input type="text" name="birthdate" class="form-control" value="{{old('birthdate')}}" id="date" required placeholder="DD/MM/YYYY">
                         </div>
                         <div class="form-group">
                                 <label>Foto</label>
@@ -39,11 +39,11 @@
                             <label>Modelo do Veículo</label>
                             <select name="vehicle_model" class="form-control">
                                 <option disabled selected class="form-control">Sem Veículo</option>
-                                <option value="Carro" class="form-control">Carro</option>
-                                <option value="Moto" class="form-control">Moto</option>
+                                <option value="Carro" class="form-control" @if(old('vehicle_model') == 'Carro') selected @endif>Carro</option>
+                                <option value="Moto" class="form-control" @if(old('vehicle_model') == 'Moto') selected @endif>Moto</option>
                             </select>
                             <label>Placa do Veículo</label>
-                            <input type="text" id="placa" name="vehicle_license_plate" placeholder="Sem Veículo" class="form-control text-uppercase">
+                            <input type="text" id="placa" name="vehicle_license_plate" value="{{old('vehicle_license_plate')}}" placeholder="Sem Veículo" class="form-control text-uppercase">
                         </div>          
                         @endif
 

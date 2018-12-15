@@ -11,7 +11,7 @@
                 @csrf
                 <div class="form-group">
                     <label>Nome</label>
-                    <input type="text" name="name" class="form-control" required value="{{$admin->name}}">
+                    <input type="text" name="name" class="form-control" required @if(old('name')) value="{{old('name')}}" @else value="{{$admin->name}}" @endif>
                 </div>
                 <div class="form-group">
                     <label>Email</label>

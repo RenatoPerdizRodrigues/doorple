@@ -51,7 +51,7 @@
                                                 @if($configs[0]->visitor_car == 1)
                                                 <td>{{$visita->vehicle_license_plate != null && $visita->vehicle_model ? $visita->vehicle_model . ' | ' . $visita->vehicle_license_plate : "Sem veículo"}}</td>
                                                 @endif
-                                                <td>{{$visita->created_at->format('d/m/Y | H:i:s')}}</td>
+                                                <td><a href="{{route('visita.index', $visita->created_at->format('Y-m-d'))}}">{{$visita->created_at->format('d/m/Y | H:i:s')}}</td>
                                             <p></p>
                                             </tr>
                                         @endforeach

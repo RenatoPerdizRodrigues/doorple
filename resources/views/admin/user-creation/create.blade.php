@@ -11,11 +11,11 @@
                         @csrf
                         <div class="form-group">
                             <label>Nome</label>
-                            <input type="text" name="name" required class="form-control">
+                            <input type="text" name="name" value="{{old('name')}}" required class="form-control">
                         </div>
                         <div class="form-group">
                             <label>Email</label>
-                            <input type="email" name="email" required class="form-control">
+                            <input type="email" name="email" value="{{old('email')}}" required class="form-control">
                         </div>
                         <div class="form-group">
                             <label>Senha <small> | Deve conter no mínimo 8 letras, um número e uma letra maiúscula</small></label>

@@ -11,11 +11,11 @@
                         @csrf
                         <div class="form-group">
                             <label>Nome</label>
-                            <input type="text" name="name" class="form-control" required value="{{$user->name}}">
+                            <input type="text" name="name" class="form-control" required @if(old('name')) value="{{old('name')}}" @else value="{{$user->name}}" @endif>
                         </div>
                         <div class="form-group">
                             <label>Email</label>
-                            <input type="email" name="email" required class="form-control" value="{{$user->email}}">
+                            <input type="email" name="email" required class="form-control" @if(old('email')) value="{{old('email')}}" @else value="{{$user->email}}" @endif>
                         </div>
                         <div class="form-group">
                             <label>Senha</label>

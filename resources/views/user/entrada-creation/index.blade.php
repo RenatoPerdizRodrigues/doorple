@@ -39,7 +39,7 @@
                         @foreach($entradas as $entrada)
                             <tr>
                                 <td>{{$entrada->id}}</td> 
-                                <td>{{$entrada->morador->name . ' ' . $entrada->morador->surname}}</td>
+                                <td><a href="{{route('morador.show', $entrada->morador->id)}}">{{$entrada->morador->name . ' ' . $entrada->morador->surname}}</td>
                                 <td>{{$entrada->veiculo ? $entrada->veiculo->vehicle_model . '-' . $entrada->veiculo->vehicle_license_plate : "Sem veículo"}}</td>
                                 <td>{{$entrada->created_at->format('d/m/Y | H:i:s')}}</td>
                             <p></p> </li>

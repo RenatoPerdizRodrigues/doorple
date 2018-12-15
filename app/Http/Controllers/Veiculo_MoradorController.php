@@ -107,7 +107,7 @@ class Veiculo_MoradorController extends Controller
 
     //Salva as alterações da edição
     public function update(Request $request, $id)
-    {        
+    {
         //Validação de dados do formulário, incluindo conferindo se o apartamento existe
         $this->validate($request, array(
             'vehicle_model' => 'required|in:'."Moto".","."Carro",

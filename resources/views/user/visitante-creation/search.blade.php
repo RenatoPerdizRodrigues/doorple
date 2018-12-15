@@ -66,7 +66,7 @@
                     </div>
                     <div class="form-group">
                         <label>RG: </label>
-                        <input type="text" name="rg" id="rg" class="form-control text-uppercase" required>
+                        <input type="text" name="rg" id="rg" class="form-control text-uppercase" value="{{old('rg')}}" required>
                     </div>                    
                     
                     <input type="submit" value="Buscar" class="form-control btn btn-success">

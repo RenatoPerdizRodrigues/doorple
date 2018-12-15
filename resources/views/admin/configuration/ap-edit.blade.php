@@ -13,13 +13,13 @@
                         <label>Bloco</label>
                         <select name="bloco_id" class="form-control" required>
                             @foreach($blocos as $bloco)
-                                <option value="{{$bloco->id}}" class="form-control" @if($ap->bloco_id == $bloco->id) selected @endif>{{$bloco->prefix}}</option>
+                                <option value="{{$bloco->id}}" class="form-control" @if(old('bloco_id') == $bloco->id) selected @elseif($ap->bloco_id == $bloco->id) selected @endif>{{$bloco->prefix}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Apartamento</label>
-                        <input type="text" name="apartamento" class="form-control" required value={{$ap->apartamento}}>
+                        <input type="text" name="apartamento" class="form-control" required @if(old('apartamento')) value="{{old('apartamento')}}" @else value={{$ap->apartamento}} @endif>
                     </div>
                     
                     

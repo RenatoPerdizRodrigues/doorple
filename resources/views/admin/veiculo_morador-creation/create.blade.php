@@ -12,13 +12,13 @@
                 <div class="form-group">
                     <label>Tipo</label>
                     <select name="vehicle_model" class="form-control" required>
-                        <option value="Carro" class="form-control">Carro</option>
-                        <option value="Moto" class="form-control">Moto</option>
+                        <option value="Carro" class="form-control" @if(old('vehicle_model')  == 'Carro') selected @endif>Carro</option>
+                        <option value="Moto" class="form-control" @if(old('vehicle_model') == 'Moto') selected @endif>Moto</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label>Placa</label>
-                    <input type="text" id="placa" name="vehicle_license_plate" required class="form-control text-uppercase" placeholder="ABC-1234">
+                    <input type="text" id="placa" name="vehicle_license_plate" required class="form-control text-uppercase" placeholder="ABC-1234" value="{{old('vehicle_license_plate')}}">
                 </div>
                 <div class="form-group">
                     <p>Dono: {{ $morador->name . " " . $morador->surname }}</p>
