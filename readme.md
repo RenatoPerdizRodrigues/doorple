@@ -24,7 +24,7 @@ Antes de instalar o projeto, é necessário configurar o ambiente do mesmo.
 
 * [Laravel](https://laravel.com/docs/5.7/installation) - Instalação do framework Laravel;
 
-### Instalação do Sistema
+### Configuração do Sistema
 
 Feita a configuração do ambiente, é necessário instalar o sistema seguindo os seguinte passos:
 
@@ -48,4 +48,16 @@ php artisan migrate db:seed
 php artisan key:generate
 ```
 
-Com isso, o sistema estará totalmente configurado.
+Com isso, o sistema estará totalmente configurado e o painel de administrador poderá ser acesssado com as credenciais 'admin@gmail.com' / '123456'.
+
+### Utilização do Sistema
+
+Para acesso às funcionalidades do sistema, é necessário realizar a configuração guiada, que irá salvar o nome do condomínio, detalhes da entrada de visitantes e de moradores e a modelagem de apartamentos e blocos.
+
+Feita a configuração inicial, é recomendado que se altere a senha do administrador inicial, pois a mesma é muito simples e não atende os requisitos de segurança das senhas criadas através do sistema.
+
+Para entendimento das funcionalidades, acesse *o manual* ou *o vídeo-guia*.
+
+### Observações
+
+* O *database/seeds/DatabaseSeeder* está configurado para apenas inserir um administrador. Caso queria inserir *dados falsos* para teste do sistema, é necessário descomentar as linhas 11, 12, 13, 14 e 15 deste arquivo;
