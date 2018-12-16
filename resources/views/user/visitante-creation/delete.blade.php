@@ -6,7 +6,7 @@
 <div class="row">
         <div class="col-md-6 offset-md-3">
                 <div class="forms border  text-center">
-                    <h3 class="text-center">Deseja deletar o visitante de RG {{$visitante->rg}}?</h3>
+                    <h3 class="text-center">Deseja deletar {{$visitante->name}} e todas suas visitas atreladas?</h3>
                     <form data-parsley-validate method="POST" action="{{ route('vst.destroy', $visitante->id) }}">
                             @csrf
                             <a href="{{route('vst.show', $visitante->id)}}" class="btn btn-warning">Não</a>

@@ -20,8 +20,11 @@
                     </div>
                             <div class="form-group text-right mt-md-3 mr-md-3">
                                     <div class="text-right">
-                                        <a href="{{route('vst.edit', $visitante->id)}}" class="btn btn-success">Editar</a>
-                                        <a href="{{route('vst.delete', $visitante->id)}}" class="btn btn-danger">Excluir</a>
+                                        @if(Auth::guard('web')->check())
+                                            <a href="{{route('vst.edit', $visitante->id)}}" class="btn btn-success">Editar</a>
+                                        @elseif(Auth::guard('admin')->check())
+                                            <a href="{{route('vst.delete', $visitante->id)}}" class="btn btn-danger">Excluir</a>
+                                        @endif
                                     </div>
                             </div>
                 </div>

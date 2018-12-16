@@ -53,6 +53,16 @@
                 @endif
               </div>
           </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle {{Route::currentRouteName() == 'morador.create' || Route::currentRouteName() == 'morador.index' || Route::currentRouteName() == 'morador.show' || Route::currentRouteName() == 'morador.delete' || Route::currentRouteName() == 'morador.edit' || Route::currentRouteName() == 'veiculo_morador.index' || Route::currentRouteName() == 'veiculo_morador.create' || Route::currentRouteName() == 'veiculo_morador.show' || Route::currentRouteName() == 'veiculo_morador.delete' || Route::currentRouteName() == 'veiculo_morador.edit' ? "active" : ""}}" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Visitantes
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="{{route('vst.index')}}">Consultar Visitantes</a>
+              <a class="dropdown-item" href="{{route('visita.index')}}">Consultar Visitas</a>
+            </div>
+        </li>
   
           <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

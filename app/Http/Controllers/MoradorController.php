@@ -8,6 +8,7 @@ use App\Morador;
 use App\Apartamento;
 use App\Bloco;
 use App\EntradaMorador;
+use App\Veiculo;
 use Hash;
 use Image;
 use File;
@@ -253,14 +254,19 @@ class MoradorController extends Controller
             Session::flash('warning', 'Morador não encontrado!');
             return redirect()->route('morador.index');
         }
-        
+
+        //Deleta as entradas e veículos relacionados ao morador a ser deletado
+        $entradas = EntradaMorador::where('morador_id', $morador->id)->delete();
+        $veiculos = Veiculo::where('morador_id', $morador->id)->delete();
+
+        //Verifica se deve deletar a foto do morador
         if ($morador->picture != '1.jpg'){
             File::delete(public_path('images/morador/'.$morador->picture));
         }
         $morador->delete();
 
         //Criação de mensagem de sucesso
-        Session::flash('success', 'Morador deletado com sucesso!');
+        Session::flash('success', 'Morador, veículos e entradas deletados com sucesso!');
 
         return redirect()->route('morador.index');
     }

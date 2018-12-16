@@ -40,7 +40,10 @@
                                         @endforeach
                                     </body>
                                 </table>
-                                @endif
+                                <div class="text-right">
+                                        <a href="{{route('visita.index')}}" class="btn btn-success">Ver todas as visitas do dia</a>
+                                </div>
+                            @endif
                             </div>
                     </div>
             </div>

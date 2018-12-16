@@ -9,6 +9,7 @@ use App\Visita;
 use App\Bloco;
 use App\Apartamento;
 use App\Config;
+use Auth;
 use Image;
 use File;
 use Session;
@@ -17,7 +18,8 @@ class VisitanteController extends Controller
 {
     //Construct que permite acesso apenas a usuários logados
     public function __construct(){
-        $this->middleware('auth');
+        $this->middleware('multiView')->except('main', 'search', 'create', 'store', 'edit', 'update');
+        $this->middleware('auth')->except('index', 'find', 'show', 'delete', 'destroy');
     }
 
     //Método que mostra o formulário de busca inicial do usuário, que deve mostrar dinamicamente todos os apartamentos e blocos
@@ -263,6 +265,12 @@ class VisitanteController extends Controller
 
     //Retorna formulário de delete de visitante
     public function delete($id){
+
+        //Verifica se é o administrador que está tentando deletar o usuário
+        if(Auth::guard('web')->check()){
+            return redirect()->route('user.dashboard');
+        }
+
         $visitante = Visitante::find($id);
 
         //Verifica se o visitante existe
@@ -277,6 +285,11 @@ class VisitanteController extends Controller
     //Deleta todos os visitantes e visitas relacionadas a ele
     public function destroy($id)
     {
+        //Verifica se é o administrador que está tentando deletar o usuário
+        if(Auth::guard('web')->check()){
+            return redirect()->route('user.dashboard');
+        }
+
         $visitante = Visitante::find($id);
         
         //Verifica se o visitante existe
@@ -285,13 +298,8 @@ class VisitanteController extends Controller
             return redirect()->route('vst.index');
         }
 
-        //Verifica se o visitante tem visitas registradas
-        $visitas = Visita::where('visitante_id', $id)->get();
-
-        if(!$visitas->isEmpty()){
-            Session::flash('warning', 'Nâo é possível deletar o perfil de visitante pois o mesmo tem visitas atreladas!');
-            return redirect()->route('vst.show', $id);
-        }
+        //Deleta as visitas atreladas ao visitante
+        $visitas = Visita::where('visitante_id', $visitante->id)->delete();
 
         if ($visitante->picture != '1.jpg'){ 
             File::delete(public_path('images/visitante/'.$visitante->picture));
@@ -300,8 +308,8 @@ class VisitanteController extends Controller
         $visitante->delete();
 
         //Mensagem de sucesso
-        Session::flash('success', 'Visitante excluído!');
+        Session::flash('success', 'Visitante e registro de visitas excluídos com sucesso!');
 
-        return redirect()->route('user.dashboard');
+        return redirect()->route('vst.index');
     }
 }
