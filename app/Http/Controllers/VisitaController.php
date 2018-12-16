@@ -137,28 +137,4 @@ class VisitaController extends Controller
 
         return redirect()->route('user.dashboard');
     }
-
-    //Mostra uma visita específica
-    public function show($id)
-    {
-        //
-    }
-
-    //Mostra formulário de edição de visita
-    public function edit($id)
-    {
-        //
-    }
-
-    //Salva a alteração da edição
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    //Deleta visita
-    public function destroy($id)
-    {
-        //
-    }
 }

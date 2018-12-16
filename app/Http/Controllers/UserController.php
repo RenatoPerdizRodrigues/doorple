@@ -126,6 +126,7 @@ class UserController extends Controller
         return redirect()->route('usr.show', $user->id);
     }
 
+    //Retorna o formulário de exclusão de Usuário
     public function delete($id){
         $user = User::find($id);
         

@@ -232,6 +232,7 @@ class MoradorController extends Controller
         return redirect()->route('morador.show', $morador->id);
     }
 
+    //Retorna o formulário de exclusão de morador
     public function delete($id){
         $morador = Morador::find($id);
 
@@ -244,7 +245,7 @@ class MoradorController extends Controller
         return view('admin.morador-creation.delete')->withMorador($morador);
     }
 
-    //Deleta o admin
+    //Deleta o morador
     public function destroy($id)
     {
         $morador = Morador::find($id);

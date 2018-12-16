@@ -128,6 +128,7 @@ class Veiculo_MoradorController extends Controller
         return redirect()->route('veiculo_morador.show', $veiculo_morador->id);
     }
 
+    //Retorna o formulário de exclusão de veículo de morador
     public function delete($id){
         $veiculo_morador = Veiculo::find($id);
 

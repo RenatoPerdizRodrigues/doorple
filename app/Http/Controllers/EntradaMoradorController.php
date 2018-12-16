@@ -22,6 +22,7 @@ class EntradaMoradorController extends Controller
 
     }
 
+    //Retorna a data pesquisada para o index
     public function search(Request $request){
 
         //Formata a data
@@ -55,12 +56,7 @@ class EntradaMoradorController extends Controller
         return view('user.entrada-creation.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    //Insere a entrada no banco de dados
     public function store(Request $request)
     {
         //Valida a request
@@ -74,50 +70,5 @@ class EntradaMoradorController extends Controller
         $entrada->save();
 
         return redirect()->route('user.dashboard');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }
