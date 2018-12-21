@@ -38,8 +38,7 @@
                                 <table class="table">
                                     <thead>
                                         <th>#</th>
-                                        <th>Bloco</th>
-                                        <th>Apartamento</th>
+                                        <th>Apartamento Visitado</th>
                                         @if($configs[0]->visitor_car == 1)
                                         <th>Veículo</th>
                                         @endif
@@ -49,8 +48,7 @@
                                         @foreach($visitas as $visita)
                                             <tr>
                                                 <td>{{$visita->id}}</td>
-                                                <td>{{$visita->bloco->prefix}}</td> 
-                                                <td>{{$visita->apartamento->apartamento}}</td>
+                                                <td><a href="{{route('admin.config.index', $visita->bloco->prefix)}}">{{$visita->bloco->prefix . '-' . $visita->apartamento->apartamento}}</a></td>
                                                 @if($configs[0]->visitor_car == 1)
                                                 <td>{{$visita->vehicle_license_plate != null && $visita->vehicle_model ? $visita->vehicle_model . ' | ' . $visita->vehicle_license_plate : "Sem veículo"}}</td>
                                                 @endif

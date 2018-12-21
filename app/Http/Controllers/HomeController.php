@@ -20,7 +20,7 @@ class HomeController extends Controller
     //Função que retorna a página principal do usuário com visitas e veículos, e array para timer de contagem
     public function index()
     {
-        $visitas = Visita::whereDate('created_at', date('Y-m-d'))->limit(5)->get();
+        $visitas = Visita::whereDate('created_at', date('Y-m-d'))->orderBy('created_at', 'desc')->limit(5)->get();
         $carros = Visita::where('vehicle_parked', 1)->orderBy('created_at', 'asc')->paginate(10);
         $configs = Config::all();
 

@@ -182,7 +182,7 @@ class VisitanteController extends Controller
     public function show($id)
     {
         $configs = Config::all();
-        $visitas = Visita::where('visitante_id', $id)->get();
+        $visitas = Visita::where('visitante_id', $id)->orderBy('created_at', 'desc')->get();
         $visitante = Visitante::find($id);
 
         if($visitante == null){

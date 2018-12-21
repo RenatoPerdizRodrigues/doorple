@@ -130,7 +130,7 @@ class MoradorController extends Controller
             return redirect()->route('morador.index');
         }
 
-        $entradas = EntradaMorador::where('morador_id', $id)->get();
+        $entradas = EntradaMorador::where('morador_id', $id)->orderBy('created_at', 'desc')->get();
         $configs = Config::all();
         
         return view('admin.morador-creation.show')->withMorador($morador)->withEntradas($entradas)->withConfigs($configs);

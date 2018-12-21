@@ -24,9 +24,9 @@ class VisitaController extends Controller
     {
         $configs = Config::all();
         if ($date){
-            $visitas = Visita::whereDate('created_at', $date)->paginate(10);
+            $visitas = Visita::whereDate('created_at', $date)->orderBy('created_at', 'desc')->paginate(10);
         } else {
-            $visitas = Visita::whereDate('created_at', date('Y-m-d'))->paginate(10);
+            $visitas = Visita::whereDate('created_at', date('Y-m-d'))->orderBy('created_at', 'desc')->paginate(10);
         }
         
         return view('user.visita-creation.index')->withVisitas($visitas)->withConfigs($configs);

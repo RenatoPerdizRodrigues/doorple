@@ -17,7 +17,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark">
     <a class="navbar-brand" href="{{route('admin.dashboard')}}">
           <img src="/images/logo.png" height="30" class="logo d-inline-block align-top" alt="">
-      {{$configs ? " | " . $configs[0]->system_name : ""}} - Painel de Administrador</a>
+      {{$configs ? " | " . $configs[0]->system_name . ' - Painel de Administrador' : ""}}</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -55,7 +55,7 @@
           </li>
 
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle {{Route::currentRouteName() == 'morador.create' || Route::currentRouteName() == 'morador.index' || Route::currentRouteName() == 'morador.show' || Route::currentRouteName() == 'morador.delete' || Route::currentRouteName() == 'morador.edit' || Route::currentRouteName() == 'veiculo_morador.index' || Route::currentRouteName() == 'veiculo_morador.create' || Route::currentRouteName() == 'veiculo_morador.show' || Route::currentRouteName() == 'veiculo_morador.delete' || Route::currentRouteName() == 'veiculo_morador.edit' ? "active" : ""}}" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link dropdown-toggle {{Route::currentRouteName() == 'vst.index' || Route::currentRouteName() == 'vst.show' || Route::currentRouteName() == 'vst.delete' || Route::currentRouteName() == 'visita.index'  ? "active" : ""}}" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Visitantes
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -86,7 +86,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark">
     <a class="navbar-brand" href="{{route('main')}}">
           <img src="/images/logo.png" height="30" class="logo d-inline-block align-top" alt="">
-      {{$configs ? " | " . $configs[0]->system_name : ""}}  - Painel de Usuário</a>
+      {{$configs ? " | " . $configs[0]->system_name . ' - Painel de Usuário' : ""}}</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -103,25 +103,26 @@
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="{{route('vst.main')}}">Nova Visita</a>
-            <a class="dropdown-item" href="{{route('visita.index')}}">Buscar Visitas</a>
+            <a class="dropdown-item" href="{{route('visita.index')}}">Consultar Visitas</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="{{route('vst.index')}}">Buscar Visitantes</a>
+            <a class="dropdown-item" href="{{route('vst.index')}}">Consultar Visitantes</a>
           </div>
         </li>
   
-        @if($resident_registry == 1)
+        
         <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle {{Route::currentRouteName() == 'entrada.create' || Route::currentRouteName() == 'entrada.index' || Route::currentRouteName() == 'entrada.show' || Route::currentRouteName() == 'entrada.confirm' ? "active" : ""}}" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Moradores
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{{route('entrada.create')}}">Nova Entrada</a>
-                <a class="dropdown-item" href="{{route('entrada.index')}}">Buscar Entradas</a>
-                <a class="dropdown-item" href="{{route('morador.index')}}">Buscar Moradores</a>
-                <a class="dropdown-item" href="{{route('admin.config.index')}}">Buscar Apartamentos</a>
+                @if($resident_registry == 1)
+                  <a class="dropdown-item" href="{{route('entrada.create')}}">Nova Entrada</a>
+                  <a class="dropdown-item" href="{{route('entrada.index')}}">Consultar Entradas</a>
+                @endif
+                <a class="dropdown-item" href="{{route('morador.index')}}">Consultar Moradores</a>
+                <a class="dropdown-item" href="{{route('admin.config.index')}}">Consultar Apartamentos</a>
               </div>
         </li>
-        @endif
   
           <li class="nav-item">
               <a class="nav-link" href="{{route('user.logout')}}">Logout<span class="sr-only">(current)</span></a>

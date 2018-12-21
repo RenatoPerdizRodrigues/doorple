@@ -62,6 +62,7 @@
                                 @endif
                         </div>
                 </div>
+        @if($configs[0]->resident_registry == 1)
         <div class="col-md-10 offset-md-1">
                 <div class="indexes">
                         <h3>Registro de Entradas</h3>
@@ -92,6 +93,7 @@
                         @endif
                 </div>
         </div>
+        @endif
 </div>
 @stop
 

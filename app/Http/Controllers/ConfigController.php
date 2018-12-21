@@ -7,6 +7,7 @@ use App\Config;
 use App\Apartamento;
 use App\Morador;
 use App\Bloco;
+use App\Visita;
 use Session;
 
 //Controller das ações relacionadas a configurações do sistema
@@ -351,6 +352,12 @@ class ConfigController extends Controller
         $configs = Config::find(1);
         $configs->system_name = $request->system_name;
         $configs->visitor_car = $request->visitor_car;
+
+        if ($request->visitor_car == 0){
+            Visita::where('vehicle_parked', 1)->update([
+                'vehicle_parked' => 0,
+            ]);
+        }
          
         if ($request->car_time_minutes || $request->car_time_hours){
             if ($request->car_time_hours != null){

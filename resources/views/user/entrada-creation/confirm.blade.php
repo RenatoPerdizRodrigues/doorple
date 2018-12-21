@@ -11,7 +11,7 @@
                 @csrf
                 <p>Morador {{$morador->name . ' ' . $morador->surname}}, do apartamento {{$morador->bloco->prefix . '-' . $morador->apartamento->apartamento }}, está entrando com algum veículo?
                 <hr>
-                <select name="veiculo_id" class="form-control" required>
+                <select name="veiculo_id" class="form-control">
                     <option value="" class="form-control">Nenhum</option>
                     @foreach($morador->veiculos as $veiculo)
                         <option value="{{$veiculo->id}}" class="form-control">{{$veiculo->vehicle_model . ' ' . $veiculo->vehicle_license_plate}}</option>
