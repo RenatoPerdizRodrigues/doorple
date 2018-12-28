@@ -86,36 +86,34 @@ class ConfigController extends Controller
             }
         }
 
-        //Cálculo de tempo que o carro pode ficar no condomínio, em minutos
-        if ($request->minutes || $request->car_time_hours){
-            if ($request->car_time_hours != null){
-                $horas = ($request->car_time_hours * 60);
-            } else {
-                $horas = 0;
-            }
-            
-            if($request->car_time_minutes  != null) {
-                $minutos = $request->car_time_minutes;
-            }  else {
-                $minutos = 0;
-            }
-
-            $time = $horas + $minutos; 
-            
-        } else {
-            $time = 0;
-        }
-
-        //Insere os dados iniciais da configuração no banco de dados
+        //Encontra o objeto de configs
         $configs = Config::find(1);
         if ($configs == null){
             $configs = new Config();
             $configs->id = 1;
         }
 
+        //Cálculo de tempo que o carro pode ficar no condomínio, em minutos
+        if ($request->car_time_minutes != null || $request->car_time_hours != null){
+            $horas = 0;
+            $minutos = 0;
+
+            if ($request->car_time_hours != null){
+                $horas = ($request->car_time_hours * 60);
+            } 
+            
+            if($request->car_time_minutes  != null) {
+                $minutos = $request->car_time_minutes;
+            }
+    
+            $configs->car_time = $horas + $minutos; 
+        } elseif ($configs->car_time == null) {
+            $configs->car_time = 0;
+        }
+
+        //Insere os dados iniciais da configuração no banco de dados
         $configs->system_name = $request->system_name;
         $configs->visitor_car = $request->visitor_car;
-        $configs->car_time = $time;
         $configs->resident_registry = $request->resident_registry;
         $configs->total = 0;
         $configs->configured = 0;
@@ -353,6 +351,7 @@ class ConfigController extends Controller
         $configs->system_name = $request->system_name;
         $configs->visitor_car = $request->visitor_car;
 
+        //Muda o valor de 'parked' de todos os veículos para removê-los do condomínio
         if ($request->visitor_car == 0){
             Visita::where('vehicle_parked', 1)->update([
                 'vehicle_parked' => 0,

@@ -3,10 +3,12 @@
 @section('title', '| Cadastro de Morador')
 
 @section('js')
+<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+
 <script>
     //Converte o array de blocos para js
-    var blocosJS = '<?php echo json_encode($blocos); ?>';
-    var apartamentosJS = '<?php echo json_encode($apartamentos); ?>';
+    var blocosJS = <?php echo json_encode($blocos); ?>;
+    var apartamentosJS = <?php echo json_encode($apartamentos); ?>;
 
     //Função que muda dinamicamente o conteúdo do select de apartamentos com base no bloco
     $(document).ready(function() {

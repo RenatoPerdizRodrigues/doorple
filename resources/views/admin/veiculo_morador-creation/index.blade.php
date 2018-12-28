@@ -34,6 +34,7 @@
                         <th>Modelo</th>
                         <th>Dono</th>
                         <th>Apartamento do Dono</th>
+                        <th>Ação</th>
                     </thead>
                     <tbody >
                         @foreach($veiculos_morador as $veiculo)

@@ -36,7 +36,7 @@
                         <th>RG</th>
                         <th>Data de Nascimento</th>
                         <th>Apartamento</th>
-                        <th>Ações</th>
+                        <th>Ação</th>
                     </thead>
                     <tbody >
                         @foreach($moradores as $morador)
