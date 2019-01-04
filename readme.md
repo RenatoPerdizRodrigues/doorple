@@ -35,6 +35,10 @@ Feita a configuração do ambiente, é necessário instalar o sistema seguindo o
 ```
 composer install
 ```
+* Certifique-se que seu PHP possua a biblioteca GD Graphics Library através do comando, onde X é sua versão do PHP: 
+```
+sudo apt-get install php7.X-gd
+```
 * Crie uma base de dados para utilização do sistema no BD de sua escolha;
 * Configure o arquivo *.env.example* para conectá-lo ao banco de dados e configure seu driver de e-mail para envio de e-mails para recuperação de senhas, configurando as seguinte linhas:
 ```
